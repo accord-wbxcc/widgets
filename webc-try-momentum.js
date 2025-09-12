@@ -102,11 +102,11 @@ __webpack_require__.r(__webpack_exports__);
 const moment = document.createElement('template');
 
 moment.innerHTML = `
-  <div class="toggle-container">
+  <style>   
+  </style>
   <mdc-toggle name="toggleName" value="toggleValue" size="default" toggletip-placement="" toggletip-text="xxx" info-icon-aria-label="" label="Toggle label" help-text="" checked="true">
   </mdc-toggle>
-  </div>
-`;
+  `;
 
 const logger = _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__.Desktop.logger.createLogger('try-moment-logger');
 
