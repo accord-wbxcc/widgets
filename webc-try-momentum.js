@@ -3691,7 +3691,7 @@ const moment = document.createElement('template');
 moment.innerHTML = `
   <style>
   </style>
-  <mdc-toggle label="Toggle label" checked="true"></mdc-toggle>
+  <md-toggle-switch label="Toggle label" checked="true"></md-toggle-switch>
 `;
 
 const logger = _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__.Desktop.logger.createLogger('try-moment-logger');
