@@ -21,6 +21,3590 @@ var i=n(41),r=n(42),o=n(43);function s(){return c.TYPED_ARRAY_SUPPORT?2147483647
 t.read=function(e,t,n,i,r){var o,s,a=8*r-i-1,c=(1<<a)-1,u=c>>1,l=-7,d=n?r-1:0,h=n?-1:1,f=e[t+d];for(d+=h,o=f&(1<<-l)-1,f>>=-l,l+=a;l>0;o=256*o+e[t+d],d+=h,l-=8);for(s=o&(1<<-l)-1,o>>=-l,l+=i;l>0;s=256*s+e[t+d],d+=h,l-=8);if(0===o)o=1-u;else{if(o===c)return s?NaN:1/0*(f?-1:1);s+=Math.pow(2,i),o-=u}return(f?-1:1)*s*Math.pow(2,o-i)},t.write=function(e,t,n,i,r,o){var s,a,c,u=8*o-r-1,l=(1<<u)-1,d=l>>1,h=23===r?Math.pow(2,-24)-Math.pow(2,-77):0,f=i?0:o-1,v=i?1:-1,p=t<0||0===t&&1/t<0?1:0;for(t=Math.abs(t),isNaN(t)||t===1/0?(a=isNaN(t)?1:0,s=l):(s=Math.floor(Math.log(t)/Math.LN2),t*(c=Math.pow(2,-s))<1&&(s--,c*=2),(t+=s+d>=1?h/c:h*Math.pow(2,1-d))*c>=2&&(s++,c/=2),s+d>=l?(a=0,s=l):s+d>=1?(a=(t*c-1)*Math.pow(2,r),s+=d):(a=t*Math.pow(2,d-1)*Math.pow(2,r),s=0));r>=8;e[n+f]=255&a,f+=v,a/=256,r-=8);for(s=s<<r|a,u+=r;u>0;e[n+f]=255&s,f+=v,s/=256,u-=8);e[n+f-v]|=128*p}},function(e,t){var n={}.toString;e.exports=Array.isArray||function(e){return"[object Array]"==n.call(e)}},function(e,t,n){"use strict";n.r(t);var i=n(7),r=n(18);function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function s(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}var a=function(){return{loadPath:"/locales/{{lng}}/{{ns}}.json",addPath:"/locales/add/{{lng}}/{{ns}}",allowMultiLoading:!1,parse:function(e){return JSON.parse(e)},stringify:JSON.stringify,parsePayload:function(e,t,n){return function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}({},t,n||"")},request:r.a,reloadInterval:"undefined"==typeof window&&36e5,customHeaders:{},queryStringParams:{},crossDomain:!1,withCredentials:!1,overrideMimeType:!1,requestOptions:{mode:"cors",credentials:"same-origin",cache:"default"}}},c=function(){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};o(this,e),this.services=t,this.options=n,this.allOptions=i,this.type="backend",this.init(t,n,i)}var t,n,r;return t=e,(n=[{key:"init",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};this.services=e,this.options=Object(i.a)(n,this.options||{},a()),this.allOptions=r,this.services&&this.options.reloadInterval&&setInterval((function(){return t.reload()}),this.options.reloadInterval)}},{key:"readMulti",value:function(e,t,n){this._readAny(e,e,t,t,n)}},{key:"read",value:function(e,t,n){this._readAny([e],e,[t],t,n)}},{key:"_readAny",value:function(e,t,n,r,o){var s=this,a=this.options.loadPath;"function"==typeof this.options.loadPath&&(a=this.options.loadPath(e,n)),(a=Object(i.c)(a)).then((function(i){if(!i)return o(null,{});var a=s.services.interpolator.interpolate(i,{lng:e.join("+"),ns:n.join("+")});s.loadUrl(a,o,t,r)}))}},{key:"loadUrl",value:function(e,t,n,i){var r=this;this.options.request(this.options,e,void 0,(function(o,s){if(s&&(s.status>=500&&s.status<600||!s.status))return t("failed loading "+e+"; status code: "+s.status,!0);if(s&&s.status>=400&&s.status<500)return t("failed loading "+e+"; status code: "+s.status,!1);if(!s&&o&&o.message&&o.message.indexOf("Failed to fetch")>-1)return t("failed loading "+e+": "+o.message,!0);if(o)return t(o,!1);var a,c;try{a="string"==typeof s.data?r.options.parse(s.data,n,i):s.data}catch(t){c="failed parsing "+e+" to json"}if(c)return t(c,!1);t(null,a)}))}},{key:"create",value:function(e,t,n,i,r){var o=this;if(this.options.addPath){"string"==typeof e&&(e=[e]);var s=this.options.parsePayload(t,n,i),a=0,c=[],u=[];e.forEach((function(n){var i=o.options.addPath;"function"==typeof o.options.addPath&&(i=o.options.addPath(n,t));var l=o.services.interpolator.interpolate(i,{lng:n,ns:t});o.options.request(o.options,l,s,(function(t,n){a+=1,c.push(t),u.push(n),a===e.length&&r&&r(c,u)}))}))}}},{key:"reload",value:function(){var e=this,t=this.services,n=t.backendConnector,i=t.languageUtils,r=t.logger,o=n.language;if(!o||"cimode"!==o.toLowerCase()){var s=[],a=function(e){i.toResolveHierarchy(e).forEach((function(e){s.indexOf(e)<0&&s.push(e)}))};a(o),this.allOptions.preload&&this.allOptions.preload.forEach((function(e){return a(e)})),s.forEach((function(t){e.allOptions.ns.forEach((function(e){n.read(t,e,"read",null,null,(function(i,o){i&&r.warn("loading namespace ".concat(e," for language ").concat(t," failed"),i),!i&&o&&r.log("loaded namespace ".concat(e," for language ").concat(t),o),n.loaded("".concat(t,"|").concat(e),i,o)}))}))}))}}}])&&s(t.prototype,n),r&&s(t,r),Object.defineProperty(t,"prototype",{writable:!1}),e}();c.type="backend",t.default=c},function(e,t){var n="undefined"!=typeof self?self:this,i=function(){function e(){this.fetch=!1,this.DOMException=n.DOMException}return e.prototype=n,new e}();!function(e){!function(t){var n="URLSearchParams"in e,i="Symbol"in e&&"iterator"in Symbol,r="FileReader"in e&&"Blob"in e&&function(){try{return new Blob,!0}catch(e){return!1}}(),o="FormData"in e,s="ArrayBuffer"in e;if(s)var a=["[object Int8Array]","[object Uint8Array]","[object Uint8ClampedArray]","[object Int16Array]","[object Uint16Array]","[object Int32Array]","[object Uint32Array]","[object Float32Array]","[object Float64Array]"],c=ArrayBuffer.isView||function(e){return e&&a.indexOf(Object.prototype.toString.call(e))>-1};function u(e){if("string"!=typeof e&&(e=String(e)),/[^a-z0-9\-#$%&'*+.^_`|~]/i.test(e))throw new TypeError("Invalid character in header field name");return e.toLowerCase()}function l(e){return"string"!=typeof e&&(e=String(e)),e}function d(e){var t={next:function(){var t=e.shift();return{done:void 0===t,value:t}}};return i&&(t[Symbol.iterator]=function(){return t}),t}function h(e){this.map={},e instanceof h?e.forEach((function(e,t){this.append(t,e)}),this):Array.isArray(e)?e.forEach((function(e){this.append(e[0],e[1])}),this):e&&Object.getOwnPropertyNames(e).forEach((function(t){this.append(t,e[t])}),this)}function f(e){if(e.bodyUsed)return Promise.reject(new TypeError("Already read"));e.bodyUsed=!0}function v(e){return new Promise((function(t,n){e.onload=function(){t(e.result)},e.onerror=function(){n(e.error)}}))}function p(e){var t=new FileReader,n=v(t);return t.readAsArrayBuffer(e),n}function g(e){if(e.slice)return e.slice(0);var t=new Uint8Array(e.byteLength);return t.set(new Uint8Array(e)),t.buffer}function m(){return this.bodyUsed=!1,this._initBody=function(e){var t;this._bodyInit=e,e?"string"==typeof e?this._bodyText=e:r&&Blob.prototype.isPrototypeOf(e)?this._bodyBlob=e:o&&FormData.prototype.isPrototypeOf(e)?this._bodyFormData=e:n&&URLSearchParams.prototype.isPrototypeOf(e)?this._bodyText=e.toString():s&&r&&((t=e)&&DataView.prototype.isPrototypeOf(t))?(this._bodyArrayBuffer=g(e.buffer),this._bodyInit=new Blob([this._bodyArrayBuffer])):s&&(ArrayBuffer.prototype.isPrototypeOf(e)||c(e))?this._bodyArrayBuffer=g(e):this._bodyText=e=Object.prototype.toString.call(e):this._bodyText="",this.headers.get("content-type")||("string"==typeof e?this.headers.set("content-type","text/plain;charset=UTF-8"):this._bodyBlob&&this._bodyBlob.type?this.headers.set("content-type",this._bodyBlob.type):n&&URLSearchParams.prototype.isPrototypeOf(e)&&this.headers.set("content-type","application/x-www-form-urlencoded;charset=UTF-8"))},r&&(this.blob=function(){var e=f(this);if(e)return e;if(this._bodyBlob)return Promise.resolve(this._bodyBlob);if(this._bodyArrayBuffer)return Promise.resolve(new Blob([this._bodyArrayBuffer]));if(this._bodyFormData)throw new Error("could not read FormData body as blob");return Promise.resolve(new Blob([this._bodyText]))},this.arrayBuffer=function(){return this._bodyArrayBuffer?f(this)||Promise.resolve(this._bodyArrayBuffer):this.blob().then(p)}),this.text=function(){var e,t,n,i=f(this);if(i)return i;if(this._bodyBlob)return e=this._bodyBlob,t=new FileReader,n=v(t),t.readAsText(e),n;if(this._bodyArrayBuffer)return Promise.resolve(function(e){for(var t=new Uint8Array(e),n=new Array(t.length),i=0;i<t.length;i++)n[i]=String.fromCharCode(t[i]);return n.join("")}(this._bodyArrayBuffer));if(this._bodyFormData)throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText)},o&&(this.formData=function(){return this.text().then(b)}),this.json=function(){return this.text().then(JSON.parse)},this}h.prototype.append=function(e,t){e=u(e),t=l(t);var n=this.map[e];this.map[e]=n?n+", "+t:t},h.prototype.delete=function(e){delete this.map[u(e)]},h.prototype.get=function(e){return e=u(e),this.has(e)?this.map[e]:null},h.prototype.has=function(e){return this.map.hasOwnProperty(u(e))},h.prototype.set=function(e,t){this.map[u(e)]=l(t)},h.prototype.forEach=function(e,t){for(var n in this.map)this.map.hasOwnProperty(n)&&e.call(t,this.map[n],n,this)},h.prototype.keys=function(){var e=[];return this.forEach((function(t,n){e.push(n)})),d(e)},h.prototype.values=function(){var e=[];return this.forEach((function(t){e.push(t)})),d(e)},h.prototype.entries=function(){var e=[];return this.forEach((function(t,n){e.push([n,t])})),d(e)},i&&(h.prototype[Symbol.iterator]=h.prototype.entries);var y=["DELETE","GET","HEAD","OPTIONS","POST","PUT"];function E(e,t){var n,i,r=(t=t||{}).body;if(e instanceof E){if(e.bodyUsed)throw new TypeError("Already read");this.url=e.url,this.credentials=e.credentials,t.headers||(this.headers=new h(e.headers)),this.method=e.method,this.mode=e.mode,this.signal=e.signal,r||null==e._bodyInit||(r=e._bodyInit,e.bodyUsed=!0)}else this.url=String(e);if(this.credentials=t.credentials||this.credentials||"same-origin",!t.headers&&this.headers||(this.headers=new h(t.headers)),this.method=(n=t.method||this.method||"GET",i=n.toUpperCase(),y.indexOf(i)>-1?i:n),this.mode=t.mode||this.mode||null,this.signal=t.signal||this.signal,this.referrer=null,("GET"===this.method||"HEAD"===this.method)&&r)throw new TypeError("Body not allowed for GET or HEAD requests");this._initBody(r)}function b(e){var t=new FormData;return e.trim().split("&").forEach((function(e){if(e){var n=e.split("="),i=n.shift().replace(/\+/g," "),r=n.join("=").replace(/\+/g," ");t.append(decodeURIComponent(i),decodeURIComponent(r))}})),t}function w(e,t){t||(t={}),this.type="default",this.status=void 0===t.status?200:t.status,this.ok=this.status>=200&&this.status<300,this.statusText="statusText"in t?t.statusText:"OK",this.headers=new h(t.headers),this.url=t.url||"",this._initBody(e)}E.prototype.clone=function(){return new E(this,{body:this._bodyInit})},m.call(E.prototype),m.call(w.prototype),w.prototype.clone=function(){return new w(this._bodyInit,{status:this.status,statusText:this.statusText,headers:new h(this.headers),url:this.url})},w.error=function(){var e=new w(null,{status:0,statusText:""});return e.type="error",e};var S=[301,302,303,307,308];w.redirect=function(e,t){if(-1===S.indexOf(t))throw new RangeError("Invalid status code");return new w(null,{status:t,headers:{location:e}})},t.DOMException=e.DOMException;try{new t.DOMException}catch(e){t.DOMException=function(e,t){this.message=e,this.name=t;var n=Error(e);this.stack=n.stack},t.DOMException.prototype=Object.create(Error.prototype),t.DOMException.prototype.constructor=t.DOMException}function k(e,n){return new Promise((function(i,o){var s=new E(e,n);if(s.signal&&s.signal.aborted)return o(new t.DOMException("Aborted","AbortError"));var a=new XMLHttpRequest;function c(){a.abort()}a.onload=function(){var e,t,n={status:a.status,statusText:a.statusText,headers:(e=a.getAllResponseHeaders()||"",t=new h,e.replace(/\r?\n[\t ]+/g," ").split(/\r?\n/).forEach((function(e){var n=e.split(":"),i=n.shift().trim();if(i){var r=n.join(":").trim();t.append(i,r)}})),t)};n.url="responseURL"in a?a.responseURL:n.headers.get("X-Request-URL");var r="response"in a?a.response:a.responseText;i(new w(r,n))},a.onerror=function(){o(new TypeError("Network request failed"))},a.ontimeout=function(){o(new TypeError("Network request failed"))},a.onabort=function(){o(new t.DOMException("Aborted","AbortError"))},a.open(s.method,s.url,!0),"include"===s.credentials?a.withCredentials=!0:"omit"===s.credentials&&(a.withCredentials=!1),"responseType"in a&&r&&(a.responseType="blob"),s.headers.forEach((function(e,t){a.setRequestHeader(t,e)})),s.signal&&(s.signal.addEventListener("abort",c),a.onreadystatechange=function(){4===a.readyState&&s.signal.removeEventListener("abort",c)}),a.send(void 0===s._bodyInit?null:s._bodyInit)}))}k.polyfill=!0,e.fetch||(e.fetch=k,e.Headers=h,e.Request=E,e.Response=w),t.Headers=h,t.Request=E,t.Response=w,t.fetch=k,Object.defineProperty(t,"__esModule",{value:!0})}({})}(i),i.fetch.ponyfill=!0,delete i.fetch.polyfill;var r=i;(t=r.fetch).default=r.fetch,t.fetch=r.fetch,t.Headers=r.Headers,t.Request=r.Request,t.Response=r.Response,e.exports=t},function(e,t,n){"use strict";n.r(t);var i=n(4),r=n(5),o=[],s=o.forEach,a=o.slice;function c(e){return s.call(a.call(arguments,1),(function(t){if(t)for(var n in t)void 0===e[n]&&(e[n]=t[n])})),e}var u=/^[\u0009\u0020-\u007e\u0080-\u00ff]+$/,l=function(e,t,n){var i=n||{};i.path=i.path||"/";var r=e+"="+encodeURIComponent(t);if(i.maxAge>0){var o=i.maxAge-0;if(isNaN(o))throw new Error("maxAge should be a Number");r+="; Max-Age="+Math.floor(o)}if(i.domain){if(!u.test(i.domain))throw new TypeError("option domain is invalid");r+="; Domain="+i.domain}if(i.path){if(!u.test(i.path))throw new TypeError("option path is invalid");r+="; Path="+i.path}if(i.expires){if("function"!=typeof i.expires.toUTCString)throw new TypeError("option expires is invalid");r+="; Expires="+i.expires.toUTCString()}if(i.httpOnly&&(r+="; HttpOnly"),i.secure&&(r+="; Secure"),i.sameSite)switch("string"==typeof i.sameSite?i.sameSite.toLowerCase():i.sameSite){case!0:r+="; SameSite=Strict";break;case"lax":r+="; SameSite=Lax";break;case"strict":r+="; SameSite=Strict";break;case"none":r+="; SameSite=None";break;default:throw new TypeError("option sameSite is invalid")}return r},d=function(e,t,n,i){var r=arguments.length>4&&void 0!==arguments[4]?arguments[4]:{path:"/",sameSite:"strict"};n&&(r.expires=new Date,r.expires.setTime(r.expires.getTime()+60*n*1e3)),i&&(r.domain=i),document.cookie=l(e,encodeURIComponent(t),r)},h=function(e){for(var t=e+"=",n=document.cookie.split(";"),i=0;i<n.length;i++){for(var r=n[i];" "===r.charAt(0);)r=r.substring(1,r.length);if(0===r.indexOf(t))return r.substring(t.length,r.length)}return null},f={name:"cookie",lookup:function(e){var t;if(e.lookupCookie&&"undefined"!=typeof document){var n=h(e.lookupCookie);n&&(t=n)}return t},cacheUserLanguage:function(e,t){t.lookupCookie&&"undefined"!=typeof document&&d(t.lookupCookie,e,t.cookieMinutes,t.cookieDomain,t.cookieOptions)}},v={name:"querystring",lookup:function(e){var t;if("undefined"!=typeof window)for(var n=window.location.search.substring(1).split("&"),i=0;i<n.length;i++){var r=n[i].indexOf("=");if(r>0)n[i].substring(0,r)===e.lookupQuerystring&&(t=n[i].substring(r+1))}return t}},p=null,g=function(){if(null!==p)return p;try{p="undefined"!==window&&null!==window.localStorage;window.localStorage.setItem("i18next.translate.boo","foo"),window.localStorage.removeItem("i18next.translate.boo")}catch(e){p=!1}return p},m={name:"localStorage",lookup:function(e){var t;if(e.lookupLocalStorage&&g()){var n=window.localStorage.getItem(e.lookupLocalStorage);n&&(t=n)}return t},cacheUserLanguage:function(e,t){t.lookupLocalStorage&&g()&&window.localStorage.setItem(t.lookupLocalStorage,e)}},y=null,E=function(){if(null!==y)return y;try{y="undefined"!==window&&null!==window.sessionStorage;window.sessionStorage.setItem("i18next.translate.boo","foo"),window.sessionStorage.removeItem("i18next.translate.boo")}catch(e){y=!1}return y},b={name:"sessionStorage",lookup:function(e){var t;if(e.lookupSessionStorage&&E()){var n=window.sessionStorage.getItem(e.lookupSessionStorage);n&&(t=n)}return t},cacheUserLanguage:function(e,t){t.lookupSessionStorage&&E()&&window.sessionStorage.setItem(t.lookupSessionStorage,e)}},w={name:"navigator",lookup:function(e){var t=[];if("undefined"!=typeof navigator){if(navigator.languages)for(var n=0;n<navigator.languages.length;n++)t.push(navigator.languages[n]);navigator.userLanguage&&t.push(navigator.userLanguage),navigator.language&&t.push(navigator.language)}return t.length>0?t:void 0}},S={name:"htmlTag",lookup:function(e){var t,n=e.htmlTag||("undefined"!=typeof document?document.documentElement:null);return n&&"function"==typeof n.getAttribute&&(t=n.getAttribute("lang")),t}},k={name:"path",lookup:function(e){var t;if("undefined"!=typeof window){var n=window.location.pathname.match(/\/([a-zA-Z-]*)/g);if(n instanceof Array)if("number"==typeof e.lookupFromPathIndex){if("string"!=typeof n[e.lookupFromPathIndex])return;t=n[e.lookupFromPathIndex].replace("/","")}else t=n[0].replace("/","")}return t}},I={name:"subdomain",lookup:function(e){var t;if("undefined"!=typeof window){var n=window.location.href.match(/(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/gi);n instanceof Array&&(t="number"==typeof e.lookupFromSubdomainIndex?n[e.lookupFromSubdomainIndex].replace("http://","").replace("https://","").replace(".",""):n[0].replace("http://","").replace("https://","").replace(".",""))}return t}};var A=function(){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};Object(i.a)(this,e),this.type="languageDetector",this.detectors={},this.init(t,n)}return Object(r.a)(e,[{key:"init",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};this.services=e,this.options=c(t,this.options||{},{order:["querystring","cookie","localStorage","sessionStorage","navigator","htmlTag"],lookupQuerystring:"lng",lookupCookie:"i18next",lookupLocalStorage:"i18nextLng",lookupSessionStorage:"i18nextLng",caches:["localStorage"],excludeCacheFor:["cimode"]}),this.options.lookupFromUrlIndex&&(this.options.lookupFromPathIndex=this.options.lookupFromUrlIndex),this.i18nOptions=n,this.addDetector(f),this.addDetector(v),this.addDetector(m),this.addDetector(b),this.addDetector(w),this.addDetector(S),this.addDetector(k),this.addDetector(I)}},{key:"addDetector",value:function(e){this.detectors[e.name]=e}},{key:"detect",value:function(e){var t=this;e||(e=this.options.order);var n=[];return e.forEach((function(e){if(t.detectors[e]){var i=t.detectors[e].lookup(t.options);i&&"string"==typeof i&&(i=[i]),i&&(n=n.concat(i))}})),this.services.languageUtils.getBestMatchFromCodes?n:n.length>0?n[0]:null}},{key:"cacheUserLanguage",value:function(e,t){var n=this;t||(t=this.options.caches),t&&(this.options.excludeCacheFor&&this.options.excludeCacheFor.indexOf(e)>-1||t.forEach((function(t){n.detectors[t]&&n.detectors[t].cacheUserLanguage(e,n.options)})))}}]),e}();A.type="languageDetector",t.default=A},function(e,t,n){"use strict";var i=n(48);e.exports=function(e){if(!i(e))throw new TypeError(e+" is not an Object");return e}},function(e,t,n){"use strict";var i=n(10),r={function:!0,object:!0};e.exports=function(e){return i(e)&&r[typeof e]||!1}},function(e,t,n){"use strict";n.r(t),n.d(t,"default",(function(){return Le})),n.d(t,"Axios",(function(){return xe})),n.d(t,"AxiosError",(function(){return De})),n.d(t,"CanceledError",(function(){return Ne})),n.d(t,"isCancel",(function(){return Pe})),n.d(t,"CancelToken",(function(){return _e})),n.d(t,"VERSION",(function(){return Me})),n.d(t,"all",(function(){return Ve})),n.d(t,"Cancel",(function(){return je})),n.d(t,"isAxiosError",(function(){return qe})),n.d(t,"spread",(function(){return Fe})),n.d(t,"toFormData",(function(){return Be})),n.d(t,"AxiosHeaders",(function(){return He})),n.d(t,"HttpStatusCode",(function(){return ze})),n.d(t,"formToJSON",(function(){return Je})),n.d(t,"getAdapter",(function(){return We})),n.d(t,"mergeConfig",(function(){return Ze}));var i={};n.r(i),n.d(i,"hasBrowserEnv",(function(){return m})),n.d(i,"hasStandardBrowserWebWorkerEnv",(function(){return b})),n.d(i,"hasStandardBrowserEnv",(function(){return E})),n.d(i,"navigator",(function(){return y})),n.d(i,"origin",(function(){return w}));var r=n(1),o=n(11),s=n(6);function a(e){const t={"!":"%21","'":"%27","(":"%28",")":"%29","~":"%7E","%20":"+","%00":"\0"};return encodeURIComponent(e).replace(/[!'()~]|%20|%00/g,(function(e){return t[e]}))}function c(e,t){this._pairs=[],e&&Object(s.a)(e,this,t)}const u=c.prototype;u.append=function(e,t){this._pairs.push([e,t])},u.toString=function(e){const t=e?function(t){return e.call(this,t,a)}:a;return this._pairs.map((function(e){return t(e[0])+"="+t(e[1])}),"").join("&")};var l=c;function d(e){return encodeURIComponent(e).replace(/%3A/gi,":").replace(/%24/g,"$").replace(/%2C/gi,",").replace(/%20/g,"+").replace(/%5B/gi,"[").replace(/%5D/gi,"]")}function h(e,t,n){if(!t)return e;const i=n&&n.encode||d;r.a.isFunction(n)&&(n={serialize:n});const o=n&&n.serialize;let s;if(s=o?o(t,n):r.a.isURLSearchParams(t)?t.toString():new l(t,n).toString(i),s){const t=e.indexOf("#");-1!==t&&(e=e.slice(0,t)),e+=(-1===e.indexOf("?")?"?":"&")+s}return e}var f=class{constructor(){this.handlers=[]}use(e,t,n){return this.handlers.push({fulfilled:e,rejected:t,synchronous:!!n&&n.synchronous,runWhen:n?n.runWhen:null}),this.handlers.length-1}eject(e){this.handlers[e]&&(this.handlers[e]=null)}clear(){this.handlers&&(this.handlers=[])}forEach(e){r.a.forEach(this.handlers,(function(t){null!==t&&e(t)}))}},v=n(2),p={silentJSONParsing:!0,forcedJSONParsing:!0,clarifyTimeoutError:!1},g={isBrowser:!0,classes:{URLSearchParams:"undefined"!=typeof URLSearchParams?URLSearchParams:l,FormData:"undefined"!=typeof FormData?FormData:null,Blob:"undefined"!=typeof Blob?Blob:null},protocols:["http","https","file","blob","url","data"]};const m="undefined"!=typeof window&&"undefined"!=typeof document,y="object"==typeof navigator&&navigator||void 0,E=m&&(!y||["ReactNative","NativeScript","NS"].indexOf(y.product)<0),b="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope&&"function"==typeof self.importScripts,w=m&&window.location.href||"http://localhost";var S={...i,...g};var k=function(e){function t(e,n,i,o){let s=e[o++];if("__proto__"===s)return!0;const a=Number.isFinite(+s),c=o>=e.length;if(s=!s&&r.a.isArray(i)?i.length:s,c)return r.a.hasOwnProp(i,s)?i[s]=[i[s],n]:i[s]=n,!a;i[s]&&r.a.isObject(i[s])||(i[s]=[]);return t(e,n,i[s],o)&&r.a.isArray(i[s])&&(i[s]=function(e){const t={},n=Object.keys(e);let i;const r=n.length;let o;for(i=0;i<r;i++)o=n[i],t[o]=e[o];return t}(i[s])),!a}if(r.a.isFormData(e)&&r.a.isFunction(e.entries)){const n={};return r.a.forEachEntry(e,(e,i)=>{t(function(e){return r.a.matchAll(/\w+|\[(\w*)]/g,e).map(e=>"[]"===e[0]?"":e[1]||e[0])}(e),i,n,0)}),n}return null};const I={transitional:p,adapter:["xhr","http","fetch"],transformRequest:[function(e,t){const n=t.getContentType()||"",i=n.indexOf("application/json")>-1,o=r.a.isObject(e);o&&r.a.isHTMLForm(e)&&(e=new FormData(e));if(r.a.isFormData(e))return i?JSON.stringify(k(e)):e;if(r.a.isArrayBuffer(e)||r.a.isBuffer(e)||r.a.isStream(e)||r.a.isFile(e)||r.a.isBlob(e)||r.a.isReadableStream(e))return e;if(r.a.isArrayBufferView(e))return e.buffer;if(r.a.isURLSearchParams(e))return t.setContentType("application/x-www-form-urlencoded;charset=utf-8",!1),e.toString();let a;if(o){if(n.indexOf("application/x-www-form-urlencoded")>-1)return function(e,t){return Object(s.a)(e,new S.classes.URLSearchParams,Object.assign({visitor:function(e,t,n,i){return S.isNode&&r.a.isBuffer(e)?(this.append(t,e.toString("base64")),!1):i.defaultVisitor.apply(this,arguments)}},t))}(e,this.formSerializer).toString();if((a=r.a.isFileList(e))||n.indexOf("multipart/form-data")>-1){const t=this.env&&this.env.FormData;return Object(s.a)(a?{"files[]":e}:e,t&&new t,this.formSerializer)}}return o||i?(t.setContentType("application/json",!1),function(e,t,n){if(r.a.isString(e))try{return(t||JSON.parse)(e),r.a.trim(e)}catch(e){if("SyntaxError"!==e.name)throw e}return(n||JSON.stringify)(e)}(e)):e}],transformResponse:[function(e){const t=this.transitional||I.transitional,n=t&&t.forcedJSONParsing,i="json"===this.responseType;if(r.a.isResponse(e)||r.a.isReadableStream(e))return e;if(e&&r.a.isString(e)&&(n&&!this.responseType||i)){const n=!(t&&t.silentJSONParsing)&&i;try{return JSON.parse(e)}catch(e){if(n){if("SyntaxError"===e.name)throw v.a.from(e,v.a.ERR_BAD_RESPONSE,this,null,this.response);throw e}}}return e}],timeout:0,xsrfCookieName:"XSRF-TOKEN",xsrfHeaderName:"X-XSRF-TOKEN",maxContentLength:-1,maxBodyLength:-1,env:{FormData:S.classes.FormData,Blob:S.classes.Blob},validateStatus:function(e){return e>=200&&e<300},headers:{common:{Accept:"application/json, text/plain, */*","Content-Type":void 0}}};r.a.forEach(["delete","get","head","post","put","patch"],e=>{I.headers[e]={}});var A=I;const T=r.a.toObjectSet(["age","authorization","content-length","content-type","etag","expires","from","host","if-modified-since","if-unmodified-since","last-modified","location","max-forwards","proxy-authorization","referer","retry-after","user-agent"]);const C=Symbol("internals");function O(e){return e&&String(e).trim().toLowerCase()}function U(e){return!1===e||null==e?e:r.a.isArray(e)?e.map(U):String(e)}function R(e,t,n,i,o){return r.a.isFunction(i)?i.call(this,t,n):(o&&(t=n),r.a.isString(t)?r.a.isString(i)?-1!==t.indexOf(i):r.a.isRegExp(i)?i.test(t):void 0:void 0)}class L{constructor(e){e&&this.set(e)}set(e,t,n){const i=this;function o(e,t,n){const o=O(t);if(!o)throw new Error("header name must be a non-empty string");const s=r.a.findKey(i,o);(!s||void 0===i[s]||!0===n||void 0===n&&!1!==i[s])&&(i[s||t]=U(e))}const s=(e,t)=>r.a.forEach(e,(e,n)=>o(e,n,t));if(r.a.isPlainObject(e)||e instanceof this.constructor)s(e,t);else if(r.a.isString(e)&&(e=e.trim())&&!/^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(e.trim()))s((e=>{const t={};let n,i,r;return e&&e.split("\n").forEach((function(e){r=e.indexOf(":"),n=e.substring(0,r).trim().toLowerCase(),i=e.substring(r+1).trim(),!n||t[n]&&T[n]||("set-cookie"===n?t[n]?t[n].push(i):t[n]=[i]:t[n]=t[n]?t[n]+", "+i:i)})),t})(e),t);else if(r.a.isObject(e)&&r.a.isIterable(e)){let n,i,o={};for(const t of e){if(!r.a.isArray(t))throw TypeError("Object iterator must return a key-value pair");o[i=t[0]]=(n=o[i])?r.a.isArray(n)?[...n,t[1]]:[n,t[1]]:t[1]}s(o,t)}else null!=e&&o(t,e,n);return this}get(e,t){if(e=O(e)){const n=r.a.findKey(this,e);if(n){const e=this[n];if(!t)return e;if(!0===t)return function(e){const t=Object.create(null),n=/([^\s,;=]+)\s*(?:=\s*([^,;]+))?/g;let i;for(;i=n.exec(e);)t[i[1]]=i[2];return t}(e);if(r.a.isFunction(t))return t.call(this,e,n);if(r.a.isRegExp(t))return t.exec(e);throw new TypeError("parser must be boolean|regexp|function")}}}has(e,t){if(e=O(e)){const n=r.a.findKey(this,e);return!(!n||void 0===this[n]||t&&!R(0,this[n],n,t))}return!1}delete(e,t){const n=this;let i=!1;function o(e){if(e=O(e)){const o=r.a.findKey(n,e);!o||t&&!R(0,n[o],o,t)||(delete n[o],i=!0)}}return r.a.isArray(e)?e.forEach(o):o(e),i}clear(e){const t=Object.keys(this);let n=t.length,i=!1;for(;n--;){const r=t[n];e&&!R(0,this[r],r,e,!0)||(delete this[r],i=!0)}return i}normalize(e){const t=this,n={};return r.a.forEach(this,(i,o)=>{const s=r.a.findKey(n,o);if(s)return t[s]=U(i),void delete t[o];const a=e?function(e){return e.trim().toLowerCase().replace(/([a-z\d])(\w*)/g,(e,t,n)=>t.toUpperCase()+n)}(o):String(o).trim();a!==o&&delete t[o],t[a]=U(i),n[a]=!0}),this}concat(...e){return this.constructor.concat(this,...e)}toJSON(e){const t=Object.create(null);return r.a.forEach(this,(n,i)=>{null!=n&&!1!==n&&(t[i]=e&&r.a.isArray(n)?n.join(", "):n)}),t}[Symbol.iterator](){return Object.entries(this.toJSON())[Symbol.iterator]()}toString(){return Object.entries(this.toJSON()).map(([e,t])=>e+": "+t).join("\n")}getSetCookie(){return this.get("set-cookie")||[]}get[Symbol.toStringTag](){return"AxiosHeaders"}static from(e){return e instanceof this?e:new this(e)}static concat(e,...t){const n=new this(e);return t.forEach(e=>n.set(e)),n}static accessor(e){const t=(this[C]=this[C]={accessors:{}}).accessors,n=this.prototype;function i(e){const i=O(e);t[i]||(!function(e,t){const n=r.a.toCamelCase(" "+t);["get","set","has"].forEach(i=>{Object.defineProperty(e,i+n,{value:function(e,n,r){return this[i].call(this,t,e,n,r)},configurable:!0})})}(n,e),t[i]=!0)}return r.a.isArray(e)?e.forEach(i):i(e),this}}L.accessor(["Content-Type","Content-Length","Accept","Accept-Encoding","User-Agent","Authorization"]),r.a.reduceDescriptors(L.prototype,({value:e},t)=>{let n=t[0].toUpperCase()+t.slice(1);return{get:()=>e,set(e){this[n]=e}}}),r.a.freezeMethods(L);var x=L;function D(e,t){const n=this||A,i=t||n,o=x.from(i.headers);let s=i.data;return r.a.forEach(e,(function(e){s=e.call(n,s,o.normalize(),t?t.status:void 0)})),o.normalize(),s}function N(e){return!(!e||!e.__CANCEL__)}function P(e,t,n){v.a.call(this,null==e?"canceled":e,v.a.ERR_CANCELED,t,n),this.name="CanceledError"}r.a.inherits(P,v.a,{__CANCEL__:!0});var _=P,M=n(12);function V(e,t,n){const i=n.config.validateStatus;n.status&&i&&!i(n.status)?t(new v.a("Request failed with status code "+n.status,[v.a.ERR_BAD_REQUEST,v.a.ERR_BAD_RESPONSE][Math.floor(n.status/100)-4],n.config,n.request,n)):e(n)}var j=function(e,t){e=e||10;const n=new Array(e),i=new Array(e);let r,o=0,s=0;return t=void 0!==t?t:1e3,function(a){const c=Date.now(),u=i[s];r||(r=c),n[o]=a,i[o]=c;let l=s,d=0;for(;l!==o;)d+=n[l++],l%=e;if(o=(o+1)%e,o===s&&(s=(s+1)%e),c-r<t)return;const h=u&&c-u;return h?Math.round(1e3*d/h):void 0}};var q=function(e,t){let n,i,r=0,o=1e3/t;const s=(t,o=Date.now())=>{r=o,n=null,i&&(clearTimeout(i),i=null),e.apply(null,t)};return[(...e)=>{const t=Date.now(),a=t-r;a>=o?s(e,t):(n=e,i||(i=setTimeout(()=>{i=null,s(n)},o-a)))},()=>n&&s(n)]};const F=(e,t,n=3)=>{let i=0;const r=j(50,250);return q(n=>{const o=n.loaded,s=n.lengthComputable?n.total:void 0,a=o-i,c=r(a);i=o;e({loaded:o,total:s,progress:s?o/s:void 0,bytes:a,rate:c||void 0,estimated:c&&s&&o<=s?(s-o)/c:void 0,event:n,lengthComputable:null!=s,[t?"download":"upload"]:!0})},n)},B=(e,t)=>{const n=null!=e;return[i=>t[0]({lengthComputable:n,total:e,loaded:i}),t[1]]},H=e=>(...t)=>r.a.asap(()=>e(...t));var z,J,W=S.hasStandardBrowserEnv?(z=new URL(S.origin),J=S.navigator&&/(msie|trident)/i.test(S.navigator.userAgent),e=>(e=new URL(e,S.origin),z.protocol===e.protocol&&z.host===e.host&&(J||z.port===e.port))):()=>!0,Z=S.hasStandardBrowserEnv?{write(e,t,n,i,o,s){const a=[e+"="+encodeURIComponent(t)];r.a.isNumber(n)&&a.push("expires="+new Date(n).toGMTString()),r.a.isString(i)&&a.push("path="+i),r.a.isString(o)&&a.push("domain="+o),!0===s&&a.push("secure"),document.cookie=a.join("; ")},read(e){const t=document.cookie.match(new RegExp("(^|;\\s*)("+e+")=([^;]*)"));return t?decodeURIComponent(t[3]):null},remove(e){this.write(e,"",Date.now()-864e5)}}:{write(){},read:()=>null,remove(){}};function G(e,t,n){let i=!/^([a-z][a-z\d+\-.]*:)?\/\//i.test(t);return e&&(i||0==n)?function(e,t){return t?e.replace(/\/?\/$/,"")+"/"+t.replace(/^\/+/,""):e}(e,t):t}const Y=e=>e instanceof x?{...e}:e;function $(e,t){t=t||{};const n={};function i(e,t,n,i){return r.a.isPlainObject(e)&&r.a.isPlainObject(t)?r.a.merge.call({caseless:i},e,t):r.a.isPlainObject(t)?r.a.merge({},t):r.a.isArray(t)?t.slice():t}function o(e,t,n,o){return r.a.isUndefined(t)?r.a.isUndefined(e)?void 0:i(void 0,e,0,o):i(e,t,0,o)}function s(e,t){if(!r.a.isUndefined(t))return i(void 0,t)}function a(e,t){return r.a.isUndefined(t)?r.a.isUndefined(e)?void 0:i(void 0,e):i(void 0,t)}function c(n,r,o){return o in t?i(n,r):o in e?i(void 0,n):void 0}const u={url:s,method:s,data:s,baseURL:a,transformRequest:a,transformResponse:a,paramsSerializer:a,timeout:a,timeoutMessage:a,withCredentials:a,withXSRFToken:a,adapter:a,responseType:a,xsrfCookieName:a,xsrfHeaderName:a,onUploadProgress:a,onDownloadProgress:a,decompress:a,maxContentLength:a,maxBodyLength:a,beforeRedirect:a,transport:a,httpAgent:a,httpsAgent:a,cancelToken:a,socketPath:a,responseEncoding:a,validateStatus:c,headers:(e,t,n)=>o(Y(e),Y(t),0,!0)};return r.a.forEach(Object.keys(Object.assign({},e,t)),(function(i){const s=u[i]||o,a=s(e[i],t[i],i);r.a.isUndefined(a)&&s!==c||(n[i]=a)})),n}var K=e=>{const t=$({},e);let n,{data:i,withXSRFToken:o,xsrfHeaderName:s,xsrfCookieName:a,headers:c,auth:u}=t;if(t.headers=c=x.from(c),t.url=h(G(t.baseURL,t.url,t.allowAbsoluteUrls),e.params,e.paramsSerializer),u&&c.set("Authorization","Basic "+btoa((u.username||"")+":"+(u.password?unescape(encodeURIComponent(u.password)):""))),r.a.isFormData(i))if(S.hasStandardBrowserEnv||S.hasStandardBrowserWebWorkerEnv)c.setContentType(void 0);else if(!1!==(n=c.getContentType())){const[e,...t]=n?n.split(";").map(e=>e.trim()).filter(Boolean):[];c.setContentType([e||"multipart/form-data",...t].join("; "))}if(S.hasStandardBrowserEnv&&(o&&r.a.isFunction(o)&&(o=o(t)),o||!1!==o&&W(t.url))){const e=s&&a&&Z.read(a);e&&c.set(s,e)}return t};var X="undefined"!=typeof XMLHttpRequest&&function(e){return new Promise((function(t,n){const i=K(e);let o=i.data;const s=x.from(i.headers).normalize();let a,c,u,l,d,{responseType:h,onUploadProgress:f,onDownloadProgress:g}=i;function m(){l&&l(),d&&d(),i.cancelToken&&i.cancelToken.unsubscribe(a),i.signal&&i.signal.removeEventListener("abort",a)}let y=new XMLHttpRequest;function E(){if(!y)return;const i=x.from("getAllResponseHeaders"in y&&y.getAllResponseHeaders());V((function(e){t(e),m()}),(function(e){n(e),m()}),{data:h&&"text"!==h&&"json"!==h?y.response:y.responseText,status:y.status,statusText:y.statusText,headers:i,config:e,request:y}),y=null}y.open(i.method.toUpperCase(),i.url,!0),y.timeout=i.timeout,"onloadend"in y?y.onloadend=E:y.onreadystatechange=function(){y&&4===y.readyState&&(0!==y.status||y.responseURL&&0===y.responseURL.indexOf("file:"))&&setTimeout(E)},y.onabort=function(){y&&(n(new v.a("Request aborted",v.a.ECONNABORTED,e,y)),y=null)},y.onerror=function(){n(new v.a("Network Error",v.a.ERR_NETWORK,e,y)),y=null},y.ontimeout=function(){let t=i.timeout?"timeout of "+i.timeout+"ms exceeded":"timeout exceeded";const r=i.transitional||p;i.timeoutErrorMessage&&(t=i.timeoutErrorMessage),n(new v.a(t,r.clarifyTimeoutError?v.a.ETIMEDOUT:v.a.ECONNABORTED,e,y)),y=null},void 0===o&&s.setContentType(null),"setRequestHeader"in y&&r.a.forEach(s.toJSON(),(function(e,t){y.setRequestHeader(t,e)})),r.a.isUndefined(i.withCredentials)||(y.withCredentials=!!i.withCredentials),h&&"json"!==h&&(y.responseType=i.responseType),g&&([u,d]=F(g,!0),y.addEventListener("progress",u)),f&&y.upload&&([c,l]=F(f),y.upload.addEventListener("progress",c),y.upload.addEventListener("loadend",l)),(i.cancelToken||i.signal)&&(a=t=>{y&&(n(!t||t.type?new _(null,e,y):t),y.abort(),y=null)},i.cancelToken&&i.cancelToken.subscribe(a),i.signal&&(i.signal.aborted?a():i.signal.addEventListener("abort",a)));const b=function(e){const t=/^([-+\w]{1,25})(:?\/\/|:)/.exec(e);return t&&t[1]||""}(i.url);b&&-1===S.protocols.indexOf(b)?n(new v.a("Unsupported protocol "+b+":",v.a.ERR_BAD_REQUEST,e)):y.send(o||null)}))};var Q=(e,t)=>{const{length:n}=e=e?e.filter(Boolean):[];if(t||n){let n,i=new AbortController;const o=function(e){if(!n){n=!0,a();const t=e instanceof Error?e:this.reason;i.abort(t instanceof v.a?t:new _(t instanceof Error?t.message:t))}};let s=t&&setTimeout(()=>{s=null,o(new v.a(`timeout ${t} of ms exceeded`,v.a.ETIMEDOUT))},t);const a=()=>{e&&(s&&clearTimeout(s),s=null,e.forEach(e=>{e.unsubscribe?e.unsubscribe(o):e.removeEventListener("abort",o)}),e=null)};e.forEach(e=>e.addEventListener("abort",o));const{signal:c}=i;return c.unsubscribe=()=>r.a.asap(a),c}};const ee=function*(e,t){let n=e.byteLength;if(!t||n<t)return void(yield e);let i,r=0;for(;r<n;)i=r+t,yield e.slice(r,i),r=i},te=async function*(e){if(e[Symbol.asyncIterator])return void(yield*e);const t=e.getReader();try{for(;;){const{done:e,value:n}=await t.read();if(e)break;yield n}}finally{await t.cancel()}},ne=(e,t,n,i)=>{const r=async function*(e,t){for await(const n of te(e))yield*ee(n,t)}(e,t);let o,s=0,a=e=>{o||(o=!0,i&&i(e))};return new ReadableStream({async pull(e){try{const{done:t,value:i}=await r.next();if(t)return a(),void e.close();let o=i.byteLength;if(n){let e=s+=o;n(e)}e.enqueue(new Uint8Array(i))}catch(e){throw a(e),e}},cancel:e=>(a(e),r.return())},{highWaterMark:2})},ie="function"==typeof fetch&&"function"==typeof Request&&"function"==typeof Response,re=ie&&"function"==typeof ReadableStream,oe=ie&&("function"==typeof TextEncoder?(se=new TextEncoder,e=>se.encode(e)):async e=>new Uint8Array(await new Response(e).arrayBuffer()));var se;const ae=(e,...t)=>{try{return!!e(...t)}catch(e){return!1}},ce=re&&ae(()=>{let e=!1;const t=new Request(S.origin,{body:new ReadableStream,method:"POST",get duplex(){return e=!0,"half"}}).headers.has("Content-Type");return e&&!t}),ue=re&&ae(()=>r.a.isReadableStream(new Response("").body)),le={stream:ue&&(e=>e.body)};var de;ie&&(de=new Response,["text","arrayBuffer","blob","formData","stream"].forEach(e=>{!le[e]&&(le[e]=r.a.isFunction(de[e])?t=>t[e]():(t,n)=>{throw new v.a(`Response type '${e}' is not supported`,v.a.ERR_NOT_SUPPORT,n)})}));const he=async(e,t)=>{const n=r.a.toFiniteNumber(e.getContentLength());return null==n?(async e=>{if(null==e)return 0;if(r.a.isBlob(e))return e.size;if(r.a.isSpecCompliantForm(e)){const t=new Request(S.origin,{method:"POST",body:e});return(await t.arrayBuffer()).byteLength}return r.a.isArrayBufferView(e)||r.a.isArrayBuffer(e)?e.byteLength:(r.a.isURLSearchParams(e)&&(e+=""),r.a.isString(e)?(await oe(e)).byteLength:void 0)})(t):n};var fe=ie&&(async e=>{let{url:t,method:n,data:i,signal:o,cancelToken:s,timeout:a,onDownloadProgress:c,onUploadProgress:u,responseType:l,headers:d,withCredentials:h="same-origin",fetchOptions:f}=K(e);l=l?(l+"").toLowerCase():"text";let p,g=Q([o,s&&s.toAbortSignal()],a);const m=g&&g.unsubscribe&&(()=>{g.unsubscribe()});let y;try{if(u&&ce&&"get"!==n&&"head"!==n&&0!==(y=await he(d,i))){let e,n=new Request(t,{method:"POST",body:i,duplex:"half"});if(r.a.isFormData(i)&&(e=n.headers.get("content-type"))&&d.setContentType(e),n.body){const[e,t]=B(y,F(H(u)));i=ne(n.body,65536,e,t)}}r.a.isString(h)||(h=h?"include":"omit");const o="credentials"in Request.prototype;p=new Request(t,{...f,signal:g,method:n.toUpperCase(),headers:d.normalize().toJSON(),body:i,duplex:"half",credentials:o?h:void 0});let s=await fetch(p);const a=ue&&("stream"===l||"response"===l);if(ue&&(c||a&&m)){const e={};["status","statusText","headers"].forEach(t=>{e[t]=s[t]});const t=r.a.toFiniteNumber(s.headers.get("content-length")),[n,i]=c&&B(t,F(H(c),!0))||[];s=new Response(ne(s.body,65536,n,()=>{i&&i(),m&&m()}),e)}l=l||"text";let v=await le[r.a.findKey(le,l)||"text"](s,e);return!a&&m&&m(),await new Promise((t,n)=>{V(t,n,{data:v,headers:x.from(s.headers),status:s.status,statusText:s.statusText,config:e,request:p})})}catch(t){if(m&&m(),t&&"TypeError"===t.name&&/Load failed|fetch/i.test(t.message))throw Object.assign(new v.a("Network Error",v.a.ERR_NETWORK,e,p),{cause:t.cause||t});throw v.a.from(t,t&&t.code,e,p)}});const ve={http:M.a,xhr:X,fetch:fe};r.a.forEach(ve,(e,t)=>{if(e){try{Object.defineProperty(e,"name",{value:t})}catch(e){}Object.defineProperty(e,"adapterName",{value:t})}});const pe=e=>"- "+e,ge=e=>r.a.isFunction(e)||null===e||!1===e;var me=e=>{e=r.a.isArray(e)?e:[e];const{length:t}=e;let n,i;const o={};for(let r=0;r<t;r++){let t;if(n=e[r],i=n,!ge(n)&&(i=ve[(t=String(n)).toLowerCase()],void 0===i))throw new v.a(`Unknown adapter '${t}'`);if(i)break;o[t||"#"+r]=i}if(!i){const e=Object.entries(o).map(([e,t])=>`adapter ${e} `+(!1===t?"is not supported by the environment":"is not available in the build"));let n=t?e.length>1?"since :\n"+e.map(pe).join("\n"):" "+pe(e[0]):"as no adapter specified";throw new v.a("There is no suitable adapter to dispatch the request "+n,"ERR_NOT_SUPPORT")}return i};function ye(e){if(e.cancelToken&&e.cancelToken.throwIfRequested(),e.signal&&e.signal.aborted)throw new _(null,e)}function Ee(e){ye(e),e.headers=x.from(e.headers),e.data=D.call(e,e.transformRequest),-1!==["post","put","patch"].indexOf(e.method)&&e.headers.setContentType("application/x-www-form-urlencoded",!1);return me(e.adapter||A.adapter)(e).then((function(t){return ye(e),t.data=D.call(e,e.transformResponse,t),t.headers=x.from(t.headers),t}),(function(t){return N(t)||(ye(e),t&&t.response&&(t.response.data=D.call(e,e.transformResponse,t.response),t.response.headers=x.from(t.response.headers))),Promise.reject(t)}))}const be={};["object","boolean","number","function","string","symbol"].forEach((e,t)=>{be[e]=function(n){return typeof n===e||"a"+(t<1?"n ":" ")+e}});const we={};be.transitional=function(e,t,n){function i(e,t){return"[Axios v1.9.0] Transitional option '"+e+"'"+t+(n?". "+n:"")}return(n,r,o)=>{if(!1===e)throw new v.a(i(r," has been removed"+(t?" in "+t:"")),v.a.ERR_DEPRECATED);return t&&!we[r]&&(we[r]=!0,console.warn(i(r," has been deprecated since v"+t+" and will be removed in the near future"))),!e||e(n,r,o)}},be.spelling=function(e){return(t,n)=>(console.warn(`${n} is likely a misspelling of ${e}`),!0)};var Se={assertOptions:function(e,t,n){if("object"!=typeof e)throw new v.a("options must be an object",v.a.ERR_BAD_OPTION_VALUE);const i=Object.keys(e);let r=i.length;for(;r-- >0;){const o=i[r],s=t[o];if(s){const t=e[o],n=void 0===t||s(t,o,e);if(!0!==n)throw new v.a("option "+o+" must be "+n,v.a.ERR_BAD_OPTION_VALUE)}else if(!0!==n)throw new v.a("Unknown option "+o,v.a.ERR_BAD_OPTION)}},validators:be};const ke=Se.validators;class Ie{constructor(e){this.defaults=e||{},this.interceptors={request:new f,response:new f}}async request(e,t){try{return await this._request(e,t)}catch(e){if(e instanceof Error){let t={};Error.captureStackTrace?Error.captureStackTrace(t):t=new Error;const n=t.stack?t.stack.replace(/^.+\n/,""):"";try{e.stack?n&&!String(e.stack).endsWith(n.replace(/^.+\n.+\n/,""))&&(e.stack+="\n"+n):e.stack=n}catch(e){}}throw e}}_request(e,t){"string"==typeof e?(t=t||{}).url=e:t=e||{},t=$(this.defaults,t);const{transitional:n,paramsSerializer:i,headers:o}=t;void 0!==n&&Se.assertOptions(n,{silentJSONParsing:ke.transitional(ke.boolean),forcedJSONParsing:ke.transitional(ke.boolean),clarifyTimeoutError:ke.transitional(ke.boolean)},!1),null!=i&&(r.a.isFunction(i)?t.paramsSerializer={serialize:i}:Se.assertOptions(i,{encode:ke.function,serialize:ke.function},!0)),void 0!==t.allowAbsoluteUrls||(void 0!==this.defaults.allowAbsoluteUrls?t.allowAbsoluteUrls=this.defaults.allowAbsoluteUrls:t.allowAbsoluteUrls=!0),Se.assertOptions(t,{baseUrl:ke.spelling("baseURL"),withXsrfToken:ke.spelling("withXSRFToken")},!0),t.method=(t.method||this.defaults.method||"get").toLowerCase();let s=o&&r.a.merge(o.common,o[t.method]);o&&r.a.forEach(["delete","get","head","post","put","patch","common"],e=>{delete o[e]}),t.headers=x.concat(s,o);const a=[];let c=!0;this.interceptors.request.forEach((function(e){"function"==typeof e.runWhen&&!1===e.runWhen(t)||(c=c&&e.synchronous,a.unshift(e.fulfilled,e.rejected))}));const u=[];let l;this.interceptors.response.forEach((function(e){u.push(e.fulfilled,e.rejected)}));let d,h=0;if(!c){const e=[Ee.bind(this),void 0];for(e.unshift.apply(e,a),e.push.apply(e,u),d=e.length,l=Promise.resolve(t);h<d;)l=l.then(e[h++],e[h++]);return l}d=a.length;let f=t;for(h=0;h<d;){const e=a[h++],t=a[h++];try{f=e(f)}catch(e){t.call(this,e);break}}try{l=Ee.call(this,f)}catch(e){return Promise.reject(e)}for(h=0,d=u.length;h<d;)l=l.then(u[h++],u[h++]);return l}getUri(e){return h(G((e=$(this.defaults,e)).baseURL,e.url,e.allowAbsoluteUrls),e.params,e.paramsSerializer)}}r.a.forEach(["delete","get","head","options"],(function(e){Ie.prototype[e]=function(t,n){return this.request($(n||{},{method:e,url:t,data:(n||{}).data}))}})),r.a.forEach(["post","put","patch"],(function(e){function t(t){return function(n,i,r){return this.request($(r||{},{method:e,headers:t?{"Content-Type":"multipart/form-data"}:{},url:n,data:i}))}}Ie.prototype[e]=t(),Ie.prototype[e+"Form"]=t(!0)}));var Ae=Ie;class Te{constructor(e){if("function"!=typeof e)throw new TypeError("executor must be a function.");let t;this.promise=new Promise((function(e){t=e}));const n=this;this.promise.then(e=>{if(!n._listeners)return;let t=n._listeners.length;for(;t-- >0;)n._listeners[t](e);n._listeners=null}),this.promise.then=e=>{let t;const i=new Promise(e=>{n.subscribe(e),t=e}).then(e);return i.cancel=function(){n.unsubscribe(t)},i},e((function(e,i,r){n.reason||(n.reason=new _(e,i,r),t(n.reason))}))}throwIfRequested(){if(this.reason)throw this.reason}subscribe(e){this.reason?e(this.reason):this._listeners?this._listeners.push(e):this._listeners=[e]}unsubscribe(e){if(!this._listeners)return;const t=this._listeners.indexOf(e);-1!==t&&this._listeners.splice(t,1)}toAbortSignal(){const e=new AbortController,t=t=>{e.abort(t)};return this.subscribe(t),e.signal.unsubscribe=()=>this.unsubscribe(t),e.signal}static source(){let e;return{token:new Te((function(t){e=t})),cancel:e}}}var Ce=Te;const Oe={Continue:100,SwitchingProtocols:101,Processing:102,EarlyHints:103,Ok:200,Created:201,Accepted:202,NonAuthoritativeInformation:203,NoContent:204,ResetContent:205,PartialContent:206,MultiStatus:207,AlreadyReported:208,ImUsed:226,MultipleChoices:300,MovedPermanently:301,Found:302,SeeOther:303,NotModified:304,UseProxy:305,Unused:306,TemporaryRedirect:307,PermanentRedirect:308,BadRequest:400,Unauthorized:401,PaymentRequired:402,Forbidden:403,NotFound:404,MethodNotAllowed:405,NotAcceptable:406,ProxyAuthenticationRequired:407,RequestTimeout:408,Conflict:409,Gone:410,LengthRequired:411,PreconditionFailed:412,PayloadTooLarge:413,UriTooLong:414,UnsupportedMediaType:415,RangeNotSatisfiable:416,ExpectationFailed:417,ImATeapot:418,MisdirectedRequest:421,UnprocessableEntity:422,Locked:423,FailedDependency:424,TooEarly:425,UpgradeRequired:426,PreconditionRequired:428,TooManyRequests:429,RequestHeaderFieldsTooLarge:431,UnavailableForLegalReasons:451,InternalServerError:500,NotImplemented:501,BadGateway:502,ServiceUnavailable:503,GatewayTimeout:504,HttpVersionNotSupported:505,VariantAlsoNegotiates:506,InsufficientStorage:507,LoopDetected:508,NotExtended:510,NetworkAuthenticationRequired:511};Object.entries(Oe).forEach(([e,t])=>{Oe[t]=e});var Ue=Oe;const Re=function e(t){const n=new Ae(t),i=Object(o.a)(Ae.prototype.request,n);return r.a.extend(i,Ae.prototype,n,{allOwnKeys:!0}),r.a.extend(i,n,null,{allOwnKeys:!0}),i.create=function(n){return e($(t,n))},i}(A);Re.Axios=Ae,Re.CanceledError=_,Re.CancelToken=Ce,Re.isCancel=N,Re.VERSION="1.9.0",Re.toFormData=s.a,Re.AxiosError=v.a,Re.Cancel=Re.CanceledError,Re.all=function(e){return Promise.all(e)},Re.spread=function(e){return function(t){return e.apply(null,t)}},Re.isAxiosError=function(e){return r.a.isObject(e)&&!0===e.isAxiosError},Re.mergeConfig=$,Re.AxiosHeaders=x,Re.formToJSON=e=>k(r.a.isHTMLForm(e)?new FormData(e):e),Re.getAdapter=me,Re.HttpStatusCode=Ue,Re.default=Re;var Le=Re;const{Axios:xe,AxiosError:De,CanceledError:Ne,isCancel:Pe,CancelToken:_e,VERSION:Me,all:Ve,Cancel:je,isAxiosError:qe,spread:Fe,toFormData:Be,AxiosHeaders:He,HttpStatusCode:ze,formToJSON:Je,getAdapter:We,mergeConfig:Ze}=Le},function(e,t,n){"use strict";n.r(t),n.d(t,"Desktop",(function(){return Me}));var i=n(0);const r=Object(i.createLogger)("agentx-js-api"),o=(e,t)=>({info:(...n)=>e.info(t,...n),warn:(...n)=>e.warn(t,...n),error:(...n)=>e.error(t,...n)});class s{constructor(e){this.logger=e.logger}check(e){return e?!!e.isInited||(this.logger.error("SERVICE still not initialized... Await it's init(...) first."),!1):(this.logger.error("SERVICE is not defined..."),!1)}}const a=e=>new s(e);var c=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};const u={rps:120,tag:"jsapi"},l={rps:0,tag:"jsapi"},d={tag:"jsapi"},h=e=>e.actionsChannels.createSource("fireGeneralSilentNotification/Req",u),f=e=>e.actionsChannels.createSource("fireGeneralAutoDismissNotification/Req",l),v=e=>e.actionsChannels.createDestination("fireGeneralAutoDismissNotification/Res",l),p=e=>e.actionsChannels.createSource("fireGeneralAcknowledgeNotification/Req",l),g=e=>e.actionsChannels.createDestination("fireGeneralAcknowledgeNotification/Res",l),m=e=>e.actionsChannels.createSource("addCustomTask",u),y=e=>e.actionsChannels.createSource("getToken/Req",l),E=e=>e.actionsChannels.createDestination("getToken/Res",d),b=e=>e.actionsChannels.createSource("getTaskMap/Req",l),w=e=>e.actionsChannels.createDestination("getTaskMap/Res",d),S=e=>e.actionsChannels.createSource("getMediaTypeQueue/Req",l),k=e=>e.actionsChannels.createDestination("getMediaTypeQueue/Res",d),I=e=>e.actionsChannels.createSource("getIdleCodes/Req",l),A=e=>e.actionsChannels.createDestination("getIdleCodes/Res",d),T=e=>e.actionsChannels.createSource("getWrapUpCodes/Req",l),C=e=>e.actionsChannels.createDestination("getWrapUpCodes/Res",d);class O{checkService(){return this.serviceChecker.check(this.SERVICE)}getNextReqId(){const e=Date.now();return this.lastReqTs!==e?(this.lastReqTs=e,this.lastReqN=0):this.lastReqN++,`${this.lastReqTs}_${this.lastReqN}`}constructor(e){this.lastReqTs=Date.now(),this.lastReqN=0,this.toggleMiximizeRestore=e=>{var t;if(e&&e.target){const n=null===(t=this.getClosestElement(e.target,".dynamic-widget-wrapper"))||void 0===t?void 0:t.id;if(n){const e=new CustomEvent("toggle-maximize-restore",{detail:{widgetId:n}});window.dispatchEvent(e),r.info("Dispatching toggle-maximize-restore event for widgetId:",n)}}},this.toggleVoiceInteractionPanel=()=>{window.dispatchEvent(new CustomEvent("toggle-voice-interaction-panel")),r.info("Dispatching toggl-voice-interaction-panel")},this.toggleMuteUnmuteWebRtcCall=()=>{const e=new CustomEvent("ax-web-call-mute-unmute",{});window.dispatchEvent(e),r.info("Dispatching ax-web-call-mute-unmute event")},this.declineWebRtcCall=()=>{const e=new CustomEvent("ax-web-call-decline",{});window.dispatchEvent(e),r.info("Dispatching ax-web-call-decline event")},this.acceptWebRtcCall=()=>{const e=new CustomEvent("ax-web-call-answer",{});window.dispatchEvent(e),r.info("Dispatching ax-web-call-answer event")},this.logger=e.logger,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&(this.sourceActionsChannels={fireGeneralSilentNotification:h(this.SERVICE),fireGeneralAutoDismissNotification:f(this.SERVICE),fireGeneralAcknowledgeNotification:p(this.SERVICE),addCustomTask:m(this.SERVICE),getToken:y(this.SERVICE),getTaskMap:b(this.SERVICE),getMediaTypeQueue:S(this.SERVICE),getIdleCodes:I(this.SERVICE),getWrapUpCodes:T(this.SERVICE)},this.destinationActionsChannels={fireGeneralAutoDismissNotification:v(this.SERVICE),fireGeneralAcknowledgeNotification:g(this.SERVICE),getToken:E(this.SERVICE),getTaskMap:w(this.SERVICE),getMediaTypeQueue:k(this.SERVICE),getIdleCodes:A(this.SERVICE),getWrapUpCodes:C(this.SERVICE)},this.logger.info("Inited"))}cleanup(){this.SERVICE=void 0,this.logger.info("Cleaned")}fireGeneralSilentNotification(...e){this.checkService()&&this.sourceActionsChannels.fireGeneralSilentNotification.send(...e)}fireGeneralAutoDismissNotification(...e){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(t=>{const n=this.getNextReqId(),r=({args:[e,o,s,a]})=>{a===n&&(s!==i.Notifications.ItemMeta.Mode.AutoDismiss&&s!==i.Notifications.ItemMeta.Mode.Silent||e===i.Notifications.ItemMeta.Status.Deactivated&&(t([e,o,s]),this.destinationActionsChannels.fireGeneralAutoDismissNotification.removeListener(r)))};this.destinationActionsChannels.fireGeneralAutoDismissNotification.addListener(r),this.sourceActionsChannels.fireGeneralAutoDismissNotification.send(...e)})}))}fireGeneralAcknowledgeNotification(...e){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(t=>{const n=this.getNextReqId(),r=({args:[e,o,s,a]})=>{a===n&&(s!==i.Notifications.ItemMeta.Mode.Acknowledge&&s!==i.Notifications.ItemMeta.Mode.Silent||e===i.Notifications.ItemMeta.Status.Deactivated&&(t([e,o,s]),this.destinationActionsChannels.fireGeneralAcknowledgeNotification.removeListener(r)))};this.destinationActionsChannels.fireGeneralAcknowledgeNotification.addListener(r),this.sourceActionsChannels.fireGeneralAcknowledgeNotification.send(...e)})}))}addCustomTask(...e){this.checkService()&&this.sourceActionsChannels.addCustomTask.send(...e)}getTaskMap(){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(e=>{const t=this.getNextReqId(),n=({args:[i,r]})=>{r===t&&(e(i),this.destinationActionsChannels.getTaskMap.removeListener(n))};this.destinationActionsChannels.getTaskMap.addListener(n),this.sourceActionsChannels.getTaskMap.send(t)})}))}getMediaTypeQueue(e){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(t=>{const n=this.getNextReqId(),i=({args:[e,r]})=>{r===n&&(t(e),this.destinationActionsChannels.getMediaTypeQueue.removeListener(i))};this.destinationActionsChannels.getMediaTypeQueue.addListener(i),this.sourceActionsChannels.getMediaTypeQueue.send(e,n)})}))}getToken(){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(e=>{const t=this.getNextReqId(),n=({args:[i,r]})=>{r===t&&(e(i),this.destinationActionsChannels.getToken.removeListener(n))};this.destinationActionsChannels.getToken.addListener(n),this.sourceActionsChannels.getToken.send(t)})}))}getIdleCodes(){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(e=>{const t=this.getNextReqId(),n=({args:[i,r]})=>{r===t&&(e(i),this.destinationActionsChannels.getIdleCodes.removeListener(n))};this.destinationActionsChannels.getIdleCodes.addListener(n),this.sourceActionsChannels.getIdleCodes.send(t)})}))}getWrapUpCodes(){return c(this,void 0,void 0,(function*(){if(this.checkService())return yield new Promise(e=>{const t=this.getNextReqId(),n=({args:[i,r]})=>{r===t&&(e(i),this.destinationActionsChannels.getWrapUpCodes.removeListener(n))};this.destinationActionsChannels.getWrapUpCodes.addListener(n),this.sourceActionsChannels.getWrapUpCodes.send(t)})}))}getClosestElement(e,t){return e&&e!==document&&e!==window?e instanceof ShadowRoot?this.getClosestElement(e.host,t):e instanceof HTMLElement&&e.matches(t)?e:this.getClosestElement(e.parentNode,t):null}}const U=o(r,"[Actions JSAPI] =>");class R{constructor(e){this.isInited=!1,this.listeners=new Map,this.listenersOnce=new Map,this.logger=e.logger}init(e){this.aqmServiceEntity=e.aqmServiceEntity,this.aqmServiceEntityString=e.aqmServiceEntityString,this.isInited=!0}cleanup(){this.removeAllEventListeners(),this.aqmServiceEntity=void 0,this.aqmServiceEntityString=void 0,this.isInited=!1}_addEventListener(e,t,n){var i,r,o;const s=n?"listenersOnce":"listeners";this[s].has(e)||this[s].set(e,new Map);const a=this[s].get(e),c=n?"listenOnce":"listen",u=i=>{let r=null;return n&&(r=this.aqmServiceEntity[e].listenOnce(()=>this.removeOnceEventListener(e,t))),()=>{var t;if(i){n?(i.stopListenOnce(),r&&r.stopListenOnce()):i.stopListen();const o=[];o.push(`UnBound "${e.toString()}"`),n&&o.push("Once"),this.aqmServiceEntityString&&o.push(`from "${this.aqmServiceEntityString}"`),null===(t=this.logger)||void 0===t||t.info(o.join(" "))}}};if(this.aqmServiceEntity)if(e in this.aqmServiceEntity&&c in this.aqmServiceEntity[e]){const r=this.aqmServiceEntity[e][c](t);a.set(t,u(r));const o=[];o.push(`Bound "${e.toString()}"`),n&&o.push("Once"),this.aqmServiceEntityString&&o.push(`to "${this.aqmServiceEntityString}"`),null===(i=this.logger)||void 0===i||i.info(o.join(" "))}else null===(r=this.logger)||void 0===r||r.warn(`EventName "${e.toString()}" is not recognized, so won't be subscribed...`);else null===(o=this.logger)||void 0===o||o.error(`"${this.aqmServiceEntityString}" is not ready yet. .init(...) first...`)}_removeEventListener(e,t,n){const i=n?"listenersOnce":"listeners";if(this[i].has(e)){const n=this[i].get(e);if(n){if(n.has(t)){n.get(t)(),n.delete(t)}n.size<1&&this[i].delete(e)}}}addEventListener(e,t){this._addEventListener(e,t,!1)}addOnceEventListener(e,t){this._addEventListener(e,t,!0)}removeEventListener(e,t){this._removeEventListener(e,t,!1)}removeOnceEventListener(e,t){this._removeEventListener(e,t,!0)}removeAllEventListeners(){["listeners","listenersOnce"].forEach(e=>{this[e].forEach((e,t)=>{e.forEach((e,t)=>e()),e.clear()}),this[e].clear()})}}const L=e=>new R(e);var x,D,N,P,_,M,V,j,q;!function(e){e.TELEPHONY="telephony",e.CHAT="chat",e.EMAIL="email",e.SOCIAL="social",e.MIDCALL_TELEPHONY="midcall telephony",e.APPLE_MESSAGES="appleMessages"}(x||(x={})),function(e){e.QUEUE="queue",e.DIAL_NUMBER="dialNumber",e.AGENT="agent",e.EPDN="entrypointDialNumber",e.ENTRY_POINT="entryPoint"}(D||(D={})),function(e){e.IDLE="Idle",e.AVAILABLE="Available",e.RONA="RONA"}(N||(N={})),function(e){e.All="All",e.TELEPHONY="telephony",e.CHAT="chat",e.EMAIL="email",e.SOCIAL="social"}(P||(P={})),function(e){e.SMS="SMS",e.TELEPHONY="Call",e.CHAT="Chat",e.EMAIL="Email",e.MESSENGER="Messenger",e.WHATSAPP="WhatsApp",e.APPLE_BUSINESS_CHAT="Apple Business Chat",e.GOOGLE_BUSINESS_MESSAGES="Google's Business Messages"}(_||(_={})),function(e){e.MIDCALL="midcall",e.ADHOC="adhoc",e.CONTINUOUS="continuous"}(M||(M={})),function(e){e.EMAIL="email",e.CHAT="chat",e.TELEPHONY="telephony",e.SOCIAL="social",e.SMS="sms",e.FACEBOOK="facebook",e.WHATSAPP="whatsapp",e.APPLEMESSAGES="appleMessages",e.GOOGLEMESSAGES="googleMessages"}(V||(V={})),(q=j||(j={})).validateAgentState=e=>Object.values(N).includes(e),q.validateURL=e=>/^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(e),q.validateChannelName=e=>Object.values(_).includes(e),q.validateDestinationType=e=>Object.values(D).includes(e),q.validateMediaType=e=>Object.values(x).includes(e),q.validateUTCTimeStampNumberFormat=e=>Number.isInteger(e)&&e>=0&&e<=4102444799999,q.validateNumber=e=>Number.isInteger(e)&&e>=0&&e<=2147483647,q.validateBoolean=e=>"boolean"==typeof e||(0===e||1===e)&&q.validatePropValueNotNullAndEmpty(e),q.validateStringToBoolean=e=>{const t=e.toLowerCase();return"true"===t||"false"===t||"0"===t||"1"===t},q.validatePropValueNotNullAndEmpty=e=>null!==e&&""!==e,q.validateChannelType=e=>Object.values(_).includes(e),q.validateMonitorType=e=>Object.values(M).includes(e),q.validateUUID=e=>/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/.test(e),q.validateStringNumberOnly=e=>/^(\+)?\d+$/.test(e),q.validateBuddyAgents=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.agentProfileId),t,"agentProfileId is not a valid UUID"),i.AssertUtils.check(q.validateChannelName(e.channelName),t,"channelName is not a valid channel name"),void 0!==e.state&&i.AssertUtils.check(q.validateAgentState(e.state),t,"state is not a valid state"),void 0!==e.trackingId&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.trackingId),t,"trackingId is not a valid string")},q.validateAuxCodeType=(e,t)=>{i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e),t,"value is null or empty"),i.AssertUtils.check("IDLE_CODE"===e||"WRAP_UP_CODE"===e,t,"value is not IDLE_CODE or WRAP_UP_CODE")},q.validateAuxCodePayload=(e,t)=>{q.validateAuxCodeType(e.workType,t),void 0!==e.page&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.page),t,"page is is null or empty"),void 0!==e.pageSize&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.pageSize),t,"pageSize is is null or empty"),void 0!==e.search&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.search),t,"search is is null or empty"),void 0!==e.customFilter&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.customFilter),t,"customFilter is is null or empty")},q.validateCancelCtq=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.agentId),t,"agentId is not a valid UUID"),i.AssertUtils.check(q.validateUUID(e.queueId),t,"queueId is not a valid UUID")},q.validateWrapupPayload=(e,t)=>{i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.wrapUpReason),t,"wrapUpReason is not a valid string"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.auxCodeId),t,"auxCodeId is not a valid string"),i.AssertUtils.check(q.validateStringToBoolean(e.isAutoWrapup),t,"isAutoWrapup is not a valid boolean value")},q.validateVTeamTransferPayload=(e,t)=>{i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.vteamId),t,"vteamId is not a valid string"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.vteamType),t,"vteamType is not a valid string")},q.validateBlindTransferPayload=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.agentId),t,"agentId is not a valid UUID"),i.AssertUtils.check(q.validateUUID(e.destAgentId),t,"destAgentId is not a valid UUID"),i.AssertUtils.check(q.validateMediaType(e.mediaType),t,"mediaType is not a valid media type"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.destAgentTeamId),t,"destAgentTeamId is not a valid string"),i.AssertUtils.check(q.validateStringNumberOnly(e.destAgentDN),t,"destAgentDN is not a numbers only string"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.destSiteId),t,"destSiteId is not a valid string")},q.validateConsultPayload=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.agentId),t,"agentId is not a valid UUID"),void 0!==e.destAgentId&&i.AssertUtils.check(q.validateUUID(e.destAgentId),t,"destAgentId is not a valid UUID"),void 0!==e.mediaType&&i.AssertUtils.check(q.validateMediaType(e.mediaType),t,"mediaType is not a valid media type"),void 0!==e.holdParticipants&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.holdParticipants),t,"holdParticipants is not valid")},q.validateConsultTransferPayLoad=(e,t)=>{void 0!==e.agentId&&i.AssertUtils.check(q.validateUUID(e.agentId),t,"agentId is not a valid UUID"),i.AssertUtils.check(q.validateUUID(e.destAgentId),t,"destagentId is not a valid UUID"),i.AssertUtils.check(q.validateMediaType(e.mediaType),t,"mediaType is not a valid media type"),i.AssertUtils.check(q.validateUUID(e.mediaResourceId),t,"mediaResourceId is not a valid UUID"),i.AssertUtils.check(q.validateDestinationType(e.destinationType),t,"destinationType is not a valid destination type")},q.validateWrapUpV2Payload=(e,t)=>{i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.wrapUpReason),t,"wrapUpReason is not a valid string"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.auxCodeId),t,"auxCodeId is not a valid string")},q.validateChangeAgentStateType=(e,t)=>{i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.state),t,"state is null or empty"),i.AssertUtils.check("available"===e.state.toLowerCase()||"idle"===e.state.toLowerCase(),t,"state is not Available or Idle"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.auxCodeId),t,"auxCodeId is null or empty"),i.AssertUtils.check(q.validateUUID(e.agentId),t,"agentId is not a valid UUID")},q.validateConsultDataV2Payload=(e,t)=>{void 0!==e.to&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.to),t,"to is not a valid string or not undefined"),i.AssertUtils.check(q.validateDestinationType(e.destinationType),t,"destinationType is not a valid destination type"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.holdParticipants),t,"holdParticipants is not valid")},q.validateConsultConferenceDataV2Payload=(e,t)=>{void 0!==e.agentId&&i.AssertUtils.check(q.validateUUID(e.agentId),t,"agentId is not a valid UUID"),void 0!==e.to&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.to),t,"to is not a valid string or not undefined"),i.AssertUtils.check(q.validateDestinationType(e.destinationType),t,"destinationType is not a valid destination type")},q.validateTransferV2Payload=(e,t)=>{void 0!==e.to&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.to),t,"to is not a valid string or not undefined"),i.AssertUtils.check(q.validateDestinationType(e.destinationType),t,"destinationType is not a valid destination type")},q.validateBuddyAgentsV2Payload=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.agentProfileId),t,"agentProfileId is not a valid UUID"),i.AssertUtils.check(q.validateMediaType(e.mediaType),t,"mediaType is not a valid media type"),i.AssertUtils.check(q.validateAgentState(e.state),t,"state is not a valid state")},q.validateVTeam=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.agentProfileId),t,"agentProfileId is not a valid UUID"),i.AssertUtils.check(q.validateUUID(e.agentSessionId),t,"agentSessionId is not a valid UUID"),i.AssertUtils.check(q.validateChannelType(e.channelType),t,"channelType is not a valid channel type"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.type),t,"type is not a valid string"),void 0!==e.trackingId&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.trackingId),t,"trackingId is not a valid string")},q.validateDialerTasks=(e,t)=>{e.id&&i.AssertUtils.check(q.validateUUID(e.id),t,"id is not a valid UUID"),i.AssertUtils.check(q.validateUUID(e.entryPointId),t,"entryPointId is not a valid UUID"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.destination),t,"destination is null or empty"),i.AssertUtils.check(q.validateUUID(e.direction),t,"direction is not a valid UUID"),e.origin&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.origin),t,"origin is null or empty"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.attributes.key),t,"attributes.key is null or empty"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.attributes.value),t,"attributes.value is null or empty"),i.AssertUtils.check(q.validateMediaType(e.mediaType),t,"mediaType is not a valid media type"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.outboundType),t,"outboundType is null or empty")},q.validatePreviewCampaignPayload=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.interactionId),t,"interactionId is not a valid UUID"),i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.campaignId),t,"campaignId is null or empty")},q.validateMonitoringRequest=(e,t)=>{i.AssertUtils.check(q.validateUUID(e.id),t,"id is not a valid UUID"),i.AssertUtils.check(q.validateMonitorType(e.monitorType),t,"monitorType is not a valid monitor type"),void 0!==e.queueIds&&e.queueIds.forEach(e=>{i.AssertUtils.check(q.validateUUID(e),t,"queueIds is not a valid UUID")}),void 0!==e.teams&&e.teams.forEach(e=>{i.AssertUtils.check(q.validateUUID(e),t,"team is not a valid UUID")}),void 0!==e.sites&&e.sites.forEach(e=>{i.AssertUtils.check(q.validateUUID(e),t,"site is not a valid UUID")}),void 0!==e.agents&&e.agents.forEach(e=>{i.AssertUtils.check(q.validateUUID(e),t,"agent is not a valid UUID")}),void 0!==e.startUTCTimestamp&&i.AssertUtils.check(q.validateUTCTimeStampNumberFormat(e.startUTCTimestamp),t,"startUTCTimestamp is not a valid timestamp"),void 0!==e.continuousDuration&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.continuousDuration),t,"continuousDuration is not a valid string or not undefined"),void 0!==e.taskId&&i.AssertUtils.check(q.validateUUID(e.taskId),t,"taskId is not a valid UUID"),i.AssertUtils.check(q.validateUUID(e.trackingId),t,"trackingId is not a valid UUID"),e.invisibleMode&&i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(e.invisibleMode),t,"invisibleMode is not a valid string or not undefined")},q.validateMultiConsultPayload=(e,t)=>{Object.entries(e).forEach(([e,n])=>{switch(e){case"agentId":i.AssertUtils.check(q.validateUUID(String(n)),t,"agentId is not a valid UUID");break;case"destAgentId":i.AssertUtils.check(q.validateUUID(String(n)),t,"destAgentId is not a valid UUID");break;case"mediaType":i.AssertUtils.check(q.validateMediaType(n),t,"mediaType is not a valid media type");break;case"holdParticipants":i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(n),t,"holdParticipants is not valid");break;case"destAgentDN":i.AssertUtils.check(q.validateStringNumberOnly(String(n)),t,"destAgentDN is not a numbers only string");break;case"destinationType":i.AssertUtils.check(q.validateDestinationType(n),t,"destinationType is not a valid destination type");break;case"destAgentTeamId":i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(String(n)),t,"destAgentTeamId is not a valid string");break;case"destSiteId":i.AssertUtils.check(q.validatePropValueNotNullAndEmpty(String(n)),t,"destSiteId is not a valid string");break;case"queueId":i.AssertUtils.check(q.validateUUID(String(n)),t,"queueId is not a valid UUID");break;case"trackingId":i.AssertUtils.check(q.validateUUID(String(n)),t,"trackingId is not a valid string")}})};var F=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class B{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.aqmEvents=e.aqmEvents,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&(this.aqmEvents.init({aqmServiceEntity:this.SERVICE.aqm.contact,aqmServiceEntityString:"SERVICE.aqm.contact"}),this.logger.info("Inited"))}cleanup(){this.aqmEvents.cleanup(),this.SERVICE=void 0,this.logger.info("Cleaned")}sendDtmf(e){this.checkService()&&this.SERVICE.webCalling.sendDTMF(e)}accept(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"accept","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.accept(e)}))}consultAccept(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultAccept","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultAccept(e)}))}buddyAgents(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return j.validateBuddyAgents(e.data,"buddyAgents"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.buddyAgents(e)}))}end(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"end","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.end(e)}))}consultEnd(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultEnd","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateBoolean(e.isConsult),"consultEnd","isConsult is not a valid boolean value"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultEnd(e)}))}cancelCtq(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"cancelCtq","interactionId is not a valid UUID"),j.validateCancelCtq(e.data,"cancelCtq"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.cancelCtq(e)}))}wrapup(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"cancelCtq","interactionId is not a valid UUID"),j.validateWrapupPayload(e.data,"wrapup"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.wrapup(e)}))}vteamTransfer(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"cancelCtq","interactionId is not a valid UUID"),j.validateVTeamTransferPayload(e.data,"vteamTransfer"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.vteamTransfer(e)}))}blindTransfer(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"blindTransfer","interactionId is not a valid UUID"),j.validateBlindTransferPayload(e.data,"blindTransfer"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.blindTransfer(e)}))}hold(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"hold","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateUUID(e.data.mediaResourceId),"hold","mediaResourceId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.hold(e)}))}unHold(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"unHold","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateUUID(e.data.mediaResourceId),"unHold","mediaResourceId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.unHold(e)}))}consult(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consult","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateURL(e.url),"consult","url is not a valid URL"),j.validateMultiConsultPayload(e.data,"consult"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consult(e)}))}consultConference(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultConference","interactionId is not a valid UUID"),j.validateConsultPayload(e.data,"consultConference"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultConference(e)}))}decline(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"decline","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateUUID(e.data.mediaResourceId),"decline","mediaResourceId is not a valid UUID"),i.AssertUtils.check(j.validateBoolean(e.isConsult),"decline","isConsult is not a valid boolean value"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.decline(e)}))}consultTransfer(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"decline","interactionId is not a valid UUID"),j.validateConsultTransferPayLoad(e.data,"consultTransfer"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultTransfer(e)}))}vteamList(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return j.validateVTeam(e.data,"vteamList"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.vteamList(e)}))}pauseRecording(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"pauseRecording","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.pauseRecording(e)}))}resumeRecording(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"resumeRecording","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateBoolean(e.data.autoResumed),"resumeRecording","autoResumed is not a valid boolean value"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.resumeRecording(e)}))}acceptV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"acceptV2","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.acceptV2(e)}))}endV2(e){var t,n;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"endV2","interactionId is not a valid UUID"),e.isEndingFromNonPrimary&&i.AssertUtils.check(j.validateBoolean(e.isEndingFromNonPrimary),"endV2","isEndingFromNonPrimary is not a valid boolean value"),(null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.endV2)?null===(n=this.SERVICE)||void 0===n?void 0:n.aqm.contact.endV2(e):void 0}))}cancelTaskV2(e){var t,n;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"cancelTaskV2","interactionId is not a valid UUID"),(null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.cancelTaskV2)?null===(n=this.SERVICE)||void 0===n?void 0:n.aqm.contact.cancelTaskV2(e):void 0}))}pauseRecordingV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"pauseRecordingV2","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.pauseRecordingV2(e)}))}resumeRecordingV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"resumeRecordingV2","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateBoolean(e.data.autoResumed),"resumeRecordingV2","autoResumed is not a valid boolean value"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.resumeRecordingV2(e)}))}wrapupV2(e){var t,n;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"wrapupV2","interactionId is not a valid UUID"),j.validateWrapUpV2Payload(e.data,"wrapupV2"),(null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.wrapupV2)?null===(n=this.SERVICE)||void 0===n?void 0:n.aqm.contact.wrapupV2(e):void 0}))}consultV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultV2","interactionId is not a valid UUID"),j.validateConsultDataV2Payload(e.data,"consultV2"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultV2(e)}))}consultEndV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultEndV2","interactionId is not a valid UUID"),i.AssertUtils.check(j.validateBoolean(e.isConsult),"consultEndV2","isConsult is not a valid boolean value"),e.isSecondaryEpDnAgent&&i.AssertUtils.check(j.validateBoolean(e.isSecondaryEpDnAgent),"consultEndV2","isSecondaryEpDnAgent is not a valid boolean value"),e.queueId&&i.AssertUtils.check(j.validateUUID(e.queueId),"consultEndV2","queueId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultEndV2(e)}))}consultConferenceV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultConferenceV2","interactionId is not a valid UUID"),j.validateConsultConferenceDataV2Payload(e.data,"consultConferenceV2"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultConferenceV2(e)}))}exitConference(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"exitConference","interactionId is not a valid UUID"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.exitConference(e)}))}consultTransferV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"consultTransferV2","interactionId is not a valid UUID"),j.validateTransferV2Payload(e.data,"consultTransferV2"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.consultTransferV2(e)}))}blindTransferV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"blindTransferV2","interactionId is not a valid UUID"),j.validateTransferV2Payload(e.data,"blindTransferV2"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.blindTransferV2(e)}))}vteamTransferV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"vteamTransferV2","interactionId is not a valid UUID"),j.validateTransferV2Payload(e.data,"vteamTransferV2"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.vteamTransferV2(e)}))}buddyAgentsV2(e){var t;return F(this,void 0,void 0,(function*(){if(this.checkService())return j.validateBuddyAgentsV2Payload(e.data,"buddyAgentsV2"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.contact.buddyAgentsV2(e)}))}addEventListener(e,t){this.checkService()&&this.aqmEvents.addEventListener(e,t)}addOnceEventListener(e,t){this.checkService()&&this.aqmEvents.addOnceEventListener(e,t)}removeEventListener(e,t){this.aqmEvents.removeEventListener(e,t)}removeOnceEventListener(e,t){this.aqmEvents.removeOnceEventListener(e,t)}removeAllEventListeners(){this.aqmEvents.removeAllEventListeners()}}const H=o(r,"[AgentContact JSAPI] =>"),z=o(H,"[AqmServiceEvents: Contact] => ");var J=n(8),W=n.n(J),Z=n(15),G=n.n(Z),Y=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};const $={agentName:void 0,agentProfileID:void 0,agentSessionId:void 0,idleCode:void 0,teamId:void 0,teamName:void 0,dn:void 0,status:void 0,subStatus:void 0,idleCodes:void 0,wrapupCodes:void 0,outDialRegex:void 0,isOutboundEnabledForTenant:void 0,isOutboundEnabledForAgent:void 0,isEndCallEnabled:void 0,isEndConsultEnabled:void 0,allowConsultToQueue:void 0,isAdhocDialingEnabled:void 0,isAgentAvailableAfterOutdial:void 0,isCampaignManagementEnabled:void 0,agentPersonalStatsEnabled:void 0};class K{checkService(){return this.serviceChecker.check(this.SERVICE)}emit(e,...t){this.emitter.emit(e,...t)}update(e){const t=Object.keys(e).reduce((t,n)=>{const i=e[n],r=this.latestData[n];return JSON.stringify(i)!==JSON.stringify(r)&&t.push({name:n,value:i,oldValue:r}),t},[]);t.length&&(t.forEach(e=>this.latestData[e.name]=e.value),this.emit("updated",t))}static getOutdialRegex(e){if(e&&e.dialPlanEntity){const t=e.dialPlanEntity.find(e=>"Any Format"===e.name);if(t)return t.regex}return""}constructor(e){this.emitter=W()(),this.listeners=new Set,this.teams=[],this.idleCodes={},this.latestData=Object.assign({},$),this.logger=e.logger,this.serviceChecker=e.serviceChecker}static findTeamName(e,t){const n=e.find(e=>e.teamId===t);return(null==n?void 0:n.teamName)||""}init(e){return Y(this,void 0,void 0,(function*(){e&&(this.SERVICE=e),this.checkService()&&(yield this.fetchLatestData(),this.subscribeSelfDataEvents(),this.logger.info("Inited"))}))}cleanup(){this.unsubscribeSelfDataEvents(),this.removeAllEventListeners(),this.SERVICE=void 0,this.update(Object.assign({},$)),this.logger.info("Cleaned")}fetchLatestData(){var e,t,n,i,r,o;return Y(this,void 0,void 0,(function*(){const s=(null===(e=this.SERVICE)||void 0===e?void 0:e.conf.profile)?null===(t=this.SERVICE)||void 0===t?void 0:t.conf.profile:yield null===(n=this.SERVICE)||void 0===n?void 0:n.conf.fetchProfile();if(s){const{teams:e,agentName:t,agentProfileID:n,defaultDn:a,agentSubStatus:c,agentStatus:u,idleCodes:l,wrapupCodes:d,dialPlan:h,isOutboundEnabledForTenant:f,isOutboundEnabledForAgent:v,isAdhocDialingEnabled:p,isEndCallEnabled:g,isEndConsultEnabled:m,allowConsultToQueue:y,isAgentAvailableAfterOutdial:E,isCampaignManagementEnabled:b,agentPersonalStatsEnabled:w}=s;let{idleCode:S}=s;const k=a;let I=u,A=c;this.teams=e,null==l||l.forEach(e=>{this.idleCodes[e.id]={id:e.id,name:e.name}});const T=yield null===(i=this.SERVICE)||void 0===i?void 0:i.aqm.agent.reload();(null==T?void 0:T.data)&&(S="0"!=T.data.auxCodeId&&T.data.auxCodeId?this.idleCodes[T.data.auxCodeId]:void 0,I=null===(r=null==T?void 0:T.data)||void 0===r?void 0:r.status,A=null===(o=null==T?void 0:T.data)||void 0===o?void 0:o.subStatus);const C=K.getOutdialRegex(h);this.update({agentName:t,agentProfileID:n,dn:k,status:I,subStatus:A,idleCode:S,idleCodes:l,wrapupCodes:d,outDialRegex:C,isOutboundEnabledForTenant:f,isOutboundEnabledForAgent:v,isAdhocDialingEnabled:p,isEndCallEnabled:g,isEndConsultEnabled:m,allowConsultToQueue:y,isAgentAvailableAfterOutdial:E,isCampaignManagementEnabled:b,agentPersonalStatsEnabled:w})}}))}subscribeSelfDataEvents(){var e,t,n,i;if(this.checkService()){{const t=null===(e=this.SERVICE)||void 0===e?void 0:e.aqm.agent.eAgentReloginSuccess.listen(({data:{agentSessionId:e="",teamId:t="",dn:n="",status:i="",subStatus:r="",auxCodeId:o=""}})=>{const s=K.findTeamName(this.teams,t);this.update({agentSessionId:e,teamId:t,teamName:s,dn:n,status:i,subStatus:r,idleCode:this.idleCodes[o]})});this.listeners.add(()=>null==t?void 0:t.stopListen())}{const e=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.agent.eAgentStationLoginSuccess.listen(({data:{agentSessionId:e="",teamId:t="",status:n="",subStatus:i="",auxCodeId:r=""}})=>{const o=K.findTeamName(this.teams,t);this.update({agentSessionId:e,teamId:t,teamName:o,status:n,subStatus:i,idleCode:this.idleCodes[r]})});this.listeners.add(()=>null==e?void 0:e.stopListen())}{const e=null===(n=this.SERVICE)||void 0===n?void 0:n.aqm.agent.eAgentStateChangeSuccess.listen(({data:{agentSessionId:e="",status:t="",subStatus:n="",auxCodeId:i=""}})=>{var r;const o=this.idleCodes?null===(r=this.idleCodes[i])||void 0===r?void 0:r.name:"";this.update({agentSessionId:e,status:t,subStatus:n,idleCode:{id:i,name:o}})});this.listeners.add(()=>null==e?void 0:e.stopListen())}{const e=null===(i=this.SERVICE)||void 0===i?void 0:i.aqm.agent.eAgentDNRegistered.listen(({data:{dn:e=""}})=>{this.update({dn:e})});this.listeners.add(()=>null==e?void 0:e.stopListen())}}}unsubscribeSelfDataEvents(){this.listeners.forEach(e=>e()),this.listeners.clear()}stateChange(e){var t,n,r;return Y(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.state),"stateChange","state is null or empty"),i.AssertUtils.check("available"===(null===(t=e.state)||void 0===t?void 0:t.toLowerCase())||"idle"===(null===(n=e.state)||void 0===n?void 0:n.toLowerCase()),"stateChange","state is not Available or Idle"),i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.auxCodeIdArray),"stateChange","auxCodeIdArray is null or empty"),null===(r=this.SERVICE)||void 0===r?void 0:r.aqm.agent.stateChange({data:e})}))}mockOutdialAniList(){var e,t;return Y(this,void 0,void 0,(function*(){if(this.checkService())return(null===(e=this.SERVICE)||void 0===e?void 0:e.aqm.agent.mockOutdialAniList)&&(null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.agent.mockOutdialAniList())}))}fetchAddressBooks(){var e,t;return Y(this,void 0,void 0,(function*(){if(this.checkService())return(null===(e=this.SERVICE)||void 0===e?void 0:e.aqm.agent.fetchAddressBooks)&&(null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.agent.fetchAddressBooks())}))}changeAgentState(e,t){var n;return Y(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e),"changeAgentState","orgId is not a valid UUID"),j.validateChangeAgentStateType(t,"changeAgentState"),null===(n=this.SERVICE)||void 0===n?void 0:n.aqm.supervisor.changeAgentState({orgId:e,data:t})}))}fetchAgentIdleCodes(e,t){var n;return Y(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e),"fetchAgentIdleCodes","orgId is not a valid UUID"),i.AssertUtils.check(j.validateUUID(t),"fetchAgentIdleCodes","agentId is not a valid UUID"),yield null===(n=this.SERVICE)||void 0===n?void 0:n.abs.fetchAgentIdleCodes({orgId:e,agentId:t})}))}fetchOrganizationIdleCodes(e){var t;return Y(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e),"fetchOrganizationIdleCodes","orgId is not a valid UUID"),yield null===(t=this.SERVICE)||void 0===t?void 0:t.abs.fetchIdleCodes({orgId:e,accessType:"ALL"})}))}addEventListener(e,t){this.checkService()&&this.emitter.on(e,t)}removeEventListener(e,t){this.checkService()&&this.emitter.off(e,t)}removeAllEventListeners(){G()(this.emitter)}}const X=o(r,"[AgentInfo JSAPI] =>");var Q=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class ee{waitUntil(e){return Q(this,void 0,void 0,(function*(){if("function"==typeof e){yield new Promise(e=>setTimeout(e,1e3/30));!e()&&(yield this.waitUntil(e))}}))}constructor(e){this.initEventType={},this.emitter=W()(),this.logger=e.logger,this.agentxSERVICE=e.SERVICE}checkService(e){return Q(this,void 0,void 0,(function*(){e?(e.isInited||(this.logger.warn("SERVICE is not inited. Awaiting it's initAgentxServices(...)..."),yield this.waitUntil(()=>e.isInited)),this.logger.info("SERVICE is inited. Continuing..."),this.emit("inited")):this.logger.error("SERVICE is not defiend...")}))}emit(e,...t){this.emitter.emit(e,...t)}init(e){return Q(this,void 0,void 0,(function*(){this.agentxSERVICE?yield this.checkService(this.agentxSERVICE):this.logger.error("SERVICE is not defined..."),this.initEventType.widgetName=e.widgetName,this.initEventType.widgetProvider=e.widgetProvider,this.publishEvent("agentx-js-sdk-init")}))}registerCrmConnector(e){if(window.self!==window.top){this.initEventType.crmPlatform=e.crmPlatform,this.initEventType.crmConnectorProvider=e.crmConnectorProvider||"Cisco",r.info(`CRm Connector registered through JS SDK... [crmPlatform: ${this.initEventType.crmPlatform}, widgetProvider: ${this.initEventType.crmConnectorProvider}]  `);const t=document.referrer;r.info("This Desktop is loaded inside an iframe.",t),this.publishEvent("agentx-js-sdk-register-crm-connector")}else r.warn("This Desktop is not loaded inside an iframe. CRM Connector is not registered.")}publishEvent(e){const{crmPlatform:t,crmConnectorProvider:n,widgetName:i,widgetProvider:o}=this.initEventType,s=Object.assign({},...Object.entries(this.initEventType).map(([e,t])=>t?{[e]:t}:{}));this.logger.info("initEvent",s),r.info(`Publishing js sdk init ${e} event : [widgetName: ${i}, widgetProvider: ${o}, crmPlatform: ${t}, crmConnectorProvider: ${n}]`),this.agentxSERVICE&&this.agentxSERVICE.isInited&&this.agentxSERVICE.webexMetrics&&(r.info(`tracking behavioral for ${e} event `),this.agentxSERVICE.webexMetrics.trackBehavioralEvent(e,Object.assign({},s)))}cleanup(){this.agentxSERVICE=void 0,this.emit("cleaned"),this.logger.info("Cleaned")}get clientLocale(){return null!=window.navigator.languages?window.navigator.languages[0]:window.navigator.language}addEventListener(e,t){this.emitter.on(e,t)}removeEventListener(e,t){this.emitter.off(e,t)}}const te=o(r,"[Config JSAPI] =>");var ne=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class ie{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.aqmEvents=e.aqmEvents,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&(this.aqmEvents.init({aqmServiceEntity:this.SERVICE.aqm.dialer,aqmServiceEntityString:"SERVICE.aqm.dialer"}),this.logger.info("Inited"))}cleanup(){this.aqmEvents.cleanup(),this.SERVICE=void 0,this.logger.info("Cleaned")}startOutdial(e){var t;return ne(this,void 0,void 0,(function*(){if(this.checkService())return j.validateDialerTasks(e.data,"startOutdial"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.dialer.startOutdial(e)}))}previewCampaignAccept(e){var t;return ne(this,void 0,void 0,(function*(){if(this.checkService())return j.validatePreviewCampaignPayload(e.data,"previewCampaignAccept"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.dialer.acceptPreviewContact(e)}))}previewCampaignSkip(e){var t;return ne(this,void 0,void 0,(function*(){if(this.checkService())return j.validatePreviewCampaignPayload(e.data,"previewCampaignSkip"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.dialer.skipPreviewContact(e)}))}removePreviewContact(e){var t;return ne(this,void 0,void 0,(function*(){if(this.checkService())return j.validatePreviewCampaignPayload(e.data,"removePreviewContact"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.dialer.removePreviewContact(e)}))}updateCadVariables(e){var t;return ne(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"updateCadVariables","interactionId is not valid UUID"),i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.data.attributes.key),"updateCadVariables","attributes.key is not valid"),i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.data.attributes.value),"updateCadVariables","attributes.value is not valid"),e.secureCad&&e.secureCad.forEach(e=>{i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e),"updateCadVariables","secureCad is not valid")}),e.keyId&&i.AssertUtils.check(j.validateUUID(e.keyId),"updateCadVariables","keyId is not valid UUID"),e.keyVersion&&i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.keyVersion),"updateCadVariables","keyVersion is not valid"),null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.dialer.updateCadVariables(e)}))}addEventListener(e,t){this.checkService()&&this.aqmEvents.addEventListener(e,t)}addOnceEventListener(e,t){this.checkService()&&this.aqmEvents.addOnceEventListener(e,t)}removeEventListener(e,t){this.aqmEvents.removeEventListener(e,t)}removeOnceEventListener(e,t){this.aqmEvents.removeOnceEventListener(e,t)}removeAllEventListeners(){this.aqmEvents.removeAllEventListeners()}}const re=o(r,"[Dialer JSAPI] =>"),oe=o(re,"[AqmServiceEvents: Dialer] =>");class se{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&this.logger.info("Inited")}cleanup(){this.SERVICE=void 0,this.logger.info("Cleaned")}createInstance(e){return i.I18N.createService(e)}createMixin(e){return i.I18N.createMixin(e)}get DEFAULT_INIT_OPTIONS(){var e;if(this.checkService())return null===(e=this.SERVICE)||void 0===e?void 0:e.i18n.DEFAULT_INIT_OPTIONS}getMergedInitOptions(...e){return i.I18N.mergeServiceInitOptions(...e)}}const ae=o(r,"[I18N JSAPI] =>");class ce{constructor(e){this.clientLoggers=new Map,this.logger=e.logger}createLogger(e){const t=Object(i.createLogger)(e);return this.clientLoggers.set(e,t),this.logger.info(`Client logger created: "${e}"`),t}cleanupLogs(e){this.clientLoggers.has(e)&&i.Logger.POOL.cleanupPrefixedLogs(e)}browserDownloadLogsJson(e){this.clientLoggers.has(e)&&i.Logger.POOL.browserDownloadPrefixedLogsJson(e)}browserDownloadLogsText(e){this.clientLoggers.has(e)&&i.Logger.POOL.browserDownloadPrefixedLogsText(e)}getLogsCollection(e){if(this.clientLoggers.has(e))return i.Logger.POOL.getPrefixedLogsCollection(e)}getLogsJsonUrl(e){if(this.clientLoggers.has(e))return i.Logger.POOL.getPrefixedLogsJsonUrl(e)}getLogsTextUrl(e){if(this.clientLoggers.has(e))return i.Logger.POOL.getPrefixedLogsTextUrl(e)}}const ue=o(r,"[Logger JSAPI] =>");class le{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.aqmEvents=e.aqmEvents,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&(this.aqmEvents.init({aqmServiceEntity:this.SERVICE.aqm.screenpop,aqmServiceEntityString:"SERVICE.aqm.screenpop"}),this.logger.info("Inited"))}cleanup(){this.aqmEvents.cleanup(),this.SERVICE=void 0,this.logger.info("Cleaned")}addEventListener(e,t){this.checkService()&&this.aqmEvents.addEventListener(e,t)}addOnceEventListener(e,t){this.checkService()&&this.aqmEvents.addOnceEventListener(e,t)}removeEventListener(e,t){this.aqmEvents.removeEventListener(e,t)}removeOnceEventListener(e,t){this.aqmEvents.removeOnceEventListener(e,t)}removeAllEventListeners(){this.aqmEvents.removeAllEventListeners()}}const de=o(r,"[ScreenPop JSAPI] =>"),he=o(de,"[AqmServiceEvents: ScreenPop] =>");class fe{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&this.logger.info("Inited")}cleanup(){this.SERVICE=void 0,this.logger.info("Cleaned")}listenKeyPress(...e){var t;this.checkService()&&(null===(t=this.SERVICE)||void 0===t||t.shortcut.event.listenKeyPress(...e))}listenKeyConflict(...e){var t;this.checkService()&&(null===(t=this.SERVICE)||void 0===t||t.shortcut.event.listenKeyConflict(...e))}listenConflictResolved(...e){var t;this.checkService()&&(null===(t=this.SERVICE)||void 0===t||t.shortcut.event.listenConflictResolved(...e))}register(...e){var t;this.checkService()&&(null===(t=this.SERVICE)||void 0===t||t.shortcut.register(...e))}unregisterKeys(...e){var t;this.checkService()&&(null===(t=this.SERVICE)||void 0===t||t.shortcut.unregisterKeys(...e))}getRegisteredKeys(){var e;if(this.checkService())return null===(e=this.SERVICE)||void 0===e?void 0:e.shortcut.getRegisteredKeys()}get DEFAULT_SHORTCUT_KEYS(){var e;return null===(e=this.SERVICE)||void 0===e?void 0:e.shortcut.DEFAULT_SHORTCUT_KEYS}get MODIFIERS(){var e;return null===(e=this.SERVICE)||void 0===e?void 0:e.shortcut.MODIFIERS}get REGISTERED_KEYS(){var e;return null===(e=this.SERVICE)||void 0===e?void 0:e.shortcut.REGISTERED_KEYS}}const ve=o(r,"[ShortcutKey JSAPI] =>");var pe=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class ge{waitUntil(e){return pe(this,void 0,void 0,(function*(){if("function"==typeof e){yield new Promise(e=>setTimeout(e,1e3/30));!e()&&(yield this.waitUntil(e))}}))}checkService(){var e,t,n,i,r;return pe(this,void 0,void 0,(function*(){window.wxcc&&(null===(e=window.wxcc)||void 0===e?void 0:e.rtdwc)?((null===(n=null===(t=window.wxcc)||void 0===t?void 0:t.rtdwc)||void 0===n?void 0:n.error)&&(this.logger.error("RTDWC initialization failed. Awaiting Websocket connection to establish",null===(r=null===(i=window.wxcc)||void 0===i?void 0:i.rtdwc)||void 0===r?void 0:r.error),yield this.waitUntil(()=>{var e,t;return!(null===(t=null===(e=window.wxcc)||void 0===e?void 0:e.rtdwc)||void 0===t?void 0:t.error)})),this.logger.info("Websocket connection established successfully. Continue to subscribe...")):this.logger.error("issue in loading rtdwc")}))}constructor(e){this.emitter=W()(),this.logger=e.logger}init(){return pe(this,void 0,void 0,(function*(){yield this.checkService(),this.logger.info("rtdwc initialized")}))}subscribe({datasetName:e,update:t,error:n}){var i,r;return pe(this,void 0,void 0,(function*(){return yield this.checkService(),yield null===(r=null===(i=window.wxcc)||void 0===i?void 0:i.rtdwc)||void 0===r?void 0:r.subscribe({datasetName:e,update:t,error:n})}))}}const me=o(r,"[RTDWC JSAPI] =>");var ye=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class Ee{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.aqmEvents=e.aqmEvents,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&(this.aqmEvents.init({aqmServiceEntity:this.SERVICE.aqm.supervisor,aqmServiceEntityString:"SERVICE.aqm.supervisor"}),this.logger.info("[JSAPI] Monitoring Inited"))}cleanup(){this.aqmEvents.cleanup(),this.SERVICE=void 0,this.logger.info("Cleaned")}startMonitoring(e){var t,n;return ye(this,void 0,void 0,(function*(){if(this.checkService())return j.validateMonitoringRequest(e.data,"startMonitoring"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.supervisor)||void 0===n?void 0:n.startMonitoring(e)}))}endMonitoring(e){var t,n;return ye(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"endMonitoring","interactionId is not valid UUID"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.supervisor)||void 0===n?void 0:n.endMonitoring(e)}))}holdMonitoring(e){var t,n;return ye(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"endMonitoring","interactionId is not valid UUID"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.supervisor)||void 0===n?void 0:n.holdMonitoring(e)}))}unHoldMonitoring(e){var t,n;return ye(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"endMonitoring","interactionId is not valid UUID"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.supervisor)||void 0===n?void 0:n.unHoldMonitoring(e)}))}bargeIn(e){var t,n;return ye(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.interactionId),"endMonitoring","interactionId is not valid UUID"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.supervisor)||void 0===n?void 0:n.bargeIn(e)}))}addEventListener(e,t){this.checkService()&&this.aqmEvents.addEventListener(e,t)}addOnceEventListener(e,t){this.checkService()&&this.aqmEvents.addOnceEventListener(e,t)}removeEventListener(e,t){this.aqmEvents.removeEventListener(e,t)}removeOnceEventListener(e,t){this.aqmEvents.removeOnceEventListener(e,t)}removeAllEventListeners(){this.aqmEvents.removeAllEventListeners()}}const be=o(r,"[Call Monitoring JSAPI] =>"),we=o(be,"[AqmServiceEvents: Call Monitoring] =>");class Se{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&this.logger.info("Inited")}cleanup(){this.SERVICE=void 0,this.logger.info("Cleaned")}trackBehavioralEvent(...e){var t;if(this.checkService())try{r.info("[webexMetrics Internal JSAPI] => event=trackBehavioralEvent for",e),null===(t=this.SERVICE)||void 0===t||t.webexMetrics.trackBehavioralEvent(...e)}catch(e){r.error("[webexMetrics Internal JSAPI] => event=trackBehavioralEvent Error",e)}}}const ke=o(r,"[webexMetrics Internal JSAPI] =>");var Ie=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class Ae{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.aqmEvents=e.aqmEvents,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&(this.aqmEvents.init({aqmServiceEntity:this.SERVICE.aqm.agent,aqmServiceEntityString:"SERVICE.aqm.agent"}),this.logger.info("[JSAPI] Logout Inited"))}cleanup(){this.aqmEvents.cleanup(),this.SERVICE=void 0,this.logger.info("Cleaned")}desktopLogout(e){var t,n;return Ie(this,void 0,void 0,(function*(){if(!this.checkService())return;const r=yield Me.actions.getTaskMap();if(0!==(null==r?void 0:r.size))throw new Error("You cannot sign out now because you have active conversations. Complete them and try again.");return void 0!==e.data.logoutReason&&i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.data.logoutReason),"desktopLogout","logoutReason is null or empty"),void 0!==e.data.logoutReason&&i.AssertUtils.check("user requested logout"===e.data.logoutReason.toLowerCase()||"inactivity Logout"===e.data.logoutReason.toLowerCase(),"desktopLogout","logoutReason should be either 'User requested logout' or 'Inactivity Logout'"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.agent)||void 0===n?void 0:n.logout(e)}))}signoutAgent(e){var t,n;return Ie(this,void 0,void 0,(function*(){if(this.checkService())try{return r.info("[App:TPW] event=signoutAgentBySupervisor for agent ",e.data.agentId),i.AssertUtils.check(j.validateUUID(e.orgId),"signoutAgent","orgId is not a valid UUID"),i.AssertUtils.check(j.validateUUID(e.data.agentId),"signoutAgent","agentId is not a valid UUID"),i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.data.logoutReason),"signoutAgent","logoutReason is null or empty"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.aqm.supervisor)||void 0===n?void 0:n.signoutAgent(e)}catch(t){r.error("[App:TPW] event=signoutAgentBySupervisorFailed for agent ",e.data.agentId,t)}}))}addEventListener(e,t){this.checkService()&&this.aqmEvents.addEventListener(e,t)}addOnceEventListener(e,t){this.checkService()&&this.aqmEvents.addOnceEventListener(e,t)}removeEventListener(e,t){this.aqmEvents.removeEventListener(e,t)}removeOnceEventListener(e,t){this.aqmEvents.removeOnceEventListener(e,t)}removeAllEventListeners(){this.aqmEvents.removeAllEventListeners()}}const Te=o(r,"[Station Logout JSAPI] =>"),Ce=o(Te,"[AqmServiceEvents: Call Monitoring] =>");class Oe{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.aqmEvents=e.aqmEvents,this.serviceChecker=e.serviceChecker}init(e){var t,n;e&&(this.SERVICE=e),this.checkService()?(this.aqmEvents.init({aqmServiceEntity:this.SERVICE.aqm.aiAssistant,aqmServiceEntityString:"SERVICE.aqm.aiAssistant"}),this.logger.info("AiAssistantJsApi inited.")):null===(n=(t=this.logger).warn)||void 0===n||n.call(t,"Service check failed")}cleanup(){this.aqmEvents.cleanup(),this.SERVICE=void 0,this.logger.info("Cleaned AiAssistantJsApi.")}addEventListener(e,t){this.checkService()&&this.aqmEvents.addEventListener(e,t)}addOnceEventListener(e,t){this.checkService()&&this.aqmEvents.addOnceEventListener(e,t)}removeEventListener(e,t){this.aqmEvents.removeEventListener(e,t)}removeOnceEventListener(e,t){this.aqmEvents.removeOnceEventListener(e,t)}removeAllEventListeners(){this.aqmEvents.removeAllEventListeners()}}const Ue=o(r,"[AI Assistant JSAPI] =>"),Re=o(Ue,"[AqmServiceEvents: AiAssistant] =>");var Le=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class xe{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&this.logger.info("[JSAPI] Initialized")}cleanup(){this.SERVICE=void 0,this.logger.info("Cleaned")}fetchTasks(e){var t,n;return Le(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.startTime),"fetchTasks","startTime is null or empty"),i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.endTime),"fetchTasks","endTime is null or empty"),i.AssertUtils.check(j.validatePropValueNotNullAndEmpty(e.pageNumber),"fetchTasks","pageNumber is null or empty"),i.AssertUtils.check(j.validateNumber(e.startTime),"fetchTasks","startTime is not a valid time"),i.AssertUtils.check(j.validateNumber(e.endTime),"fetchTasks","endTime is not a valid time"),i.AssertUtils.check(j.validateNumber(e.pageNumber),"fetchTasks","pageNumber is not a valid number"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.qmw)||void 0===n?void 0:n.fetchTasks(e)}))}fetchCapture(e){var t,n;return Le(this,void 0,void 0,(function*(){if(this.checkService())return i.AssertUtils.check(j.validateUUID(e.taskId),"fetchCapture","taskId is not a valid UUID"),null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.qmw)||void 0===n?void 0:n.fetchCapture(e)}))}}const De=o(r,"[PI JSAPI] =>");var Ne=function(e,t,n,i){return new(n||(n=Promise))((function(r,o){function s(e){try{c(i.next(e))}catch(e){o(e)}}function a(e){try{c(i.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(s,a)}c((i=i.apply(e,t||[])).next())}))};class Pe{checkService(){return this.serviceChecker.check(this.SERVICE)}constructor(e){this.logger=e.logger,this.serviceChecker=e.serviceChecker}init(e){e&&(this.SERVICE=e),this.checkService()&&this.logger.info("[JSAPI] AgentConfigJsApi Initialized")}cleanup(){this.SERVICE=void 0,this.logger.info("Cleaned")}fetchPaginatedAuxCodes(e){var t,n;return Ne(this,void 0,void 0,(function*(){if(this.checkService())return j.validateAuxCodePayload(e,"fetchPaginatedAuxCodes"),yield null===(n=null===(t=this.SERVICE)||void 0===t?void 0:t.abs)||void 0===n?void 0:n.fetchPaginatedAuxCodes(e)}))}}const _e=o(r,"[AGENT CONFIG JSAPI] =>"),Me=(()=>{AGENTX_SERVICE?r.info('Found global "AGENTX_SERVICE"!'):r.error('Missed global "AGENTX_SERVICE"...');const e=(t=AGENTX_SERVICE,new ee({logger:te,SERVICE:t}));var t;const n=new ce({logger:ue}),i=new fe({logger:ve,serviceChecker:a({logger:ve})}),o=new O({logger:U,serviceChecker:a({logger:U})}),s=new K({logger:X,serviceChecker:a({logger:X})}),c=new B({logger:H,serviceChecker:a({logger:H}),aqmEvents:L({logger:z})}),u=new ie({logger:re,aqmEvents:L({logger:oe}),serviceChecker:a({logger:re})}),l=new Ee({logger:be,aqmEvents:L({logger:we}),serviceChecker:a({logger:be})}),d=new le({logger:de,aqmEvents:L({logger:he}),serviceChecker:a({logger:de})}),h=new Ae({logger:Te,aqmEvents:L({logger:Ce}),serviceChecker:a({logger:Te})}),f=new Oe({logger:Ue,aqmEvents:L({logger:Re}),serviceChecker:a({logger:Ue})}),v=new se({logger:ae,serviceChecker:a({logger:ae})}),p=new ge({logger:me});p.init();const g=new xe({logger:De,serviceChecker:a({logger:De})}),m=new Pe({logger:_e,serviceChecker:a({logger:_e})}),y=new Se({logger:ke,serviceChecker:a({logger:ke})});return e.addEventListener("inited",()=>{c.init(AGENTX_SERVICE),s.init(AGENTX_SERVICE),u.init(AGENTX_SERVICE),l.init(AGENTX_SERVICE),d.init(AGENTX_SERVICE),h.init(AGENTX_SERVICE),f.init(AGENTX_SERVICE),g.init(AGENTX_SERVICE),i.init(AGENTX_SERVICE),o.init(AGENTX_SERVICE),v.init(AGENTX_SERVICE),m.init(AGENTX_SERVICE),y.init(AGENTX_SERVICE)}),e.addEventListener("cleaned",()=>{c.cleanup(),s.cleanup(),u.cleanup(),l.cleanup(),d.cleanup(),h.cleanup(),f.cleanup(),g.cleanup(),i.cleanup(),v.cleanup(),o.cleanup(),m.cleanup(),y.cleanup()}),{config:e,logger:n,monitoring:l,shortcutKey:i,actions:o,agentContact:c,agentStateInfo:s,dialer:u,screenpop:d,aiAssistant:f,i18n:v,rtdwc:p,postInteractions:g,logout:h,agentConfigJsApi:m,webexMetricsInternal:y}})()},function(e,t,n){"use strict";n.r(t),n.d(t,"v1",(function(){return f})),n.d(t,"v3",(function(){return w})),n.d(t,"v4",(function(){return S})),n.d(t,"v5",(function(){return A}));var i="undefined"!=typeof crypto&&crypto.getRandomValues&&crypto.getRandomValues.bind(crypto)||"undefined"!=typeof msCrypto&&"function"==typeof msCrypto.getRandomValues&&msCrypto.getRandomValues.bind(msCrypto),r=new Uint8Array(16);function o(){if(!i)throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");return i(r)}for(var s=[],a=0;a<256;++a)s[a]=(a+256).toString(16).substr(1);var c,u,l=function(e,t){var n=t||0,i=s;return[i[e[n++]],i[e[n++]],i[e[n++]],i[e[n++]],"-",i[e[n++]],i[e[n++]],"-",i[e[n++]],i[e[n++]],"-",i[e[n++]],i[e[n++]],"-",i[e[n++]],i[e[n++]],i[e[n++]],i[e[n++]],i[e[n++]],i[e[n++]]].join("")},d=0,h=0;var f=function(e,t,n){var i=t&&n||0,r=t||[],s=(e=e||{}).node||c,a=void 0!==e.clockseq?e.clockseq:u;if(null==s||null==a){var f=e.random||(e.rng||o)();null==s&&(s=c=[1|f[0],f[1],f[2],f[3],f[4],f[5]]),null==a&&(a=u=16383&(f[6]<<8|f[7]))}var v=void 0!==e.msecs?e.msecs:(new Date).getTime(),p=void 0!==e.nsecs?e.nsecs:h+1,g=v-d+(p-h)/1e4;if(g<0&&void 0===e.clockseq&&(a=a+1&16383),(g<0||v>d)&&void 0===e.nsecs&&(p=0),p>=1e4)throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");d=v,h=p,u=a;var m=(1e4*(268435455&(v+=122192928e5))+p)%4294967296;r[i++]=m>>>24&255,r[i++]=m>>>16&255,r[i++]=m>>>8&255,r[i++]=255&m;var y=v/4294967296*1e4&268435455;r[i++]=y>>>8&255,r[i++]=255&y,r[i++]=y>>>24&15|16,r[i++]=y>>>16&255,r[i++]=a>>>8|128,r[i++]=255&a;for(var E=0;E<6;++E)r[i+E]=s[E];return t||l(r)};var v=function(e,t,n){var i=function(e,i,r,o){var s=r&&o||0;if("string"==typeof e&&(e=function(e){e=unescape(encodeURIComponent(e));for(var t=new Array(e.length),n=0;n<e.length;n++)t[n]=e.charCodeAt(n);return t}(e)),"string"==typeof i&&(i=function(e){var t=[];return e.replace(/[a-fA-F0-9]{2}/g,(function(e){t.push(parseInt(e,16))})),t}(i)),!Array.isArray(e))throw TypeError("value must be an array of bytes");if(!Array.isArray(i)||16!==i.length)throw TypeError("namespace must be uuid string or an Array of 16 byte values");var a=n(i.concat(e));if(a[6]=15&a[6]|t,a[8]=63&a[8]|128,r)for(var c=0;c<16;++c)r[s+c]=a[c];return r||l(a)};try{i.name=e}catch(e){}return i.DNS="6ba7b810-9dad-11d1-80b4-00c04fd430c8",i.URL="6ba7b811-9dad-11d1-80b4-00c04fd430c8",i};function p(e,t){var n=(65535&e)+(65535&t);return(e>>16)+(t>>16)+(n>>16)<<16|65535&n}function g(e,t,n,i,r,o){return p((s=p(p(t,e),p(i,o)))<<(a=r)|s>>>32-a,n);// removed by dead control flow
  var s, a; }function m(e,t,n,i,r,o,s){return g(t&n|~t&i,e,t,r,o,s)}function y(e,t,n,i,r,o,s){return g(t&i|n&~i,e,t,r,o,s)}function E(e,t,n,i,r,o,s){return g(t^n^i,e,t,r,o,s)}function b(e,t,n,i,r,o,s){return g(n^(t|~i),e,t,r,o,s)}var w=v("v3",48,(function(e){if("string"==typeof e){var t=unescape(encodeURIComponent(e));e=new Array(t.length);for(var n=0;n<t.length;n++)e[n]=t.charCodeAt(n)}return function(e){var t,n,i,r=[],o=32*e.length;for(t=0;t<o;t+=8)n=e[t>>5]>>>t%32&255,i=parseInt("0123456789abcdef".charAt(n>>>4&15)+"0123456789abcdef".charAt(15&n),16),r.push(i);return r}(function(e,t){var n,i,r,o,s;e[t>>5]|=128<<t%32,e[14+(t+64>>>9<<4)]=t;var a=1732584193,c=-271733879,u=-1732584194,l=271733878;for(n=0;n<e.length;n+=16)i=a,r=c,o=u,s=l,a=m(a,c,u,l,e[n],7,-680876936),l=m(l,a,c,u,e[n+1],12,-389564586),u=m(u,l,a,c,e[n+2],17,606105819),c=m(c,u,l,a,e[n+3],22,-1044525330),a=m(a,c,u,l,e[n+4],7,-176418897),l=m(l,a,c,u,e[n+5],12,1200080426),u=m(u,l,a,c,e[n+6],17,-1473231341),c=m(c,u,l,a,e[n+7],22,-45705983),a=m(a,c,u,l,e[n+8],7,1770035416),l=m(l,a,c,u,e[n+9],12,-1958414417),u=m(u,l,a,c,e[n+10],17,-42063),c=m(c,u,l,a,e[n+11],22,-1990404162),a=m(a,c,u,l,e[n+12],7,1804603682),l=m(l,a,c,u,e[n+13],12,-40341101),u=m(u,l,a,c,e[n+14],17,-1502002290),c=m(c,u,l,a,e[n+15],22,1236535329),a=y(a,c,u,l,e[n+1],5,-165796510),l=y(l,a,c,u,e[n+6],9,-1069501632),u=y(u,l,a,c,e[n+11],14,643717713),c=y(c,u,l,a,e[n],20,-373897302),a=y(a,c,u,l,e[n+5],5,-701558691),l=y(l,a,c,u,e[n+10],9,38016083),u=y(u,l,a,c,e[n+15],14,-660478335),c=y(c,u,l,a,e[n+4],20,-405537848),a=y(a,c,u,l,e[n+9],5,568446438),l=y(l,a,c,u,e[n+14],9,-1019803690),u=y(u,l,a,c,e[n+3],14,-187363961),c=y(c,u,l,a,e[n+8],20,1163531501),a=y(a,c,u,l,e[n+13],5,-1444681467),l=y(l,a,c,u,e[n+2],9,-51403784),u=y(u,l,a,c,e[n+7],14,1735328473),c=y(c,u,l,a,e[n+12],20,-1926607734),a=E(a,c,u,l,e[n+5],4,-378558),l=E(l,a,c,u,e[n+8],11,-2022574463),u=E(u,l,a,c,e[n+11],16,1839030562),c=E(c,u,l,a,e[n+14],23,-35309556),a=E(a,c,u,l,e[n+1],4,-1530992060),l=E(l,a,c,u,e[n+4],11,1272893353),u=E(u,l,a,c,e[n+7],16,-155497632),c=E(c,u,l,a,e[n+10],23,-1094730640),a=E(a,c,u,l,e[n+13],4,681279174),l=E(l,a,c,u,e[n],11,-358537222),u=E(u,l,a,c,e[n+3],16,-722521979),c=E(c,u,l,a,e[n+6],23,76029189),a=E(a,c,u,l,e[n+9],4,-640364487),l=E(l,a,c,u,e[n+12],11,-421815835),u=E(u,l,a,c,e[n+15],16,530742520),c=E(c,u,l,a,e[n+2],23,-995338651),a=b(a,c,u,l,e[n],6,-198630844),l=b(l,a,c,u,e[n+7],10,1126891415),u=b(u,l,a,c,e[n+14],15,-1416354905),c=b(c,u,l,a,e[n+5],21,-57434055),a=b(a,c,u,l,e[n+12],6,1700485571),l=b(l,a,c,u,e[n+3],10,-1894986606),u=b(u,l,a,c,e[n+10],15,-1051523),c=b(c,u,l,a,e[n+1],21,-2054922799),a=b(a,c,u,l,e[n+8],6,1873313359),l=b(l,a,c,u,e[n+15],10,-30611744),u=b(u,l,a,c,e[n+6],15,-1560198380),c=b(c,u,l,a,e[n+13],21,1309151649),a=b(a,c,u,l,e[n+4],6,-145523070),l=b(l,a,c,u,e[n+11],10,-1120210379),u=b(u,l,a,c,e[n+2],15,718787259),c=b(c,u,l,a,e[n+9],21,-343485551),a=p(a,i),c=p(c,r),u=p(u,o),l=p(l,s);return[a,c,u,l]}(function(e){var t,n=[];for(n[(e.length>>2)-1]=void 0,t=0;t<n.length;t+=1)n[t]=0;var i=8*e.length;for(t=0;t<i;t+=8)n[t>>5]|=(255&e[t/8])<<t%32;return n}(e),8*e.length))}));var S=function(e,t,n){var i=t&&n||0;"string"==typeof e&&(t="binary"===e?new Array(16):null,e=null);var r=(e=e||{}).random||(e.rng||o)();if(r[6]=15&r[6]|64,r[8]=63&r[8]|128,t)for(var s=0;s<16;++s)t[i+s]=r[s];return t||l(r)};function k(e,t,n,i){switch(e){case 0:return t&n^~t&i;case 1:return t^n^i;case 2:return t&n^t&i^n&i;case 3:return t^n^i}}function I(e,t){return e<<t|e>>>32-t}var A=v("v5",80,(function(e){var t=[1518500249,1859775393,2400959708,3395469782],n=[1732584193,4023233417,2562383102,271733878,3285377520];if("string"==typeof e){var i=unescape(encodeURIComponent(e));e=new Array(i.length);for(var r=0;r<i.length;r++)e[r]=i.charCodeAt(r)}e.push(128);var o=e.length/4+2,s=Math.ceil(o/16),a=new Array(s);for(r=0;r<s;r++){a[r]=new Array(16);for(var c=0;c<16;c++)a[r][c]=e[64*r+4*c]<<24|e[64*r+4*c+1]<<16|e[64*r+4*c+2]<<8|e[64*r+4*c+3]}for(a[s-1][14]=8*(e.length-1)/Math.pow(2,32),a[s-1][14]=Math.floor(a[s-1][14]),a[s-1][15]=8*(e.length-1)&4294967295,r=0;r<s;r++){for(var u=new Array(80),l=0;l<16;l++)u[l]=a[r][l];for(l=16;l<80;l++)u[l]=I(u[l-3]^u[l-8]^u[l-14]^u[l-16],1);var d=n[0],h=n[1],f=n[2],v=n[3],p=n[4];for(l=0;l<80;l++){var g=Math.floor(l/20),m=I(d,5)+k(g,h,f,v)+p+t[g]+u[l]>>>0;p=v,v=f,f=I(h,30)>>>0,h=d,d=m}n[0]=n[0]+d>>>0,n[1]=n[1]+h>>>0,n[2]=n[2]+f>>>0,n[3]=n[3]+v>>>0,n[4]=n[4]+p>>>0}return[n[0]>>24&255,n[0]>>16&255,n[0]>>8&255,255&n[0],n[1]>>24&255,n[1]>>16&255,n[1]>>8&255,255&n[1],n[2]>>24&255,n[2]>>16&255,n[2]>>8&255,255&n[2],n[3]>>24&255,n[3]>>16&255,n[3]>>8&255,255&n[3],n[4]>>24&255,n[4]>>16&255,n[4]>>8&255,255&n[4]]}))},function(e,t,n){"use strict";n.r(t);var i=n(3),r=n(13);function o(e,t,n){return(t=Object(r.a)(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function s(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?Object(arguments[t]):{},i=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&i.push.apply(i,Object.getOwnPropertySymbols(n).filter((function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),i.forEach((function(t){o(e,t,n[t])}))}return e}var a=n(4),c=n(5);function u(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function l(e,t){if(t&&("object"==Object(i.a)(t)||"function"==typeof t))return t;if(void 0!==t)throw new TypeError("Derived constructors may only return object or undefined");return u(e)}function d(e){return(d=Object.setPrototypeOf?Object.getPrototypeOf.bind():function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function h(e,t){return(h=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(e,t){return e.__proto__=t,e})(e,t)}function f(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),Object.defineProperty(e,"prototype",{writable:!1}),t&&h(e,t)}var v={type:"logger",log:function(e){this.output("log",e)},warn:function(e){this.output("warn",e)},error:function(e){this.output("error",e)},output:function(e,t){console&&console[e]&&console[e].apply(console,t)}},p=new(function(){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};Object(a.a)(this,e),this.init(t,n)}return Object(c.a)(e,[{key:"init",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};this.prefix=t.prefix||"i18next:",this.logger=e||v,this.options=t,this.debug=t.debug}},{key:"setDebug",value:function(e){this.debug=e}},{key:"log",value:function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return this.forward(t,"log","",!0)}},{key:"warn",value:function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return this.forward(t,"warn","",!0)}},{key:"error",value:function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return this.forward(t,"error","")}},{key:"deprecate",value:function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return this.forward(t,"warn","WARNING DEPRECATED: ",!0)}},{key:"forward",value:function(e,t,n,i){return i&&!this.debug?null:("string"==typeof e[0]&&(e[0]="".concat(n).concat(this.prefix," ").concat(e[0])),this.logger[t](e))}},{key:"create",value:function(t){return new e(this.logger,s({},{prefix:"".concat(this.prefix,":").concat(t,":")},this.options))}}]),e}()),g=function(){function e(){Object(a.a)(this,e),this.observers={}}return Object(c.a)(e,[{key:"on",value:function(e,t){var n=this;return e.split(" ").forEach((function(e){n.observers[e]=n.observers[e]||[],n.observers[e].push(t)})),this}},{key:"off",value:function(e,t){this.observers[e]&&(t?this.observers[e]=this.observers[e].filter((function(e){return e!==t})):delete this.observers[e])}},{key:"emit",value:function(e){for(var t=arguments.length,n=new Array(t>1?t-1:0),i=1;i<t;i++)n[i-1]=arguments[i];if(this.observers[e]){var r=[].concat(this.observers[e]);r.forEach((function(e){e.apply(void 0,n)}))}if(this.observers["*"]){var o=[].concat(this.observers["*"]);o.forEach((function(t){t.apply(t,[e].concat(n))}))}}}]),e}();function m(){var e,t,n=new Promise((function(n,i){e=n,t=i}));return n.resolve=e,n.reject=t,n}function y(e){return null==e?"":""+e}function E(e,t,n){e.forEach((function(e){t[e]&&(n[e]=t[e])}))}function b(e,t,n){function i(e){return e&&e.indexOf("###")>-1?e.replace(/###/g,"."):e}function r(){return!e||"string"==typeof e}for(var o="string"!=typeof t?[].concat(t):t.split(".");o.length>1;){if(r())return{};var s=i(o.shift());!e[s]&&n&&(e[s]=new n),e=Object.prototype.hasOwnProperty.call(e,s)?e[s]:{}}return r()?{}:{obj:e,k:i(o.shift())}}function w(e,t,n){var i=b(e,t,Object);i.obj[i.k]=n}function S(e,t){var n=b(e,t),i=n.obj,r=n.k;if(i)return i[r]}function k(e,t,n){var i=S(e,n);return void 0!==i?i:S(t,n)}function I(e,t,n){for(var i in t)"__proto__"!==i&&"constructor"!==i&&(i in e?"string"==typeof e[i]||e[i]instanceof String||"string"==typeof t[i]||t[i]instanceof String?n&&(e[i]=t[i]):I(e[i],t[i],n):e[i]=t[i]);return e}function A(e){return e.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&")}var T={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","/":"&#x2F;"};function C(e){return"string"==typeof e?e.replace(/[&<>"'\/]/g,(function(e){return T[e]})):e}var O="undefined"!=typeof window&&window.navigator&&window.navigator.userAgent&&window.navigator.userAgent.indexOf("MSIE")>-1,U=function(e){function t(e){var n,i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{ns:["translation"],defaultNS:"translation"};return Object(a.a)(this,t),n=l(this,d(t).call(this)),O&&g.call(u(n)),n.data=e||{},n.options=i,void 0===n.options.keySeparator&&(n.options.keySeparator="."),n}return f(t,e),Object(c.a)(t,[{key:"addNamespaces",value:function(e){this.options.ns.indexOf(e)<0&&this.options.ns.push(e)}},{key:"removeNamespaces",value:function(e){var t=this.options.ns.indexOf(e);t>-1&&this.options.ns.splice(t,1)}},{key:"getResource",value:function(e,t,n){var i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:{},r=void 0!==i.keySeparator?i.keySeparator:this.options.keySeparator,o=[e,t];return n&&"string"!=typeof n&&(o=o.concat(n)),n&&"string"==typeof n&&(o=o.concat(r?n.split(r):n)),e.indexOf(".")>-1&&(o=e.split(".")),S(this.data,o)}},{key:"addResource",value:function(e,t,n,i){var r=arguments.length>4&&void 0!==arguments[4]?arguments[4]:{silent:!1},o=this.options.keySeparator;void 0===o&&(o=".");var s=[e,t];n&&(s=s.concat(o?n.split(o):n)),e.indexOf(".")>-1&&(i=t,t=(s=e.split("."))[1]),this.addNamespaces(t),w(this.data,s,i),r.silent||this.emit("added",e,t,n,i)}},{key:"addResources",value:function(e,t,n){var i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:{silent:!1};for(var r in n)"string"!=typeof n[r]&&"[object Array]"!==Object.prototype.toString.apply(n[r])||this.addResource(e,t,r,n[r],{silent:!0});i.silent||this.emit("added",e,t,n)}},{key:"addResourceBundle",value:function(e,t,n,i,r){var o=arguments.length>5&&void 0!==arguments[5]?arguments[5]:{silent:!1},a=[e,t];e.indexOf(".")>-1&&(i=n,n=t,t=(a=e.split("."))[1]),this.addNamespaces(t);var c=S(this.data,a)||{};i?I(c,n,r):c=s({},c,n),w(this.data,a,c),o.silent||this.emit("added",e,t,n)}},{key:"removeResourceBundle",value:function(e,t){this.hasResourceBundle(e,t)&&delete this.data[e][t],this.removeNamespaces(t),this.emit("removed",e,t)}},{key:"hasResourceBundle",value:function(e,t){return void 0!==this.getResource(e,t)}},{key:"getResourceBundle",value:function(e,t){return t||(t=this.options.defaultNS),"v1"===this.options.compatibilityAPI?s({},{},this.getResource(e,t)):this.getResource(e,t)}},{key:"getDataByLanguage",value:function(e){return this.data[e]}},{key:"toJSON",value:function(){return this.data}}]),t}(g),R={processors:{},addPostProcessor:function(e){this.processors[e.name]=e},handle:function(e,t,n,i,r){var o=this;return e.forEach((function(e){o.processors[e]&&(t=o.processors[e].process(t,n,i,r))})),t}},L={},x=function(e){function t(e){var n,i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return Object(a.a)(this,t),n=l(this,d(t).call(this)),O&&g.call(u(n)),E(["resourceStore","languageUtils","pluralResolver","interpolator","backendConnector","i18nFormat","utils"],e,u(n)),n.options=i,void 0===n.options.keySeparator&&(n.options.keySeparator="."),n.logger=p.create("translator"),n}return f(t,e),Object(c.a)(t,[{key:"changeLanguage",value:function(e){e&&(this.language=e)}},{key:"exists",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{interpolation:{}},n=this.resolve(e,t);return n&&void 0!==n.res}},{key:"extractFromKey",value:function(e,t){var n=void 0!==t.nsSeparator?t.nsSeparator:this.options.nsSeparator;void 0===n&&(n=":");var i=void 0!==t.keySeparator?t.keySeparator:this.options.keySeparator,r=t.ns||this.options.defaultNS;if(n&&e.indexOf(n)>-1){var o=e.match(this.interpolator.nestingRegexp);if(o&&o.length>0)return{key:e,namespaces:r};var s=e.split(n);(n!==i||n===i&&this.options.ns.indexOf(s[0])>-1)&&(r=s.shift()),e=s.join(i)}return"string"==typeof r&&(r=[r]),{key:e,namespaces:r}}},{key:"translate",value:function(e,n,r){var o=this;if("object"!==Object(i.a)(n)&&this.options.overloadTranslationOptionHandler&&(n=this.options.overloadTranslationOptionHandler(arguments)),n||(n={}),null==e)return"";Array.isArray(e)||(e=[String(e)]);var a=void 0!==n.keySeparator?n.keySeparator:this.options.keySeparator,c=this.extractFromKey(e[e.length-1],n),u=c.key,l=c.namespaces,d=l[l.length-1],h=n.lng||this.language,f=n.appendNamespaceToCIMode||this.options.appendNamespaceToCIMode;if(h&&"cimode"===h.toLowerCase()){if(f){var v=n.nsSeparator||this.options.nsSeparator;return d+v+u}return u}var p=this.resolve(e,n),g=p&&p.res,m=p&&p.usedKey||u,y=p&&p.exactUsedKey||u,E=Object.prototype.toString.apply(g),b=["[object Number]","[object Function]","[object RegExp]"],w=void 0!==n.joinArrays?n.joinArrays:this.options.joinArrays,S=!this.i18nFormat||this.i18nFormat.handleAsObject,k="string"!=typeof g&&"boolean"!=typeof g&&"number"!=typeof g;if(S&&g&&k&&b.indexOf(E)<0&&("string"!=typeof w||"[object Array]"!==E)){if(!n.returnObjects&&!this.options.returnObjects)return this.logger.warn("accessing an object - but returnObjects options is not enabled!"),this.options.returnedObjectHandler?this.options.returnedObjectHandler(m,g,n):"key '".concat(u," (").concat(this.language,")' returned an object instead of string.");if(a){var I="[object Array]"===E,A=I?[]:{},T=I?y:m;for(var C in g)if(Object.prototype.hasOwnProperty.call(g,C)){var O="".concat(T).concat(a).concat(C);A[C]=this.translate(O,s({},n,{joinArrays:!1,ns:l})),A[C]===O&&(A[C]=g[C])}g=A}}else if(S&&"string"==typeof w&&"[object Array]"===E)(g=g.join(w))&&(g=this.extendTranslation(g,e,n,r));else{var U=!1,R=!1,L=void 0!==n.count&&"string"!=typeof n.count,x=t.hasDefaultValue(n),D=L?this.pluralResolver.getSuffix(h,n.count):"",N=n["defaultValue".concat(D)]||n.defaultValue;!this.isValidLookup(g)&&x&&(U=!0,g=N),this.isValidLookup(g)||(R=!0,g=u);var P=x&&N!==g&&this.options.updateMissing;if(R||U||P){if(this.logger.log(P?"updateKey":"missingKey",h,d,u,P?N:g),a){var _=this.resolve(u,s({},n,{keySeparator:!1}));_&&_.res&&this.logger.warn("Seems the loaded translations were in flat JSON format instead of nested. Either set keySeparator: false on init or make sure your translations are published in nested format.")}var M=[],V=this.languageUtils.getFallbackCodes(this.options.fallbackLng,n.lng||this.language);if("fallback"===this.options.saveMissingTo&&V&&V[0])for(var j=0;j<V.length;j++)M.push(V[j]);else"all"===this.options.saveMissingTo?M=this.languageUtils.toResolveHierarchy(n.lng||this.language):M.push(n.lng||this.language);var q=function(e,t,i){o.options.missingKeyHandler?o.options.missingKeyHandler(e,d,t,P?i:g,P,n):o.backendConnector&&o.backendConnector.saveMissing&&o.backendConnector.saveMissing(e,d,t,P?i:g,P,n),o.emit("missingKey",e,d,t,g)};this.options.saveMissing&&(this.options.saveMissingPlurals&&L?M.forEach((function(e){o.pluralResolver.getSuffixes(e).forEach((function(t){q([e],u+t,n["defaultValue".concat(t)]||N)}))})):q(M,u,N))}g=this.extendTranslation(g,e,n,p,r),R&&g===u&&this.options.appendNamespaceToMissingKey&&(g="".concat(d,":").concat(u)),R&&this.options.parseMissingKeyHandler&&(g=this.options.parseMissingKeyHandler(g))}return g}},{key:"extendTranslation",value:function(e,t,n,i,r){var o=this;if(this.i18nFormat&&this.i18nFormat.parse)e=this.i18nFormat.parse(e,n,i.usedLng,i.usedNS,i.usedKey,{resolved:i});else if(!n.skipInterpolation){n.interpolation&&this.interpolator.init(s({},n,{interpolation:s({},this.options.interpolation,n.interpolation)}));var a,c=n.interpolation&&n.interpolation.skipOnVariables||this.options.interpolation.skipOnVariables;if(c){var u=e.match(this.interpolator.nestingRegexp);a=u&&u.length}var l=n.replace&&"string"!=typeof n.replace?n.replace:n;if(this.options.interpolation.defaultVariables&&(l=s({},this.options.interpolation.defaultVariables,l)),e=this.interpolator.interpolate(e,l,n.lng||this.language,n),c){var d=e.match(this.interpolator.nestingRegexp);a<(d&&d.length)&&(n.nest=!1)}!1!==n.nest&&(e=this.interpolator.nest(e,(function(){for(var e=arguments.length,i=new Array(e),s=0;s<e;s++)i[s]=arguments[s];return r&&r[0]===i[0]&&!n.context?(o.logger.warn("It seems you are nesting recursively key: ".concat(i[0]," in key: ").concat(t[0])),null):o.translate.apply(o,i.concat([t]))}),n)),n.interpolation&&this.interpolator.reset()}var h=n.postProcess||this.options.postProcess,f="string"==typeof h?[h]:h;return null!=e&&f&&f.length&&!1!==n.applyPostProcessor&&(e=R.handle(f,e,t,this.options&&this.options.postProcessPassResolved?s({i18nResolved:i},n):n,this)),e}},{key:"resolve",value:function(e){var t,n,i,r,o,s=this,a=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return"string"==typeof e&&(e=[e]),e.forEach((function(e){if(!s.isValidLookup(t)){var c=s.extractFromKey(e,a),u=c.key;n=u;var l=c.namespaces;s.options.fallbackNS&&(l=l.concat(s.options.fallbackNS));var d=void 0!==a.count&&"string"!=typeof a.count,h=void 0!==a.context&&"string"==typeof a.context&&""!==a.context,f=a.lngs?a.lngs:s.languageUtils.toResolveHierarchy(a.lng||s.language,a.fallbackLng);l.forEach((function(e){s.isValidLookup(t)||(o=e,!L["".concat(f[0],"-").concat(e)]&&s.utils&&s.utils.hasLoadedNamespace&&!s.utils.hasLoadedNamespace(o)&&(L["".concat(f[0],"-").concat(e)]=!0,s.logger.warn('key "'.concat(n,'" for languages "').concat(f.join(", "),'" won\'t get resolved as namespace "').concat(o,'" was not yet loaded'),"This means something IS WRONG in your setup. You access the t function before i18next.init / i18next.loadNamespace / i18next.changeLanguage was done. Wait for the callback or Promise to resolve before accessing it!!!")),f.forEach((function(n){if(!s.isValidLookup(t)){r=n;var o,c,l=u,f=[l];if(s.i18nFormat&&s.i18nFormat.addLookupKeys)s.i18nFormat.addLookupKeys(f,u,n,e,a);else d&&(o=s.pluralResolver.getSuffix(n,a.count)),d&&h&&f.push(l+o),h&&f.push(l+="".concat(s.options.contextSeparator).concat(a.context)),d&&f.push(l+=o);for(;c=f.pop();)s.isValidLookup(t)||(i=c,t=s.getResource(n,e,c,a))}})))}))}})),{res:t,usedKey:n,exactUsedKey:i,usedLng:r,usedNS:o}}},{key:"isValidLookup",value:function(e){return!(void 0===e||!this.options.returnNull&&null===e||!this.options.returnEmptyString&&""===e)}},{key:"getResource",value:function(e,t,n){var i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:{};return this.i18nFormat&&this.i18nFormat.getResource?this.i18nFormat.getResource(e,t,n,i):this.resourceStore.getResource(e,t,n,i)}}],[{key:"hasDefaultValue",value:function(e){for(var t in e)if(Object.prototype.hasOwnProperty.call(e,t)&&"defaultValue"===t.substring(0,"defaultValue".length)&&void 0!==e[t])return!0;return!1}}]),t}(g);function D(e){return e.charAt(0).toUpperCase()+e.slice(1)}var N=function(){function e(t){Object(a.a)(this,e),this.options=t,this.whitelist=this.options.supportedLngs||!1,this.supportedLngs=this.options.supportedLngs||!1,this.logger=p.create("languageUtils")}return Object(c.a)(e,[{key:"getScriptPartFromCode",value:function(e){if(!e||e.indexOf("-")<0)return null;var t=e.split("-");return 2===t.length?null:(t.pop(),"x"===t[t.length-1].toLowerCase()?null:this.formatLanguageCode(t.join("-")))}},{key:"getLanguagePartFromCode",value:function(e){if(!e||e.indexOf("-")<0)return e;var t=e.split("-");return this.formatLanguageCode(t[0])}},{key:"formatLanguageCode",value:function(e){if("string"==typeof e&&e.indexOf("-")>-1){var t=["hans","hant","latn","cyrl","cans","mong","arab"],n=e.split("-");return this.options.lowerCaseLng?n=n.map((function(e){return e.toLowerCase()})):2===n.length?(n[0]=n[0].toLowerCase(),n[1]=n[1].toUpperCase(),t.indexOf(n[1].toLowerCase())>-1&&(n[1]=D(n[1].toLowerCase()))):3===n.length&&(n[0]=n[0].toLowerCase(),2===n[1].length&&(n[1]=n[1].toUpperCase()),"sgn"!==n[0]&&2===n[2].length&&(n[2]=n[2].toUpperCase()),t.indexOf(n[1].toLowerCase())>-1&&(n[1]=D(n[1].toLowerCase())),t.indexOf(n[2].toLowerCase())>-1&&(n[2]=D(n[2].toLowerCase()))),n.join("-")}return this.options.cleanCode||this.options.lowerCaseLng?e.toLowerCase():e}},{key:"isWhitelisted",value:function(e){return this.logger.deprecate("languageUtils.isWhitelisted",'function "isWhitelisted" will be renamed to "isSupportedCode" in the next major - please make sure to rename it\'s usage asap.'),this.isSupportedCode(e)}},{key:"isSupportedCode",value:function(e){return("languageOnly"===this.options.load||this.options.nonExplicitSupportedLngs)&&(e=this.getLanguagePartFromCode(e)),!this.supportedLngs||!this.supportedLngs.length||this.supportedLngs.indexOf(e)>-1}},{key:"getBestMatchFromCodes",value:function(e){var t,n=this;return e?(e.forEach((function(e){if(!t){var i=n.formatLanguageCode(e);n.options.supportedLngs&&!n.isSupportedCode(i)||(t=i)}})),!t&&this.options.supportedLngs&&e.forEach((function(e){if(!t){var i=n.getLanguagePartFromCode(e);if(n.isSupportedCode(i))return t=i;t=n.options.supportedLngs.find((function(e){if(0===e.indexOf(i))return e}))}})),t||(t=this.getFallbackCodes(this.options.fallbackLng)[0]),t):null}},{key:"getFallbackCodes",value:function(e,t){if(!e)return[];if("function"==typeof e&&(e=e(t)),"string"==typeof e&&(e=[e]),"[object Array]"===Object.prototype.toString.apply(e))return e;if(!t)return e.default||[];var n=e[t];return n||(n=e[this.getScriptPartFromCode(t)]),n||(n=e[this.formatLanguageCode(t)]),n||(n=e[this.getLanguagePartFromCode(t)]),n||(n=e.default),n||[]}},{key:"toResolveHierarchy",value:function(e,t){var n=this,i=this.getFallbackCodes(t||this.options.fallbackLng||[],e),r=[],o=function(e){e&&(n.isSupportedCode(e)?r.push(e):n.logger.warn("rejecting language code not found in supportedLngs: ".concat(e)))};return"string"==typeof e&&e.indexOf("-")>-1?("languageOnly"!==this.options.load&&o(this.formatLanguageCode(e)),"languageOnly"!==this.options.load&&"currentOnly"!==this.options.load&&o(this.getScriptPartFromCode(e)),"currentOnly"!==this.options.load&&o(this.getLanguagePartFromCode(e))):"string"==typeof e&&o(this.formatLanguageCode(e)),i.forEach((function(e){r.indexOf(e)<0&&o(n.formatLanguageCode(e))})),r}}]),e}(),P=[{lngs:["ach","ak","am","arn","br","fil","gun","ln","mfe","mg","mi","oc","pt","pt-BR","tg","tl","ti","tr","uz","wa"],nr:[1,2],fc:1},{lngs:["af","an","ast","az","bg","bn","ca","da","de","dev","el","en","eo","es","et","eu","fi","fo","fur","fy","gl","gu","ha","hi","hu","hy","ia","it","kn","ku","lb","mai","ml","mn","mr","nah","nap","nb","ne","nl","nn","no","nso","pa","pap","pms","ps","pt-PT","rm","sco","se","si","so","son","sq","sv","sw","ta","te","tk","ur","yo"],nr:[1,2],fc:2},{lngs:["ay","bo","cgg","fa","ht","id","ja","jbo","ka","kk","km","ko","ky","lo","ms","sah","su","th","tt","ug","vi","wo","zh"],nr:[1],fc:3},{lngs:["be","bs","cnr","dz","hr","ru","sr","uk"],nr:[1,2,5],fc:4},{lngs:["ar"],nr:[0,1,2,3,11,100],fc:5},{lngs:["cs","sk"],nr:[1,2,5],fc:6},{lngs:["csb","pl"],nr:[1,2,5],fc:7},{lngs:["cy"],nr:[1,2,3,8],fc:8},{lngs:["fr"],nr:[1,2],fc:9},{lngs:["ga"],nr:[1,2,3,7,11],fc:10},{lngs:["gd"],nr:[1,2,3,20],fc:11},{lngs:["is"],nr:[1,2],fc:12},{lngs:["jv"],nr:[0,1],fc:13},{lngs:["kw"],nr:[1,2,3,4],fc:14},{lngs:["lt"],nr:[1,2,10],fc:15},{lngs:["lv"],nr:[1,2,0],fc:16},{lngs:["mk"],nr:[1,2],fc:17},{lngs:["mnk"],nr:[0,1,2],fc:18},{lngs:["mt"],nr:[1,2,11,20],fc:19},{lngs:["or"],nr:[2,1],fc:2},{lngs:["ro"],nr:[1,2,20],fc:20},{lngs:["sl"],nr:[5,1,2,3],fc:21},{lngs:["he","iw"],nr:[1,2,20,21],fc:22}],_={1:function(e){return Number(e>1)},2:function(e){return Number(1!=e)},3:function(e){return 0},4:function(e){return Number(e%10==1&&e%100!=11?0:e%10>=2&&e%10<=4&&(e%100<10||e%100>=20)?1:2)},5:function(e){return Number(0==e?0:1==e?1:2==e?2:e%100>=3&&e%100<=10?3:e%100>=11?4:5)},6:function(e){return Number(1==e?0:e>=2&&e<=4?1:2)},7:function(e){return Number(1==e?0:e%10>=2&&e%10<=4&&(e%100<10||e%100>=20)?1:2)},8:function(e){return Number(1==e?0:2==e?1:8!=e&&11!=e?2:3)},9:function(e){return Number(e>=2)},10:function(e){return Number(1==e?0:2==e?1:e<7?2:e<11?3:4)},11:function(e){return Number(1==e||11==e?0:2==e||12==e?1:e>2&&e<20?2:3)},12:function(e){return Number(e%10!=1||e%100==11)},13:function(e){return Number(0!==e)},14:function(e){return Number(1==e?0:2==e?1:3==e?2:3)},15:function(e){return Number(e%10==1&&e%100!=11?0:e%10>=2&&(e%100<10||e%100>=20)?1:2)},16:function(e){return Number(e%10==1&&e%100!=11?0:0!==e?1:2)},17:function(e){return Number(1==e||e%10==1&&e%100!=11?0:1)},18:function(e){return Number(0==e?0:1==e?1:2)},19:function(e){return Number(1==e?0:0==e||e%100>1&&e%100<11?1:e%100>10&&e%100<20?2:3)},20:function(e){return Number(1==e?0:0==e||e%100>0&&e%100<20?1:2)},21:function(e){return Number(e%100==1?1:e%100==2?2:e%100==3||e%100==4?3:0)},22:function(e){return Number(1==e?0:2==e?1:(e<0||e>10)&&e%10==0?2:3)}};function M(){var e={};return P.forEach((function(t){t.lngs.forEach((function(n){e[n]={numbers:t.nr,plurals:_[t.fc]}}))})),e}var V=function(){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};Object(a.a)(this,e),this.languageUtils=t,this.options=n,this.logger=p.create("pluralResolver"),this.rules=M()}return Object(c.a)(e,[{key:"addRule",value:function(e,t){this.rules[e]=t}},{key:"getRule",value:function(e){return this.rules[e]||this.rules[this.languageUtils.getLanguagePartFromCode(e)]}},{key:"needsPlural",value:function(e){var t=this.getRule(e);return t&&t.numbers.length>1}},{key:"getPluralFormsOfKey",value:function(e,t){return this.getSuffixes(e).map((function(e){return t+e}))}},{key:"getSuffixes",value:function(e){var t=this,n=this.getRule(e);return n?n.numbers.map((function(n){return t.getSuffix(e,n)})):[]}},{key:"getSuffix",value:function(e,t){var n=this,i=this.getRule(e);if(i){var r=i.noAbs?i.plurals(t):i.plurals(Math.abs(t)),o=i.numbers[r];this.options.simplifyPluralSuffix&&2===i.numbers.length&&1===i.numbers[0]&&(2===o?o="plural":1===o&&(o=""));var s=function(){return n.options.prepend&&o.toString()?n.options.prepend+o.toString():o.toString()};return"v1"===this.options.compatibilityJSON?1===o?"":"number"==typeof o?"_plural_".concat(o.toString()):s():"v2"===this.options.compatibilityJSON||this.options.simplifyPluralSuffix&&2===i.numbers.length&&1===i.numbers[0]?s():this.options.prepend&&r.toString()?this.options.prepend+r.toString():r.toString()}return this.logger.warn("no plural rule found for: ".concat(e)),""}}]),e}(),j=function(){function e(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};Object(a.a)(this,e),this.logger=p.create("interpolator"),this.options=t,this.format=t.interpolation&&t.interpolation.format||function(e){return e},this.init(t)}return Object(c.a)(e,[{key:"init",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};e.interpolation||(e.interpolation={escapeValue:!0});var t=e.interpolation;this.escape=void 0!==t.escape?t.escape:C,this.escapeValue=void 0===t.escapeValue||t.escapeValue,this.useRawValueToEscape=void 0!==t.useRawValueToEscape&&t.useRawValueToEscape,this.prefix=t.prefix?A(t.prefix):t.prefixEscaped||"{{",this.suffix=t.suffix?A(t.suffix):t.suffixEscaped||"}}",this.formatSeparator=t.formatSeparator?t.formatSeparator:t.formatSeparator||",",this.unescapePrefix=t.unescapeSuffix?"":t.unescapePrefix||"-",this.unescapeSuffix=this.unescapePrefix?"":t.unescapeSuffix||"",this.nestingPrefix=t.nestingPrefix?A(t.nestingPrefix):t.nestingPrefixEscaped||A("$t("),this.nestingSuffix=t.nestingSuffix?A(t.nestingSuffix):t.nestingSuffixEscaped||A(")"),this.nestingOptionsSeparator=t.nestingOptionsSeparator?t.nestingOptionsSeparator:t.nestingOptionsSeparator||",",this.maxReplaces=t.maxReplaces?t.maxReplaces:1e3,this.alwaysFormat=void 0!==t.alwaysFormat&&t.alwaysFormat,this.resetRegExp()}},{key:"reset",value:function(){this.options&&this.init(this.options)}},{key:"resetRegExp",value:function(){var e="".concat(this.prefix,"(.+?)").concat(this.suffix);this.regexp=new RegExp(e,"g");var t="".concat(this.prefix).concat(this.unescapePrefix,"(.+?)").concat(this.unescapeSuffix).concat(this.suffix);this.regexpUnescape=new RegExp(t,"g");var n="".concat(this.nestingPrefix,"(.+?)").concat(this.nestingSuffix);this.nestingRegexp=new RegExp(n,"g")}},{key:"interpolate",value:function(e,t,n,i){var r,o,s,a=this,c=this.options&&this.options.interpolation&&this.options.interpolation.defaultVariables||{};function u(e){return e.replace(/\$/g,"$$$$")}var l=function(e){if(e.indexOf(a.formatSeparator)<0){var r=k(t,c,e);return a.alwaysFormat?a.format(r,void 0,n):r}var o=e.split(a.formatSeparator),s=o.shift().trim(),u=o.join(a.formatSeparator).trim();return a.format(k(t,c,s),u,n,i)};this.resetRegExp();var d=i&&i.missingInterpolationHandler||this.options.missingInterpolationHandler,h=i&&i.interpolation&&i.interpolation.skipOnVariables||this.options.interpolation.skipOnVariables;return[{regex:this.regexpUnescape,safeValue:function(e){return u(e)}},{regex:this.regexp,safeValue:function(e){return a.escapeValue?u(a.escape(e)):u(e)}}].forEach((function(t){for(s=0;r=t.regex.exec(e);){if(void 0===(o=l(r[1].trim())))if("function"==typeof d){var n=d(e,r,i);o="string"==typeof n?n:""}else{if(h){o=r[0];continue}a.logger.warn("missed to pass in variable ".concat(r[1]," for interpolating ").concat(e)),o=""}else"string"==typeof o||a.useRawValueToEscape||(o=y(o));if(e=e.replace(r[0],t.safeValue(o)),t.regex.lastIndex=0,++s>=a.maxReplaces)break}})),e}},{key:"nest",value:function(e,t){var n,i,r=this,o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},a=s({},o);function c(e,t){var n=this.nestingOptionsSeparator;if(e.indexOf(n)<0)return e;var i=e.split(new RegExp("".concat(n,"[ ]*{"))),r="{".concat(i[1]);e=i[0],r=(r=this.interpolate(r,a)).replace(/'/g,'"');try{a=JSON.parse(r),t&&(a=s({},t,a))}catch(t){return this.logger.warn("failed parsing options string in nesting for key ".concat(e),t),"".concat(e).concat(n).concat(r)}return delete a.defaultValue,e}for(a.applyPostProcessor=!1,delete a.defaultValue;n=this.nestingRegexp.exec(e);){var u=[],l=!1;if(n[0].includes(this.formatSeparator)&&!/{.*}/.test(n[1])){var d=n[1].split(this.formatSeparator).map((function(e){return e.trim()}));n[1]=d.shift(),u=d,l=!0}if((i=t(c.call(this,n[1].trim(),a),a))&&n[0]===e&&"string"!=typeof i)return i;"string"!=typeof i&&(i=y(i)),i||(this.logger.warn("missed to resolve ".concat(n[1]," for nesting ").concat(e)),i=""),l&&(i=u.reduce((function(e,t){return r.format(e,t,o.lng,o)}),i.trim())),e=e.replace(n[0],i),this.regexp.lastIndex=0}return e}}]),e}();var q=function(e){function t(e,n,i){var r,o=arguments.length>3&&void 0!==arguments[3]?arguments[3]:{};return Object(a.a)(this,t),r=l(this,d(t).call(this)),O&&g.call(u(r)),r.backend=e,r.store=n,r.services=i,r.languageUtils=i.languageUtils,r.options=o,r.logger=p.create("backendConnector"),r.state={},r.queue=[],r.backend&&r.backend.init&&r.backend.init(i,o.backend,o),r}return f(t,e),Object(c.a)(t,[{key:"queueLoad",value:function(e,t,n,i){var r=this,o=[],s=[],a=[],c=[];return e.forEach((function(e){var i=!0;t.forEach((function(t){var a="".concat(e,"|").concat(t);!n.reload&&r.store.hasResourceBundle(e,t)?r.state[a]=2:r.state[a]<0||(1===r.state[a]?s.indexOf(a)<0&&s.push(a):(r.state[a]=1,i=!1,s.indexOf(a)<0&&s.push(a),o.indexOf(a)<0&&o.push(a),c.indexOf(t)<0&&c.push(t)))})),i||a.push(e)})),(o.length||s.length)&&this.queue.push({pending:s,loaded:{},errors:[],callback:i}),{toLoad:o,pending:s,toLoadLanguages:a,toLoadNamespaces:c}}},{key:"loaded",value:function(e,t,n){var i=e.split("|"),r=i[0],o=i[1];t&&this.emit("failedLoading",r,o,t),n&&this.store.addResourceBundle(r,o,n),this.state[e]=t?-1:2;var s={};this.queue.forEach((function(n){var i,a,c,u,l,d;i=n.loaded,a=o,u=b(i,[r],Object),l=u.obj,d=u.k,l[d]=l[d]||[],c&&(l[d]=l[d].concat(a)),c||l[d].push(a),function(e,t){for(var n=e.indexOf(t);-1!==n;)e.splice(n,1),n=e.indexOf(t)}(n.pending,e),t&&n.errors.push(t),0!==n.pending.length||n.done||(Object.keys(n.loaded).forEach((function(e){s[e]||(s[e]=[]),n.loaded[e].length&&n.loaded[e].forEach((function(t){s[e].indexOf(t)<0&&s[e].push(t)}))})),n.done=!0,n.errors.length?n.callback(n.errors):n.callback())})),this.emit("loaded",s),this.queue=this.queue.filter((function(e){return!e.done}))}},{key:"read",value:function(e,t,n){var i=this,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0,o=arguments.length>4&&void 0!==arguments[4]?arguments[4]:350,s=arguments.length>5?arguments[5]:void 0;return e.length?this.backend[n](e,t,(function(a,c){a&&c&&r<5?setTimeout((function(){i.read.call(i,e,t,n,r+1,2*o,s)}),o):s(a,c)})):s(null,{})}},{key:"prepareLoading",value:function(e,t){var n=this,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},r=arguments.length>3?arguments[3]:void 0;if(!this.backend)return this.logger.warn("No backend was added via i18next.use. Will not load resources."),r&&r();"string"==typeof e&&(e=this.languageUtils.toResolveHierarchy(e)),"string"==typeof t&&(t=[t]);var o=this.queueLoad(e,t,i,r);if(!o.toLoad.length)return o.pending.length||r(),null;o.toLoad.forEach((function(e){n.loadOne(e)}))}},{key:"load",value:function(e,t,n){this.prepareLoading(e,t,{},n)}},{key:"reload",value:function(e,t,n){this.prepareLoading(e,t,{reload:!0},n)}},{key:"loadOne",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",i=e.split("|"),r=i[0],o=i[1];this.read(r,o,"read",void 0,void 0,(function(i,s){i&&t.logger.warn("".concat(n,"loading namespace ").concat(o," for language ").concat(r," failed"),i),!i&&s&&t.logger.log("".concat(n,"loaded namespace ").concat(o," for language ").concat(r),s),t.loaded(e,i,s)}))}},{key:"saveMissing",value:function(e,t,n,i,r){var o=arguments.length>5&&void 0!==arguments[5]?arguments[5]:{};this.services.utils&&this.services.utils.hasLoadedNamespace&&!this.services.utils.hasLoadedNamespace(t)?this.logger.warn('did not save key "'.concat(n,'" as the namespace "').concat(t,'" was not yet loaded'),"This means something IS WRONG in your setup. You access the t function before i18next.init / i18next.loadNamespace / i18next.changeLanguage was done. Wait for the callback or Promise to resolve before accessing it!!!"):null!=n&&""!==n&&(this.backend&&this.backend.create&&this.backend.create(e,t,n,i,null,s({},o,{isUpdate:r})),e&&e[0]&&this.store.addResource(e[0],t,n,i))}}]),t}(g);function F(){return{debug:!1,initImmediate:!0,ns:["translation"],defaultNS:["translation"],fallbackLng:["dev"],fallbackNS:!1,whitelist:!1,nonExplicitWhitelist:!1,supportedLngs:!1,nonExplicitSupportedLngs:!1,load:"all",preload:!1,simplifyPluralSuffix:!0,keySeparator:".",nsSeparator:":",pluralSeparator:"_",contextSeparator:"_",partialBundledLanguages:!1,saveMissing:!1,updateMissing:!1,saveMissingTo:"fallback",saveMissingPlurals:!0,missingKeyHandler:!1,missingInterpolationHandler:!1,postProcess:!1,postProcessPassResolved:!1,returnNull:!0,returnEmptyString:!0,returnObjects:!1,joinArrays:!1,returnedObjectHandler:!1,parseMissingKeyHandler:!1,appendNamespaceToMissingKey:!1,appendNamespaceToCIMode:!1,overloadTranslationOptionHandler:function(e){var t={};if("object"===Object(i.a)(e[1])&&(t=e[1]),"string"==typeof e[1]&&(t.defaultValue=e[1]),"string"==typeof e[2]&&(t.tDescription=e[2]),"object"===Object(i.a)(e[2])||"object"===Object(i.a)(e[3])){var n=e[3]||e[2];Object.keys(n).forEach((function(e){t[e]=n[e]}))}return t},interpolation:{escapeValue:!0,format:function(e,t,n,i){return e},prefix:"{{",suffix:"}}",formatSeparator:",",unescapePrefix:"-",nestingPrefix:"$t(",nestingSuffix:")",nestingOptionsSeparator:",",maxReplaces:1e3,skipOnVariables:!1}}}function B(e){return"string"==typeof e.ns&&(e.ns=[e.ns]),"string"==typeof e.fallbackLng&&(e.fallbackLng=[e.fallbackLng]),"string"==typeof e.fallbackNS&&(e.fallbackNS=[e.fallbackNS]),e.whitelist&&(e.whitelist&&e.whitelist.indexOf("cimode")<0&&(e.whitelist=e.whitelist.concat(["cimode"])),e.supportedLngs=e.whitelist),e.nonExplicitWhitelist&&(e.nonExplicitSupportedLngs=e.nonExplicitWhitelist),e.supportedLngs&&e.supportedLngs.indexOf("cimode")<0&&(e.supportedLngs=e.supportedLngs.concat(["cimode"])),e}function H(){}var z=new(function(e){function t(){var e,n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},i=arguments.length>1?arguments[1]:void 0;if(Object(a.a)(this,t),e=l(this,d(t).call(this)),O&&g.call(u(e)),e.options=B(n),e.services={},e.logger=p,e.modules={external:[]},i&&!e.isInitialized&&!n.isClone){if(!e.options.initImmediate)return e.init(n,i),l(e,u(e));setTimeout((function(){e.init(n,i)}),0)}return e}return f(t,e),Object(c.a)(t,[{key:"init",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments.length>1?arguments[1]:void 0;function i(e){return e?"function"==typeof e?new e:e:null}if("function"==typeof t&&(n=t,t={}),t.whitelist&&!t.supportedLngs&&this.logger.deprecate("whitelist",'option "whitelist" will be renamed to "supportedLngs" in the next major - please make sure to rename this option asap.'),t.nonExplicitWhitelist&&!t.nonExplicitSupportedLngs&&this.logger.deprecate("whitelist",'options "nonExplicitWhitelist" will be renamed to "nonExplicitSupportedLngs" in the next major - please make sure to rename this option asap.'),this.options=s({},F(),this.options,B(t)),this.format=this.options.interpolation.format,n||(n=H),!this.options.isClone){this.modules.logger?p.init(i(this.modules.logger),this.options):p.init(null,this.options);var r=new N(this.options);this.store=new U(this.options.resources,this.options);var o=this.services;o.logger=p,o.resourceStore=this.store,o.languageUtils=r,o.pluralResolver=new V(r,{prepend:this.options.pluralSeparator,compatibilityJSON:this.options.compatibilityJSON,simplifyPluralSuffix:this.options.simplifyPluralSuffix}),o.interpolator=new j(this.options),o.utils={hasLoadedNamespace:this.hasLoadedNamespace.bind(this)},o.backendConnector=new q(i(this.modules.backend),o.resourceStore,o,this.options),o.backendConnector.on("*",(function(t){for(var n=arguments.length,i=new Array(n>1?n-1:0),r=1;r<n;r++)i[r-1]=arguments[r];e.emit.apply(e,[t].concat(i))})),this.modules.languageDetector&&(o.languageDetector=i(this.modules.languageDetector),o.languageDetector.init(o,this.options.detection,this.options)),this.modules.i18nFormat&&(o.i18nFormat=i(this.modules.i18nFormat),o.i18nFormat.init&&o.i18nFormat.init(this)),this.translator=new x(this.services,this.options),this.translator.on("*",(function(t){for(var n=arguments.length,i=new Array(n>1?n-1:0),r=1;r<n;r++)i[r-1]=arguments[r];e.emit.apply(e,[t].concat(i))})),this.modules.external.forEach((function(t){t.init&&t.init(e)}))}if(this.options.fallbackLng&&!this.services.languageDetector&&!this.options.lng){var a=this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);a.length>0&&"dev"!==a[0]&&(this.options.lng=a[0])}this.services.languageDetector||this.options.lng||this.logger.warn("init: no languageDetector is used and no lng is defined");var c=["getResource","hasResourceBundle","getResourceBundle","getDataByLanguage"];c.forEach((function(t){e[t]=function(){var n;return(n=e.store)[t].apply(n,arguments)}}));var u=["addResource","addResources","addResourceBundle","removeResourceBundle"];u.forEach((function(t){e[t]=function(){var n;return(n=e.store)[t].apply(n,arguments),e}}));var l=m(),d=function(){var t=function(t,i){e.isInitialized&&e.logger.warn("init: i18next is already initialized. You should call init just once!"),e.isInitialized=!0,e.options.isClone||e.logger.log("initialized",e.options),e.emit("initialized",e.options),l.resolve(i),n(t,i)};if(e.languages&&"v1"!==e.options.compatibilityAPI&&!e.isInitialized)return t(null,e.t.bind(e));e.changeLanguage(e.options.lng,t)};return this.options.resources||!this.options.initImmediate?d():setTimeout(d,0),l}},{key:"loadResources",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:H,i=n,r="string"==typeof e?e:this.language;if("function"==typeof e&&(i=e),!this.options.resources||this.options.partialBundledLanguages){if(r&&"cimode"===r.toLowerCase())return i();var o=[],s=function(e){e&&t.services.languageUtils.toResolveHierarchy(e).forEach((function(e){o.indexOf(e)<0&&o.push(e)}))};if(r)s(r);else{var a=this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);a.forEach((function(e){return s(e)}))}this.options.preload&&this.options.preload.forEach((function(e){return s(e)})),this.services.backendConnector.load(o,this.options.ns,i)}else i(null)}},{key:"reloadResources",value:function(e,t,n){var i=m();return e||(e=this.languages),t||(t=this.options.ns),n||(n=H),this.services.backendConnector.reload(e,t,(function(e){i.resolve(),n(e)})),i}},{key:"use",value:function(e){if(!e)throw new Error("You are passing an undefined module! Please check the object you are passing to i18next.use()");if(!e.type)throw new Error("You are passing a wrong module! Please check the object you are passing to i18next.use()");return"backend"===e.type&&(this.modules.backend=e),("logger"===e.type||e.log&&e.warn&&e.error)&&(this.modules.logger=e),"languageDetector"===e.type&&(this.modules.languageDetector=e),"i18nFormat"===e.type&&(this.modules.i18nFormat=e),"postProcessor"===e.type&&R.addPostProcessor(e),"3rdParty"===e.type&&this.modules.external.push(e),this}},{key:"changeLanguage",value:function(e,t){var n=this;this.isLanguageChangingTo=e;var i=m();this.emit("languageChanging",e);var r=function(e){var r="string"==typeof e?e:n.services.languageUtils.getBestMatchFromCodes(e);r&&(n.language||(n.language=r,n.languages=n.services.languageUtils.toResolveHierarchy(r)),n.translator.language||n.translator.changeLanguage(r),n.services.languageDetector&&n.services.languageDetector.cacheUserLanguage(r)),n.loadResources(r,(function(e){!function(e,r){r?(n.language=r,n.languages=n.services.languageUtils.toResolveHierarchy(r),n.translator.changeLanguage(r),n.isLanguageChangingTo=void 0,n.emit("languageChanged",r),n.logger.log("languageChanged",r)):n.isLanguageChangingTo=void 0,i.resolve((function(){return n.t.apply(n,arguments)})),t&&t(e,(function(){return n.t.apply(n,arguments)}))}(e,r)}))};return e||!this.services.languageDetector||this.services.languageDetector.async?!e&&this.services.languageDetector&&this.services.languageDetector.async?this.services.languageDetector.detect(r):r(e):r(this.services.languageDetector.detect()),i}},{key:"getFixedT",value:function(e,t){var n=this,r=function e(t,r){var o;if("object"!==Object(i.a)(r)){for(var a=arguments.length,c=new Array(a>2?a-2:0),u=2;u<a;u++)c[u-2]=arguments[u];o=n.options.overloadTranslationOptionHandler([t,r].concat(c))}else o=s({},r);return o.lng=o.lng||e.lng,o.lngs=o.lngs||e.lngs,o.ns=o.ns||e.ns,n.t(t,o)};return"string"==typeof e?r.lng=e:r.lngs=e,r.ns=t,r}},{key:"t",value:function(){var e;return this.translator&&(e=this.translator).translate.apply(e,arguments)}},{key:"exists",value:function(){var e;return this.translator&&(e=this.translator).exists.apply(e,arguments)}},{key:"setDefaultNamespace",value:function(e){this.options.defaultNS=e}},{key:"hasLoadedNamespace",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(!this.isInitialized)return this.logger.warn("hasLoadedNamespace: i18next was not initialized",this.languages),!1;if(!this.languages||!this.languages.length)return this.logger.warn("hasLoadedNamespace: i18n.languages were undefined or empty",this.languages),!1;var i=this.languages[0],r=!!this.options&&this.options.fallbackLng,o=this.languages[this.languages.length-1];if("cimode"===i.toLowerCase())return!0;var s=function(e,n){var i=t.services.backendConnector.state["".concat(e,"|").concat(n)];return-1===i||2===i};if(n.precheck){var a=n.precheck(this,s);if(void 0!==a)return a}return!!this.hasResourceBundle(i,e)||(!this.services.backendConnector.backend||!(!s(i,e)||r&&!s(o,e)))}},{key:"loadNamespaces",value:function(e,t){var n=this,i=m();return this.options.ns?("string"==typeof e&&(e=[e]),e.forEach((function(e){n.options.ns.indexOf(e)<0&&n.options.ns.push(e)})),this.loadResources((function(e){i.resolve(),t&&t(e)})),i):(t&&t(),Promise.resolve())}},{key:"loadLanguages",value:function(e,t){var n=m();"string"==typeof e&&(e=[e]);var i=this.options.preload||[],r=e.filter((function(e){return i.indexOf(e)<0}));return r.length?(this.options.preload=i.concat(r),this.loadResources((function(e){n.resolve(),t&&t(e)})),n):(t&&t(),Promise.resolve())}},{key:"dir",value:function(e){if(e||(e=this.languages&&this.languages.length>0?this.languages[0]:this.language),!e)return"rtl";return["ar","shu","sqr","ssh","xaa","yhd","yud","aao","abh","abv","acm","acq","acw","acx","acy","adf","ads","aeb","aec","afb","ajp","apc","apd","arb","arq","ars","ary","arz","auz","avl","ayh","ayl","ayn","ayp","bbz","pga","he","iw","ps","pbt","pbu","pst","prp","prd","ug","ur","ydd","yds","yih","ji","yi","hbo","men","xmn","fa","jpr","peo","pes","prs","dv","sam"].indexOf(this.services.languageUtils.getLanguagePartFromCode(e))>=0?"rtl":"ltr"}},{key:"createInstance",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments.length>1?arguments[1]:void 0;return new t(e,n)}},{key:"cloneInstance",value:function(){var e=this,n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:H,r=s({},this.options,n,{isClone:!0}),o=new t(r),a=["store","services","language"];return a.forEach((function(t){o[t]=e[t]})),o.services=s({},this.services),o.services.utils={hasLoadedNamespace:o.hasLoadedNamespace.bind(o)},o.translator=new x(o.services,o.options),o.translator.on("*",(function(e){for(var t=arguments.length,n=new Array(t>1?t-1:0),i=1;i<t;i++)n[i-1]=arguments[i];o.emit.apply(o,[e].concat(n))})),o.init(r,i),o.translator.options=o.options,o.translator.backendConnector.services.utils={hasLoadedNamespace:o.hasLoadedNamespace.bind(o)},o}}]),t}(g));t.default=z}])}));
 
+/***/ }),
+/* 2 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+__webpack_require__(3),__webpack_require__(4),__webpack_require__(5),__webpack_require__(6),__webpack_require__(7),__webpack_require__(8),__webpack_require__(9),__webpack_require__(10),__webpack_require__(11),__webpack_require__(12),__webpack_require__(13),__webpack_require__(14),__webpack_require__(15),module.exports = __webpack_require__(16);
+
+/***/ }),
+/* 3 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[1890],{31890:(e,n,t)=>{t.d(n,{w:()=>s});const s=e=>n=>"function"==typeof n?((e,n)=>(window.customElements.get(e)||window.customElements.define(e,n),n))(e,n):((e,n)=>{const{kind:t,elements:s}=n;return{kind:t,elements:s,finisher(n){window.customElements.get(e)||window.customElements.define(e,n)}}})(e,n)}}]);
+
+/***/ }),
+/* 4 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[6272],{26272:(o,t,e)=>{e.d(t,{A:()=>i});const i=e(41488).css`.text-left{text-align:start!important}.text-right{text-align:end!important}.text-center{text-align:center!important}.text-justify{text-align:justify!important}@font-face{font-display:fallback;font-family:"CiscoSansTT Thin";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTThin.woff2) format("woff2"),url(/fonts/CiscoSansTTThin.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Thin Oblique";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTThinOblique.woff2) format("woff2"),url(/fonts/CiscoSansTTThinOblique.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Extra Light";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTExtraLight.woff2) format("woff2"),url(/fonts/CiscoSansTTExtraLight.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Extra Light Oblique";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTExtraLightOblique.woff2) format("woff2"),url(/fonts/CiscoSansTTExtraLightOblique.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Light";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTLight.woff2) format("woff2"),url(/fonts/CiscoSansTTLight.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Light Oblique";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTLightOblique.woff2) format("woff2"),url(/fonts/CiscoSansTTLightOblique.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Medium";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTRegular.woff2) format("woff2"),url(/fonts/CiscoSansTTRegular.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Regular";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTRegular.woff2) format("woff2"),url(/fonts/CiscoSansTTRegular.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Regular Oblique";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTRegularOblique.woff2) format("woff2"),url(/fonts/CiscoSansTTRegularOblique.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Bold";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTBold.woff2) format("woff2"),url(/fonts/CiscoSansTTBold.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Bold Oblique";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTBoldOblique.woff2) format("woff2"),url(/fonts/CiscoSansTTBoldOblique.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Heavy";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTHeavy.woff2) format("woff2"),url(/fonts/CiscoSansTTHeavy.woff) format("woff")}@font-face{font-display:fallback;font-family:"CiscoSansTT Heavy Oblique";font-style:normal;font-weight:400;src:url(/fonts/CiscoSansTTHeavyOblique.woff2) format("woff2"),url(/fonts/CiscoSansTTHeavyOblique.woff) format("woff")}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}blockquote,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,li,ol,p,pre,td,th,ul{font-weight:400;margin:0;padding:0}a{color:#007aa3;line-height:inherit;text-decoration:none}a:focus,a:hover{color:#005e7d}a:focus{border-color:transparent;outline:0}a img{border:none}p{font-family:inherit;font-size:.875rem;font-weight:400;margin-bottom:0;text-rendering:optimizeLegibility}p>code{line-height:1em}p.lead{font-size:.875rem}p aside{font-size:.875rem;font-style:italic;line-height:1.71429}.subheader{color:hsl(0,0%,56.4117647059%);font-weight:400;line-height:1.71429;margin-bottom:0;margin-top:0}hr{border:solid #dedede;border-width:1px 0 0;clear:both;height:0;margin:1.25rem 0 1.1875rem}em,i{font-style:italic;line-height:inherit}b,strong{font-weight:700;line-height:inherit}small{font-size:.875;line-height:inherit}code{background-color:rgba(0,0,0,0);border-color:transparent;border-style:solid;border-width:0;color:#292929;font-family:Consolas,"Liberation Mono",Courier,monospace;font-weight:400;padding:.125rem .3125rem .0625rem}dl,ol,ul{font-family:inherit;font-size:.875rem;line-height:1.71429;list-style-position:outside;margin-bottom:0}ul{margin-left:1rem}ul.no-bullet{list-style:none;margin-left:0}ul.no-bullet li ol,ul.no-bullet li ul{list-style:none;margin-bottom:0;margin-left:1.25rem}ul li ol,ul li ul{margin-bottom:0;margin-left:1.25rem}ul.circle li ul,ul.disc li ul,ul.square li ul{list-style:inherit}ul.square{list-style-type:square;margin-left:1rem}ul.circle{list-style-type:circle;margin-left:1rem}ul.disc{list-style-type:disc;margin-left:1rem}ol{margin-left:1.5rem}ol li ol,ol li ul{margin-bottom:0;margin-left:1.25rem}dl dt{font-weight:700;margin-bottom:0}dl dd{margin-bottom:.5rem}abbr,acronym{color:#292929;cursor:help;font-size:90%;text-transform:uppercase}abbr{text-transform:none}abbr[title]{border-bottom:1px dotted #dedede}blockquote{margin:0 0 0;padding:.5625rem 1.25rem 0 1.1875rem;border-left:4px solid #949494}blockquote cite{color:inherit;display:block;font-size:.8125rem}blockquote cite::before{content:"— "}blockquote cite a,blockquote cite a:visited{color:inherit}blockquote,blockquote p{color:inherit;line-height:1.71429}.debug-grid::after{background-image:linear-gradient(to bottom,rgba(255,0,0,.1667) 0,transparent 12%,transparent 49%,rgba(0,192,254,.6) 50%,transparent 60%,transparent 100%);background-position:left top;background-size:100% .5rem;content:"";display:inline-block;height:100%;left:0;pointer-events:none;position:absolute;top:0;width:100%;z-index:9998}.debug-grid::before{pointer-events:none;z-index:9999}footer a,footer h1,footer h2,footer h3,footer h4,footer h5,footer h6,footer p,footer span,nav a,nav h1,nav h2,nav h3,nav h4,nav h5,nav h6,nav p,nav span{letter-spacing:normal}.lead{font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif)}.md-h1--bold{font-family:var(--brand-font-extra-light, "CiscoSansTT Extra Light", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h2--light{font-family:var(--brand-font-extra-light, "CiscoSansTT Extra Light", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h2--bold{font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h3--light{font-family:var(--brand-font-extra-light, "CiscoSansTT Extra Light", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h3--bold{font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h4--bold{font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h5--bold{font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-h5--heavy{font-family:var(--brand-font-bold, "CiscoSansTT Bold", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-body--bold{font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-body--heavy{font-family:var(--brand-font-bold, "CiscoSansTT Bold", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-body-small--light{font-family:var(--brand-font-light, "CiscoSansTT Light", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-body-small--bold{font-family:var(--brand-font-bold, "CiscoSansTT Bold", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-body-smallest--light{font-family:var(--brand-font-light, "CiscoSansTT Light", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-body-smallest--bold{font-family:var(--brand-font-bold, "CiscoSansTT Bold", "Helvetica Neue", Helvetica, Arial, sans-serif)!important}.md-font-color--primary{color:#292929!important}.md-font-color--alternate{color:#000!important}.md-font-color--secondary{color:#545454!important}.md-font-color--disabled{color:#949494!important}/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}progress{vertical-align:baseline}[hidden],template{display:none}a{background-color:rgba(0,0,0,0);-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}button,input,select,textarea{font:inherit;margin:0}optgroup{font-weight:700}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{color:inherit;opacity:.6}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}body,html{font-size:16px;height:100%}html{box-sizing:border-box}*,::after,::before{-webkit-box-sizing:inherit;-moz-box-sizing:inherit;box-sizing:inherit}body{background:#fff;color:#292929;cursor:auto;font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif);font-style:normal;font-weight:400;line-height:1.71429;margin:0;padding:0;position:relative}a:hover{cursor:pointer}img{display:inline-block;height:auto;-ms-interpolation-mode:bicubic;max-width:100%;vertical-align:middle}#map_canvas embed,#map_canvas img,#map_canvas object,.map_canvas embed,.map_canvas img,.map_canvas object,.mqa-display embed,.mqa-display img,.mqa-display object{max-width:none!important}.left{float:left!important}.right{float:right!important}.clearfix::after,.clearfix::before{content:" ";display:table}.clearfix::after{clear:both}.hide{display:none}.invisible{visibility:hidden}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}textarea{height:auto;min-height:50px}select{width:100%}[class^=md-]{box-sizing:border-box}:host,:root{line-height:inherit}*{scrollbar-color:var(--md-scrollbar-background-indicator) var(--md-scrollbar-background-track)}* ::-webkit-scrollbar{width:1rem}* ::-webkit-scrollbar-track{border-radius:100vh}* ::-webkit-scrollbar-thumb{background-color:var(--md-scrollbar-background-indicator);border:.25rem solid transparent;border-radius:.5rem;background-clip:content-box}* ::-webkit-scrollbar-thumb:hover{background:var(--md-scrollbar-background-hover-indicator);border:.25rem solid transparent;border-radius:.5rem;background-clip:content-box}* ::-webkit-scrollbar-thumb:active{background:var(--md-scrollbar-background-active-indicator);border:.25rem solid transparent;border-radius:.5rem;height:6.25rem;background-clip:content-box}* ::-webkit-scrollbar-thumb:disabled{background:var(--md-scrollbar-background-disabled-indicator);border:.25rem solid transparent;border-radius:.5rem;height:6.25rem;background-clip:content-box}[class^=md-]{box-sizing:border-box}`}}]);
+
+/***/ }),
+/* 5 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[1270,8889],{18889:(e,t,s)=>{s.d(t,{B:()=>c,V:()=>o});const n=new WeakMap,o=(e,t)=>{const s=n.get(e);let o=t;const c=[];for(;o;)c.push(o),o=Object.getPrototypeOf(o);return!!s&&c.reduce((e,t)=>e||s.has(t),!1)},c=(e,t)=>{let s=n.get(e);s||(s=new WeakSet,n.set(e,s)),s.add(t)}}}]);
+
+/***/ }),
+/* 6 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[754,3135,8373],{28373:(e,m,s)=>{s(90195),s(41488),s(18889),s(32972)}}]);
+
+/***/ }),
+/* 7 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[2243,4624],{84624:(e,m,s)=>{s(41488),s(18889),s(68387)}}]);
+
+/***/ }),
+/* 8 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[300,7919],{70300:(e,m,s)=>{s(41488),s(18889)}}]);
+
+/***/ }),
+/* 9 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[591,2972,8210],{32972:(e,t,s)=>{s.d(t,{y:()=>u});var o=s(41488),n=s(18889);const u=e=>{if((0,n.V)(u,e))return e;class t extends e{constructor(){super(...arguments),this.autofocus=!1}setFocus(e){this.toggleAttribute("focus-visible",e)}handleFocusIn(e){super.handleFocusIn&&super.handleFocusIn(e),this.setFocus(!0),this.dispatchEvent(new CustomEvent("focus-visible",{composed:!0,bubbles:!0,detail:{sourceEvent:e}}))}handleFocusOut(e){super.handleFocusOut&&super.handleFocusOut(e),this.setFocus(!1),this.dispatchEvent(new CustomEvent("focus-not-visible",{composed:!0,bubbles:!0,detail:{sourceEvent:e}}))}manageAutoFocus(e=this){e.focus()}firstUpdated(e){super.firstUpdated(e),this.addEventListener("focus",this.handleFocusIn),this.addEventListener("blur",this.handleFocusOut),this.autofocus&&requestAnimationFrame(()=>{this.manageAutoFocus()})}getActiveElement(){return this.getRootNode().activeElement}getDeepActiveElement(){var e;let t=document.activeElement||document.body;for(;null===(e=null==t?void 0:t.shadowRoot)||void 0===e?void 0:e.activeElement;)t=t.shadowRoot.activeElement;return t}isElementFocused(e){return this.getDeepActiveElement()!==e}disconnectedCallback(){this.removeEventListener("focus",this.handleFocusIn),this.removeEventListener("blur",this.handleFocusOut)}}return function(e,t,s,o){var n,u=arguments.length,c=u<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,s):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)c=Reflect.decorate(e,t,s,o);else for(var i=e.length-1;i>=0;i--)(n=e[i])&&(c=(u<3?n(c):u>3?n(t,s,c):n(t,s))||c);u>3&&c&&Object.defineProperty(t,s,c)}([(0,o.property)({type:Boolean,reflect:!0})],t.prototype,"autofocus",void 0),(0,n.B)(u,t),t}}}]);
+
+/***/ }),
+/* 10 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[768,3625,8387],{68387:(e,m,s)=>{s(41488),s(18889)}}]);
+
+/***/ }),
+/* 11 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[144,3001,3477,5382,7763],{3001:(e,m,s)=>{s.d(m,{yC:()=>n.y}),s(18889);var n=s(32972);s(28373),s(70300),s(84624),s(68387)}}]);
+
+/***/ }),
+/* 12 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[1598],{11598:(o,e,r)=>{r.d(e,{A:()=>d});const d=r(41488).css`:host(:focus){box-shadow:none;outline:0}:host(md-checkbox){border-radius:.125rem;cursor:pointer;display:inline-flex;position:relative;vertical-align:middle}:host(md-checkbox) .checkbox-input{height:calc(1rem + .25rem);position:absolute;visibility:hidden;width:100%;padding-inline-start:calc(.25rem);padding-inline-end:calc(.25rem)}:host(md-checkbox) .checkbox-box{background:var(--checkbox-bg-color);color:var(--checkbox-icon-color);border:.0625rem solid var(--checkbox-border-color);border-radius:.125rem;height:1rem;width:1rem;position:relative;display:flex;align-items:center;justify-content:center}:host(md-checkbox) .checkbox-label{cursor:pointer;display:inline-flex;position:relative;width:100%;z-index:1;align-items:center;gap:.5rem;min-height:calc(1rem + 4px)}:host([focus-visible]:not([disabled])) .checkbox-box{box-shadow:0 0 0 .125rem var(--md-focus-inner-color),0 0 0 .25rem var(--md-focus-middle-color),0 0 0 .3125rem var(--md-focus-outer-color)}:host(:hover:not([disabled])) .checkbox-box{background:var(--checkbox-hover-bg-color);border:.0625rem solid var(--checkbox-hover-border-color)}:host(:active:not([disabled])) .checkbox-box{background:var(--checkbox-pressed-bg-color);border:.0625rem solid var(--checkbox-pressed-border-color)}:host([disabled]) .checkbox-label{cursor:not-allowed}:host([disabled]) .checkbox-box{color:var(--checkbox-disabled-text-color);border-color:var(--checkbox-disabled-border-color);background-color:var(--checkbox-disabled-bg-color)}:host([aria-checked=true]) .checkbox-box,:host([indeterminate]) .checkbox-box{background:var(--checkbox-selected-bg-color);border:.0625rem solid var(--checkbox-selected-border-color)}:host([aria-checked=true][disabled]) .checkbox-box,:host([indeterminate][disabled]) .checkbox-box{background:var(--checkbox-disabled-selected-bg-color);border-color:var(--checkbox-disabled-border-color);color:var(--checkbox-disabled-text-color)}:host([aria-checked=true][disabled]) .checkbox-label,:host([indeterminate][disabled]) .checkbox-label{color:var(--checkbox-disabled-text-color)}:host([aria-checked=true]:hover:not([disabled])) .checkbox-box,:host([indeterminate]:hover:not([disabled])) .checkbox-box{background:var(--checkbox-selected-hover-bg-color);border-color:var(--checkbox-selected-hover-border-color)}:host([aria-checked=true]:active:not([disabled])) .checkbox-box,:host([indeterminate]:active:not([disabled])) .checkbox-box{background:var(--checkbox-selected-pressed-bg-color);border-color:var(--checkbox-selected-pressed-border-color)}@media(forced-colors:active){:host([focus-visible]:not([disabled])){outline:2px solid Highlight;box-shadow:none}}:host([alignment=vertical]) div{display:inline-flex;flex-direction:column}:host([alignment=vertical]) div ::slotted(md-checkbox:not(:last-child)){margin-bottom:calc(.25rem*2)}:host([alignment=horizontal]) div{display:flex;flex-direction:row}:host([alignment=horizontal]) div ::slotted(md-checkbox:not(:last-child)){margin-right:calc(.25rem*10)}:host{--radio-label-text-color:var(--radio-input-text-color)}:host(md-radio) .md-radio-wrapper{position:relative;max-height:1.375rem;display:inline-flex;gap:.5rem;align-items:center;max-width:100%}:host(md-radio) .md-radio-input{position:absolute;top:0;left:0;height:1rem;width:1rem;opacity:0;cursor:pointer;margin:0;padding:0;border:0}:host(md-radio) .md-radio-icon{border:.0625rem solid var(--radio-input-border-color);border-top-left-radius:50%;border-top-right-radius:50%;border-bottom-left-radius:50%;border-bottom-right-radius:50%;background-color:var(--radio-input-bg-color);height:1rem;width:1rem;display:inline-flex;cursor:pointer;flex-shrink:0;flex-grow:0;align-items:center;justify-content:center;position:relative}:host(md-radio) .md-radio-label{color:var(--md-primary-text-color);cursor:pointer;font-size:14px;line-height:1.375rem;padding-inline-end:.5rem;position:relative;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;width:100%}:host(:focus){box-shadow:none;outline:0}:host([focus-visible]:not([disabled])){box-shadow:none;outline:0}:host([focus-visible]:not([disabled])) .md-radio-icon{box-shadow:0 0 0 .125rem var(--md-focus-inner-color),0 0 0 .25rem var(--md-focus-middle-color),0 0 0 .3125rem var(--md-focus-outer-color)}:host(:hover:not([disabled])) .md-radio-icon{border:.0625rem solid var(--radio-input-hover-border-color);background-color:var(--radio-input-hover-bg-color)}:host(:active:not([disabled])) .md-radio-icon{border:.0625rem solid var(--radio-input-pressed-border-color);background-color:var(--radio-input-pressed-bg-color)}:host([disabled]){cursor:not-allowed}:host([disabled]) .md-radio-input{cursor:not-allowed}:host([disabled]) .md-radio-label{cursor:not-allowed;color:var(--radio-input-disabled-text-color)}:host([disabled]) .md-radio-icon{cursor:not-allowed;border-color:var(--radio-input-disabled-border-color);background-color:var(--radio-input-disabled-bg-color)}:host([checked]) .md-radio-icon{border-color:var(--radio-input-selected-border-color);background-color:var(--radio-input-selected-bg-color)}:host([checked]) .md-radio-icon:before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:.375rem;height:.375rem;background-color:var(--radio-input-icon-color);border-radius:50%}:host([checked]:hover:not([disabled])) .md-radio-icon{border-color:var(--radio-input-selected-hover-border-color);background-color:var(--radio-input-selected-hover-bg-color)}:host([checked]:active:not([disabled])) .md-radio-icon{border-color:var(--radio-input-selected-pressed-border-color);background-color:var(--radio-input-selected-pressed-bg-color)}:host([checked][disabled]) .md-radio-icon{border-color:var(--radio-input-selected-disabled-border-color);background-color:var(--radio-input-selected-disabled-bg-color)}:host([checked][disabled]) .md-radio-icon:before{background-color:var(--radio-input-selected-disabled-border-color)}@media(forced-colors:active){:host(md-radio) .md-radio-icon{border:1px solid CanvasText}:host(:active:not([disabled])) .md-radio-label:before,:host(:hover:not([disabled])) .md-radio-icon{border:none;outline:2px solid Highlight;outline-offset:-1px}:host([checked]) .md-radio-icon{background-color:Highlight;border:none;outline:0}:host([checked]:hover:not([disabled])) .md-radio-icon{background-color:Highlight}:host([checked]) .md-radio-icon:before{content:"";position:absolute;top:50%;left:12px;transform:translate(-50%,-50%);width:8px;height:8px;background-color:Canvas;border-radius:50%}:host([focus-visible]:not([disabled])){outline:2px solid Highlight;outline-offset:-1px}}:host(md-radiogroup){display:flex}:host(md-radio){border-radius:.25rem;display:inline!important}:host([alignment=vertical]) div{display:inline-flex;flex-direction:column}:host([alignment=vertical]) div ::slotted(md-radio){margin-bottom:calc(.25rem*2)}:host([alignment=horizontal]) div{display:inline-flex;flex-direction:row}:host([alignment=horizontal]) div ::slotted(md-radio){margin-inline-end:calc(.25rem*8)}:host([disabled]) div ::slotted(md-radio){pointer-events:none}:host(md-label) .md-label{color:var(--label-color,#000);font-family:var(--brand-font-regular, "CiscoSansTT Regular", "Helvetica Neue", Helvetica, Arial, sans-serif);font-size:var(--font-size-body-midsize,.875rem);line-height:1.25rem;display:flex;align-items:center}:host(md-label) .md-label.right{float:none!important;text-align:right}:host(md-label) .md-label.inline{margin:0 0 1rem 0;padding:.50390625rem 0}:host(md-label) .md-label small{text-transform:capitalize}:host(md-label) .md-label span{font-size:inherit}:host(md-label) .md-secondary-label{color:var(--label-secondary,#545454);display:flex;flex-grow:1;font-size:var(--font-size-body-midsize,.875rem);line-height:1.125rem;padding:.25rem 1rem 0}:host(.md-input__label.disabled) label,:host(.md-input__secondary-label.disabled) label{cursor:not-allowed}:host(.md-input__label.disabled.newMomentum) label,:host(.md-input__secondary-label.disabled.newMomentum) label{color:var(--input-default-new-disabled-color)!important}`}}]);
+
+/***/ }),
+/* 13 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[6396],{6396:(e,t,o)=>{var l,i=o(31890),r=o(26272),s=o(41488),a=o(17518),p=o(11598),n=function(e,t,o,l){var i,r=arguments.length,s=r<3?t:null===l?l=Object.getOwnPropertyDescriptor(t,o):l;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,o,l);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(r<3?i(s):r>3?i(t,o,s):i(t,o))||s);return r>3&&s&&Object.defineProperty(t,o,s),s};!function(e){let t=class extends s.LitElement{constructor(){super(...arguments),this.label="",this.theme="",this.radioLabel=!1,this.checkboxLabel=!1,this.toggleSwitchLabel=!1,this.htmlFor="",this.active=!1,this.disabled=!1,this.indeterminate=!1,this.secondaryLabel=!1}static get styles(){return[r.A,p.A]}setFocus(){this.dispatchEvent(new CustomEvent("setFocus"))}get labelClassMap(){return{[`md-label--${this.theme}`]:!!this.theme,"md-radio__label":this.radioLabel,"md-checkbox__label":this.checkboxLabel,"md-secondary-label":this.secondaryLabel,active:this.active,disabled:this.disabled,indeterminate:this.indeterminate}}handleClick(){this.setFocus(),this.dispatchEvent(new CustomEvent("label-click",{composed:!0,bubbles:!0,detail:{htmlFor:this.htmlFor}}))}render(){return s.html`
+        <label
+          @click=${()=>this.handleClick()}
+          class="md-label ${(0,a.classMap)(this.labelClassMap)}"
+          for="${this.htmlFor}"
+        >
+          ${this.label?s.html` <span>${this.label}</span> `:s.html` <slot></slot> `}
+        </label>
+      `}};n([(0,s.property)({type:String})],t.prototype,"label",void 0),n([(0,s.property)({type:String})],t.prototype,"theme",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"radioLabel",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"checkboxLabel",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"toggleSwitchLabel",void 0),n([(0,s.property)({type:String})],t.prototype,"htmlFor",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"active",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"disabled",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"indeterminate",void 0),n([(0,s.property)({type:Boolean})],t.prototype,"secondaryLabel",void 0),t=n([(0,i.w)("md-label")],t),e.ELEMENT=t}(l||(l={}))}}]);
+
+/***/ }),
+/* 14 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[195,671,2576,5433],{90195:(i,t,e)=>{var n,r,o,a;!function(i){i.ArrowDown="ArrowDown",i.ArrowLeft="ArrowLeft",i.ArrowRight="ArrowRight",i.ArrowUp="ArrowUp",i.Backspace="Backspace",i.Delete="Delete",i.End="End",i.Enter="Enter",i.Escape="Escape",i.Home="Home",i.Space="Space",i.Tab="Tab",i.Digit1="Digit1",i.Digit2="Digit2",i.Digit3="Digit3",i.Digit4="Digit4",i.Digit5="Digit5",i.Digit6="Digit6",i.Digit7="Digit7",i.Digit8="Digit8",i.Digit9="Digit9",i.NumpadEnter="NumpadEnter"}(n||(n={})),function(i){i.HOUR="hour",i.MINUTE="minute",i.SECOND="second",i.AM_PM="am_pm"}(r||(r={})),function(i){i.GRAMMAR="grammar",i.FALSE="false",i.SPELLING="spelling",i.TRUE="true"}(o||(o={})),function(i){i.AriaActivedescendant="aria-activedescendant"}(a||(a={}))}}]);
+
+/***/ }),
+/* 15 */
+/***/ (() => {
+
+"use strict";
+(self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[]).push([[779],{20779:(t,e,l)=>{l.d(e,{A:()=>g});const g=l(41488).css`.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color)}.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:var(--toggle-switch-slider-color)}.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--hover)}.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label:active .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--pressed,var(--toggle-switch-bg-color--hover))}.md-toggle-switch .md-toggle-switch__input.focus+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:focus+.md-toggle-switch__label .md-toggle-switch__label__container{outline:2px solid var(--md-focus-border-color)}.md-toggle-switch .md-toggle-switch__input.checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:checked+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--checked)}.md-toggle-switch .md-toggle-switch__input.checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:var(--toggle-switch-slider-color--checked)}.md-toggle-switch .md-toggle-switch__input.checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--checked-hover)}.md-toggle-switch .md-toggle-switch__input.checked+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:checked+.md-toggle-switch__label:active .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--checked-pressed,var(--toggle-switch-bg-color--checked-hover))}.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--disabled)}.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:var(--toggle-switch-slider-color-disabled)}.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--disabled)}.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--disabled--checked)}.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:var(--toggle-switch-slider-color-disabled--checked)}.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label:active .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:var(--toggle-switch-bg-color--disabled--checked)}.md-toggle-switch__input{margin-left:-9999px;opacity:0;position:absolute}.md-toggle-switch__input.disabled+.md-toggle-switch__label,.md-toggle-switch__input:disabled+.md-toggle-switch__label{cursor:default}.md-toggle-switch__input.disabled+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch__input:disabled+.md-toggle-switch__label .md-toggle-switch__label__container{cursor:default}.md-toggle-switch__input:checked+.md-toggle-switch__label .md-toggle-switch__label__container{border:none}.md-toggle-switch__input:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after{left:calc(100% - 2px);transform:translateX(-100%) translateY(-50%)}.md-toggle-switch__accessible-description{display:none}.md-toggle-switch__label{cursor:pointer;display:inline-flex;line-height:.09375rem}.md-toggle-switch__label__container{background-clip:padding-box;border:1px solid var(--toggle-switch-border-color);border-radius:1.5rem;cursor:pointer;display:block;height:1.5rem;margin-right:.75rem;position:relative;transition:background 350ms;width:2.5rem}.md-toggle-switch__label__container__left{margin-right:0;margin-left:.75rem}@media screen and (forced-colors:active){.md-toggle-switch__label__container{filter:brightness(1) contrast(1) saturate(1.5)}}.md-toggle-switch__label__container::after{border-radius:100%;box-shadow:0 1px 2px 0 rgba(0,0,0,.32);content:"";height:1.25rem;left:2px;position:absolute;top:50%;transform:translateY(-50%);transition:350ms;width:1.25rem}.md-toggle-switch--small .md-toggle-switch__label__container{height:1.375rem;width:2.25rem}.md-toggle-switch--small .md-toggle-switch__label__container::after{height:1.125rem;width:1.125rem}.md-toggle-switch--smaller .md-toggle-switch__label__container{height:1.25rem;width:2rem}.md-toggle-switch--smaller .md-toggle-switch__label__container::after{height:1rem;width:1rem}@media(forced-colors:active){.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:Canvas;outline:1px solid CanvasText;transition:background-color 350ms,outline 350ms}.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:CanvasText;transition:background-color 350ms}.md-toggle-switch .md-toggle-switch__input+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:HighlightText}.md-toggle-switch .md-toggle-switch__input.focus+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:focus+.md-toggle-switch__label .md-toggle-switch__label__container{outline:2px solid Highlight}.md-toggle-switch .md-toggle-switch__input.checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:Highlight}.md-toggle-switch .md-toggle-switch__input.checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:HighlightText}.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:GrayText;transition:background 350ms,background-color 350ms,outline 350ms}.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:Canvas}.md-toggle-switch .md-toggle-switch__input.disabled+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:GrayText}.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container{background-color:GrayText}.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label .md-toggle-switch__label__container::after,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label .md-toggle-switch__label__container::after{background-color:CanvasText;border:1px solid Canvas}.md-toggle-switch .md-toggle-switch__input.disabled.checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input.disabled:checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled.checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container,.md-toggle-switch .md-toggle-switch__input:disabled:checked+.md-toggle-switch__label:hover .md-toggle-switch__label__container{background-color:GrayText}}`}}]);
+
+/***/ }),
+/* 16 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+!function(e,t){if(true)module.exports=t(__webpack_require__(17),__webpack_require__(34),__webpack_require__(34),__webpack_require__(35));else // removed by dead control flow
+{ var l, i; }}(self,(e,t,i,l)=>(()=>{"use strict";var r,s={17518:e=>{e.exports=t},20331:(e,t,i)=>{i.r(t),i.d(t,{ToggleSwitch:()=>m,alignLabel:()=>n}),i(6396);var l=i(3001),r=i(26272),s=i(31890),o=i(41488),a=i(23968),c=i(20779),d=i(97822),p=function(e,t,i,l){var r,s=arguments.length,o=s<3?t:null===l?l=Object.getOwnPropertyDescriptor(t,i):l;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)o=Reflect.decorate(e,t,i,l);else for(var a=e.length-1;a>=0;a--)(r=e[a])&&(o=(s<3?r(o):s>3?r(t,i,o):r(t,i))||o);return s>3&&o&&Object.defineProperty(t,i,o),o};const n=["left","right"],h="md-toggle-switch__accessible-description";var m;!function(e){let t=class extends((0,l.yC)(o.LitElement)){constructor(){super(...arguments),this.htmlId="",this.label="toggle",this.description=void 0,this.checked=!1,this.disabled=!1,this.small=!1,this.smaller=!1,this.alignLabel="right",this.autofocus=!1}handleClick(){this.disabled||(this.checked=!this.checked)}get toggleSwitchClassMap(){return{"md-toggle-switch--small":this.small,"md-toggle-switch--smaller":this.smaller}}switchTemplate(){return"left"===this.alignLabel?o.html`
+          <slot></slot>
+          <span
+            class="md-toggle-switch__label__container md-toggle-switch__label__container__left"
+            part="toggle-label"
+          ></span>
+        `:o.html`
+          <span class="md-toggle-switch__label__container" part="toggle-label"></span>
+          <slot></slot>
+        `}render(){return o.html`
+        <div
+          class="md-input-container md-toggle-switch ${(0,a.classMap)(this.toggleSwitchClassMap)}"
+          @click=${this.handleClick}
+        >
+          <input
+            type="checkbox"
+            role="switch"
+            class="md-toggle-switch__input"
+            aria-label="${this.label}"
+            .id=${this.htmlId}
+            ?checked=${this.checked}
+            ?disabled=${this.disabled}
+            ?autofocus=${this.autofocus}
+            tabindex=${this.disabled?-1:0}
+            aria-describedby=${(0,d.ifDefined)(this.description?h:void 0)}
+          />
+          <md-label .htmlFor=${this.htmlId} class="md-toggle-switch__label"> ${this.switchTemplate()} </md-label>
+          ${this.description&&o.html`
+            <div id=${h} class="md-toggle-switch__accessible-description">
+              ${this.description}
+            </div>
+          `}
+        </div>
+      `}static get styles(){return[r.A,c.A]}};p([(0,o.property)({type:String})],t.prototype,"htmlId",void 0),p([(0,o.property)({type:String})],t.prototype,"label",void 0),p([(0,o.property)({type:String})],t.prototype,"description",void 0),p([(0,o.property)({type:Boolean})],t.prototype,"checked",void 0),p([(0,o.property)({type:Boolean})],t.prototype,"disabled",void 0),p([(0,o.property)({type:Boolean})],t.prototype,"small",void 0),p([(0,o.property)({type:Boolean})],t.prototype,"smaller",void 0),p([(0,o.property)({type:String})],t.prototype,"alignLabel",void 0),p([(0,o.property)({type:Boolean,reflect:!0})],t.prototype,"autofocus",void 0),t=p([(0,s.w)("md-toggle-switch")],t),e.ELEMENT=t}(m||(m={}))},23968:e=>{e.exports=i},41488:t=>{t.exports=e},97822:e=>{e.exports=l}},o={};function a(e){var t=o[e];if(void 0!==t)return t.exports;var i=o[e]={exports:{}};return s[e](i,i.exports,a),i.exports}a.m=s,r=[],a.O=(e,t,i,l)=>{if(!t){var s=1/0;for(p=0;p<r.length;p++){for(var[t,i,l]=r[p],o=!0,c=0;c<t.length;c++)(!1&l||s>=l)&&Object.keys(a.O).every(e=>a.O[e](t[c]))?t.splice(c--,1):(o=!1,l<s&&(s=l));if(o){r.splice(p--,1);var d=i();void 0!==d&&(e=d)}}return e}l=l||0;for(var p=r.length;p>0&&r[p-1][2]>l;p--)r[p]=r[p-1];r[p]=[t,i,l]},a.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return a.d(t,{a:t}),t},a.d=(e,t)=>{for(var i in t)a.o(t,i)&&!a.o(e,i)&&Object.defineProperty(e,i,{enumerable:!0,get:t[i]})},a.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),a.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},(()=>{var e={3539:0};a.O.j=t=>0===e[t];var t=(t,i)=>{var l,r,[s,o,c]=i,d=0;if(s.some(t=>0!==e[t])){for(l in o)a.o(o,l)&&(a.m[l]=o[l]);if(c)var p=c(a)}for(t&&t(i);d<s.length;d++)r=s[d],a.o(e,r)&&e[r]&&e[r][0](),e[r]=0;return a.O(p)},i=self["momentum-web-components-[id]"]=self["momentum-web-components-[id]"]||[];i.forEach(t.bind(null,0)),i.push=t.bind(null,i.push.bind(i))})();var c=a.O(void 0,[1890,6272,8889,8373,4624,300,591,768,3001,1598,6396,671,779],()=>a(20331));return a.O(c)})());
+
+/***/ }),
+/* 17 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CSSResult: () => (/* reexport safe */ _lib_css_tag_js__WEBPACK_IMPORTED_MODULE_4__.CSSResult),
+/* harmony export */   LitElement: () => (/* binding */ LitElement),
+/* harmony export */   SVGTemplateResult: () => (/* reexport safe */ lit_html_lit_html_js__WEBPACK_IMPORTED_MODULE_3__.SVGTemplateResult),
+/* harmony export */   TemplateResult: () => (/* reexport safe */ lit_html_lit_html_js__WEBPACK_IMPORTED_MODULE_3__.TemplateResult),
+/* harmony export */   UpdatingElement: () => (/* reexport safe */ _lib_updating_element_js__WEBPACK_IMPORTED_MODULE_1__.UpdatingElement),
+/* harmony export */   css: () => (/* reexport safe */ _lib_css_tag_js__WEBPACK_IMPORTED_MODULE_4__.css),
+/* harmony export */   customElement: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.customElement),
+/* harmony export */   defaultConverter: () => (/* reexport safe */ _lib_updating_element_js__WEBPACK_IMPORTED_MODULE_1__.defaultConverter),
+/* harmony export */   eventOptions: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.eventOptions),
+/* harmony export */   html: () => (/* reexport safe */ lit_html_lit_html_js__WEBPACK_IMPORTED_MODULE_3__.html),
+/* harmony export */   internalProperty: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.internalProperty),
+/* harmony export */   notEqual: () => (/* reexport safe */ _lib_updating_element_js__WEBPACK_IMPORTED_MODULE_1__.notEqual),
+/* harmony export */   property: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.property),
+/* harmony export */   query: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.query),
+/* harmony export */   queryAll: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.queryAll),
+/* harmony export */   queryAssignedNodes: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.queryAssignedNodes),
+/* harmony export */   queryAsync: () => (/* reexport safe */ _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__.queryAsync),
+/* harmony export */   supportsAdoptingStyleSheets: () => (/* reexport safe */ _lib_css_tag_js__WEBPACK_IMPORTED_MODULE_4__.supportsAdoptingStyleSheets),
+/* harmony export */   svg: () => (/* reexport safe */ lit_html_lit_html_js__WEBPACK_IMPORTED_MODULE_3__.svg),
+/* harmony export */   unsafeCSS: () => (/* reexport safe */ _lib_css_tag_js__WEBPACK_IMPORTED_MODULE_4__.unsafeCSS)
+/* harmony export */ });
+/* harmony import */ var lit_html_lib_shady_render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _lib_updating_element_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
+/* harmony import */ var _lib_decorators_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
+/* harmony import */ var lit_html_lit_html_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(29);
+/* harmony import */ var _lib_css_tag_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(33);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+
+
+
+
+
+
+// IMPORTANT: do not change the property name or the assignment expression.
+// This line will be used in regexes to search for LitElement usage.
+// TODO(justinfagnani): inject version number at build time
+(window['litElementVersions'] || (window['litElementVersions'] = []))
+    .push('2.3.1');
+/**
+ * Sentinal value used to avoid calling lit-html's render function when
+ * subclasses do not implement `render`
+ */
+const renderNotImplemented = {};
+class LitElement extends _lib_updating_element_js__WEBPACK_IMPORTED_MODULE_1__.UpdatingElement {
+    /**
+     * Return the array of styles to apply to the element.
+     * Override this method to integrate into a style management system.
+     *
+     * @nocollapse
+     */
+    static getStyles() {
+        return this.styles;
+    }
+    /** @nocollapse */
+    static _getUniqueStyles() {
+        // Only gather styles once per class
+        if (this.hasOwnProperty(JSCompiler_renameProperty('_styles', this))) {
+            return;
+        }
+        // Take care not to call `this.getStyles()` multiple times since this
+        // generates new CSSResults each time.
+        // TODO(sorvell): Since we do not cache CSSResults by input, any
+        // shared styles will generate new stylesheet objects, which is wasteful.
+        // This should be addressed when a browser ships constructable
+        // stylesheets.
+        const userStyles = this.getStyles();
+        if (userStyles === undefined) {
+            this._styles = [];
+        }
+        else if (Array.isArray(userStyles)) {
+            // De-duplicate styles preserving the _last_ instance in the set.
+            // This is a performance optimization to avoid duplicated styles that can
+            // occur especially when composing via subclassing.
+            // The last item is kept to try to preserve the cascade order with the
+            // assumption that it's most important that last added styles override
+            // previous styles.
+            const addStyles = (styles, set) => styles.reduceRight((set, s) => 
+            // Note: On IE set.add() does not return the set
+            Array.isArray(s) ? addStyles(s, set) : (set.add(s), set), set);
+            // Array.from does not work on Set in IE, otherwise return
+            // Array.from(addStyles(userStyles, new Set<CSSResult>())).reverse()
+            const set = addStyles(userStyles, new Set());
+            const styles = [];
+            set.forEach((v) => styles.unshift(v));
+            this._styles = styles;
+        }
+        else {
+            this._styles = [userStyles];
+        }
+    }
+    /**
+     * Performs element initialization. By default this calls `createRenderRoot`
+     * to create the element `renderRoot` node and captures any pre-set values for
+     * registered properties.
+     */
+    initialize() {
+        super.initialize();
+        this.constructor._getUniqueStyles();
+        this.renderRoot =
+            this.createRenderRoot();
+        // Note, if renderRoot is not a shadowRoot, styles would/could apply to the
+        // element's getRootNode(). While this could be done, we're choosing not to
+        // support this now since it would require different logic around de-duping.
+        if (window.ShadowRoot && this.renderRoot instanceof window.ShadowRoot) {
+            this.adoptStyles();
+        }
+    }
+    /**
+     * Returns the node into which the element should render and by default
+     * creates and returns an open shadowRoot. Implement to customize where the
+     * element's DOM is rendered. For example, to render into the element's
+     * childNodes, return `this`.
+     * @returns {Element|DocumentFragment} Returns a node into which to render.
+     */
+    createRenderRoot() {
+        return this.attachShadow({ mode: 'open' });
+    }
+    /**
+     * Applies styling to the element shadowRoot using the `static get styles`
+     * property. Styling will apply using `shadowRoot.adoptedStyleSheets` where
+     * available and will fallback otherwise. When Shadow DOM is polyfilled,
+     * ShadyCSS scopes styles and adds them to the document. When Shadow DOM
+     * is available but `adoptedStyleSheets` is not, styles are appended to the
+     * end of the `shadowRoot` to [mimic spec
+     * behavior](https://wicg.github.io/construct-stylesheets/#using-constructed-stylesheets).
+     */
+    adoptStyles() {
+        const styles = this.constructor._styles;
+        if (styles.length === 0) {
+            return;
+        }
+        // There are three separate cases here based on Shadow DOM support.
+        // (1) shadowRoot polyfilled: use ShadyCSS
+        // (2) shadowRoot.adoptedStyleSheets available: use it.
+        // (3) shadowRoot.adoptedStyleSheets polyfilled: append styles after
+        // rendering
+        if (window.ShadyCSS !== undefined && !window.ShadyCSS.nativeShadow) {
+            window.ShadyCSS.ScopingShim.prepareAdoptedCssText(styles.map((s) => s.cssText), this.localName);
+        }
+        else if (_lib_css_tag_js__WEBPACK_IMPORTED_MODULE_4__.supportsAdoptingStyleSheets) {
+            this.renderRoot.adoptedStyleSheets =
+                styles.map((s) => s.styleSheet);
+        }
+        else {
+            // This must be done after rendering so the actual style insertion is done
+            // in `update`.
+            this._needsShimAdoptedStyleSheets = true;
+        }
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        // Note, first update/render handles styleElement so we only call this if
+        // connected after first update.
+        if (this.hasUpdated && window.ShadyCSS !== undefined) {
+            window.ShadyCSS.styleElement(this);
+        }
+    }
+    /**
+     * Updates the element. This method reflects property values to attributes
+     * and calls `render` to render DOM via lit-html. Setting properties inside
+     * this method will *not* trigger another update.
+     * @param _changedProperties Map of changed properties with old values
+     */
+    update(changedProperties) {
+        // Setting properties in `render` should not trigger an update. Since
+        // updates are allowed after super.update, it's important to call `render`
+        // before that.
+        const templateResult = this.render();
+        super.update(changedProperties);
+        // If render is not implemented by the component, don't call lit-html render
+        if (templateResult !== renderNotImplemented) {
+            this.constructor
+                .render(templateResult, this.renderRoot, { scopeName: this.localName, eventContext: this });
+        }
+        // When native Shadow DOM is used but adoptedStyles are not supported,
+        // insert styling after rendering to ensure adoptedStyles have highest
+        // priority.
+        if (this._needsShimAdoptedStyleSheets) {
+            this._needsShimAdoptedStyleSheets = false;
+            this.constructor._styles.forEach((s) => {
+                const style = document.createElement('style');
+                style.textContent = s.cssText;
+                this.renderRoot.appendChild(style);
+            });
+        }
+    }
+    /**
+     * Invoked on each update to perform rendering tasks. This method may return
+     * any value renderable by lit-html's NodePart - typically a TemplateResult.
+     * Setting properties inside this method will *not* trigger the element to
+     * update.
+     */
+    render() {
+        return renderNotImplemented;
+    }
+}
+/**
+ * Ensure this class is marked as `finalized` as an optimization ensuring
+ * it will not needlessly try to `finalize`.
+ *
+ * Note this property name is a string to prevent breaking Closure JS Compiler
+ * optimizations. See updating-element.ts for more information.
+ */
+LitElement['finalized'] = true;
+/**
+ * Render method used to render the value to the element's DOM.
+ * @param result The value to render.
+ * @param container Node into which to render.
+ * @param options Element name.
+ * @nocollapse
+ */
+LitElement.render = lit_html_lib_shady_render_js__WEBPACK_IMPORTED_MODULE_0__.render;
+//# sourceMappingURL=lit-element.js.map
+
+/***/ }),
+/* 18 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TemplateResult: () => (/* reexport safe */ _lit_html_js__WEBPACK_IMPORTED_MODULE_6__.TemplateResult),
+/* harmony export */   html: () => (/* reexport safe */ _lit_html_js__WEBPACK_IMPORTED_MODULE_6__.html),
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   shadyTemplateFactory: () => (/* binding */ shadyTemplateFactory),
+/* harmony export */   svg: () => (/* reexport safe */ _lit_html_js__WEBPACK_IMPORTED_MODULE_6__.svg)
+/* harmony export */ });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _modify_template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
+/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(28);
+/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(26);
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(29);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * Module to add shady DOM/shady CSS polyfill support to lit-html template
+ * rendering. See the [[render]] method for details.
+ *
+ * @packageDocumentation
+ */
+/**
+ * Do not remove this comment; it keeps typedoc from misplacing the module
+ * docs.
+ */
+
+
+
+
+
+
+
+// Get a key to lookup in `templateCaches`.
+const getTemplateCacheKey = (type, scopeName) => `${type}--${scopeName}`;
+let compatibleShadyCSSVersion = true;
+if (typeof window.ShadyCSS === 'undefined') {
+    compatibleShadyCSSVersion = false;
+}
+else if (typeof window.ShadyCSS.prepareTemplateDom === 'undefined') {
+    console.warn(`Incompatible ShadyCSS version detected. ` +
+        `Please update to at least @webcomponents/webcomponentsjs@2.0.2 and ` +
+        `@webcomponents/shadycss@1.3.1.`);
+    compatibleShadyCSSVersion = false;
+}
+/**
+ * Template factory which scopes template DOM using ShadyCSS.
+ * @param scopeName {string}
+ */
+const shadyTemplateFactory = (scopeName) => (result) => {
+    const cacheKey = getTemplateCacheKey(result.type, scopeName);
+    let templateCache = _template_factory_js__WEBPACK_IMPORTED_MODULE_3__.templateCaches.get(cacheKey);
+    if (templateCache === undefined) {
+        templateCache = {
+            stringsArray: new WeakMap(),
+            keyString: new Map()
+        };
+        _template_factory_js__WEBPACK_IMPORTED_MODULE_3__.templateCaches.set(cacheKey, templateCache);
+    }
+    let template = templateCache.stringsArray.get(result.strings);
+    if (template !== undefined) {
+        return template;
+    }
+    const key = result.strings.join(_template_js__WEBPACK_IMPORTED_MODULE_5__.marker);
+    template = templateCache.keyString.get(key);
+    if (template === undefined) {
+        const element = result.getTemplateElement();
+        if (compatibleShadyCSSVersion) {
+            window.ShadyCSS.prepareTemplateDom(element, scopeName);
+        }
+        template = new _template_js__WEBPACK_IMPORTED_MODULE_5__.Template(result, element);
+        templateCache.keyString.set(key, template);
+    }
+    templateCache.stringsArray.set(result.strings, template);
+    return template;
+};
+const TEMPLATE_TYPES = ['html', 'svg'];
+/**
+ * Removes all style elements from Templates for the given scopeName.
+ */
+const removeStylesFromLitTemplates = (scopeName) => {
+    TEMPLATE_TYPES.forEach((type) => {
+        const templates = _template_factory_js__WEBPACK_IMPORTED_MODULE_3__.templateCaches.get(getTemplateCacheKey(type, scopeName));
+        if (templates !== undefined) {
+            templates.keyString.forEach((template) => {
+                const { element: { content } } = template;
+                // IE 11 doesn't support the iterable param Set constructor
+                const styles = new Set();
+                Array.from(content.querySelectorAll('style')).forEach((s) => {
+                    styles.add(s);
+                });
+                (0,_modify_template_js__WEBPACK_IMPORTED_MODULE_1__.removeNodesFromTemplate)(template, styles);
+            });
+        }
+    });
+};
+const shadyRenderSet = new Set();
+/**
+ * For the given scope name, ensures that ShadyCSS style scoping is performed.
+ * This is done just once per scope name so the fragment and template cannot
+ * be modified.
+ * (1) extracts styles from the rendered fragment and hands them to ShadyCSS
+ * to be scoped and appended to the document
+ * (2) removes style elements from all lit-html Templates for this scope name.
+ *
+ * Note, <style> elements can only be placed into templates for the
+ * initial rendering of the scope. If <style> elements are included in templates
+ * dynamically rendered to the scope (after the first scope render), they will
+ * not be scoped and the <style> will be left in the template and rendered
+ * output.
+ */
+const prepareTemplateStyles = (scopeName, renderedDOM, template) => {
+    shadyRenderSet.add(scopeName);
+    // If `renderedDOM` is stamped from a Template, then we need to edit that
+    // Template's underlying template element. Otherwise, we create one here
+    // to give to ShadyCSS, which still requires one while scoping.
+    const templateElement = !!template ? template.element : document.createElement('template');
+    // Move styles out of rendered DOM and store.
+    const styles = renderedDOM.querySelectorAll('style');
+    const { length } = styles;
+    // If there are no styles, skip unnecessary work
+    if (length === 0) {
+        // Ensure prepareTemplateStyles is called to support adding
+        // styles via `prepareAdoptedCssText` since that requires that
+        // `prepareTemplateStyles` is called.
+        //
+        // ShadyCSS will only update styles containing @apply in the template
+        // given to `prepareTemplateStyles`. If no lit Template was given,
+        // ShadyCSS will not be able to update uses of @apply in any relevant
+        // template. However, this is not a problem because we only create the
+        // template for the purpose of supporting `prepareAdoptedCssText`,
+        // which doesn't support @apply at all.
+        window.ShadyCSS.prepareTemplateStyles(templateElement, scopeName);
+        return;
+    }
+    const condensedStyle = document.createElement('style');
+    // Collect styles into a single style. This helps us make sure ShadyCSS
+    // manipulations will not prevent us from being able to fix up template
+    // part indices.
+    // NOTE: collecting styles is inefficient for browsers but ShadyCSS
+    // currently does this anyway. When it does not, this should be changed.
+    for (let i = 0; i < length; i++) {
+        const style = styles[i];
+        style.parentNode.removeChild(style);
+        condensedStyle.textContent += style.textContent;
+    }
+    // Remove styles from nested templates in this scope.
+    removeStylesFromLitTemplates(scopeName);
+    // And then put the condensed style into the "root" template passed in as
+    // `template`.
+    const content = templateElement.content;
+    if (!!template) {
+        (0,_modify_template_js__WEBPACK_IMPORTED_MODULE_1__.insertNodeIntoTemplate)(template, condensedStyle, content.firstChild);
+    }
+    else {
+        content.insertBefore(condensedStyle, content.firstChild);
+    }
+    // Note, it's important that ShadyCSS gets the template that `lit-html`
+    // will actually render so that it can update the style inside when
+    // needed (e.g. @apply native Shadow DOM case).
+    window.ShadyCSS.prepareTemplateStyles(templateElement, scopeName);
+    const style = content.querySelector('style');
+    if (window.ShadyCSS.nativeShadow && style !== null) {
+        // When in native Shadow DOM, ensure the style created by ShadyCSS is
+        // included in initially rendered output (`renderedDOM`).
+        renderedDOM.insertBefore(style.cloneNode(true), renderedDOM.firstChild);
+    }
+    else if (!!template) {
+        // When no style is left in the template, parts will be broken as a
+        // result. To fix this, we put back the style node ShadyCSS removed
+        // and then tell lit to remove that node from the template.
+        // There can be no style in the template in 2 cases (1) when Shady DOM
+        // is in use, ShadyCSS removes all styles, (2) when native Shadow DOM
+        // is in use ShadyCSS removes the style if it contains no content.
+        // NOTE, ShadyCSS creates its own style so we can safely add/remove
+        // `condensedStyle` here.
+        content.insertBefore(condensedStyle, content.firstChild);
+        const removes = new Set();
+        removes.add(condensedStyle);
+        (0,_modify_template_js__WEBPACK_IMPORTED_MODULE_1__.removeNodesFromTemplate)(template, removes);
+    }
+};
+/**
+ * Extension to the standard `render` method which supports rendering
+ * to ShadowRoots when the ShadyDOM (https://github.com/webcomponents/shadydom)
+ * and ShadyCSS (https://github.com/webcomponents/shadycss) polyfills are used
+ * or when the webcomponentsjs
+ * (https://github.com/webcomponents/webcomponentsjs) polyfill is used.
+ *
+ * Adds a `scopeName` option which is used to scope element DOM and stylesheets
+ * when native ShadowDOM is unavailable. The `scopeName` will be added to
+ * the class attribute of all rendered DOM. In addition, any style elements will
+ * be automatically re-written with this `scopeName` selector and moved out
+ * of the rendered DOM and into the document `<head>`.
+ *
+ * It is common to use this render method in conjunction with a custom element
+ * which renders a shadowRoot. When this is done, typically the element's
+ * `localName` should be used as the `scopeName`.
+ *
+ * In addition to DOM scoping, ShadyCSS also supports a basic shim for css
+ * custom properties (needed only on older browsers like IE11) and a shim for
+ * a deprecated feature called `@apply` that supports applying a set of css
+ * custom properties to a given location.
+ *
+ * Usage considerations:
+ *
+ * * Part values in `<style>` elements are only applied the first time a given
+ * `scopeName` renders. Subsequent changes to parts in style elements will have
+ * no effect. Because of this, parts in style elements should only be used for
+ * values that will never change, for example parts that set scope-wide theme
+ * values or parts which render shared style elements.
+ *
+ * * Note, due to a limitation of the ShadyDOM polyfill, rendering in a
+ * custom element's `constructor` is not supported. Instead rendering should
+ * either done asynchronously, for example at microtask timing (for example
+ * `Promise.resolve()`), or be deferred until the first time the element's
+ * `connectedCallback` runs.
+ *
+ * Usage considerations when using shimmed custom properties or `@apply`:
+ *
+ * * Whenever any dynamic changes are made which affect
+ * css custom properties, `ShadyCSS.styleElement(element)` must be called
+ * to update the element. There are two cases when this is needed:
+ * (1) the element is connected to a new parent, (2) a class is added to the
+ * element that causes it to match different custom properties.
+ * To address the first case when rendering a custom element, `styleElement`
+ * should be called in the element's `connectedCallback`.
+ *
+ * * Shimmed custom properties may only be defined either for an entire
+ * shadowRoot (for example, in a `:host` rule) or via a rule that directly
+ * matches an element with a shadowRoot. In other words, instead of flowing from
+ * parent to child as do native css custom properties, shimmed custom properties
+ * flow only from shadowRoots to nested shadowRoots.
+ *
+ * * When using `@apply` mixing css shorthand property names with
+ * non-shorthand names (for example `border` and `border-width`) is not
+ * supported.
+ */
+const render = (result, container, options) => {
+    if (!options || typeof options !== 'object' || !options.scopeName) {
+        throw new Error('The `scopeName` option is required.');
+    }
+    const scopeName = options.scopeName;
+    const hasRendered = _render_js__WEBPACK_IMPORTED_MODULE_2__.parts.has(container);
+    const needsScoping = compatibleShadyCSSVersion &&
+        container.nodeType === 11 /* Node.DOCUMENT_FRAGMENT_NODE */ &&
+        !!container.host;
+    // Handle first render to a scope specially...
+    const firstScopeRender = needsScoping && !shadyRenderSet.has(scopeName);
+    // On first scope render, render into a fragment; this cannot be a single
+    // fragment that is reused since nested renders can occur synchronously.
+    const renderContainer = firstScopeRender ? document.createDocumentFragment() : container;
+    (0,_render_js__WEBPACK_IMPORTED_MODULE_2__.render)(result, renderContainer, Object.assign({ templateFactory: shadyTemplateFactory(scopeName) }, options));
+    // When performing first scope render,
+    // (1) We've rendered into a fragment so that there's a chance to
+    // `prepareTemplateStyles` before sub-elements hit the DOM
+    // (which might cause them to render based on a common pattern of
+    // rendering in a custom element's `connectedCallback`);
+    // (2) Scope the template with ShadyCSS one time only for this scope.
+    // (3) Render the fragment into the container and make sure the
+    // container knows its `part` is the one we just rendered. This ensures
+    // DOM will be re-used on subsequent renders.
+    if (firstScopeRender) {
+        const part = _render_js__WEBPACK_IMPORTED_MODULE_2__.parts.get(renderContainer);
+        _render_js__WEBPACK_IMPORTED_MODULE_2__.parts.delete(renderContainer);
+        // ShadyCSS might have style sheets (e.g. from `prepareAdoptedCssText`)
+        // that should apply to `renderContainer` even if the rendered value is
+        // not a TemplateInstance. However, it will only insert scoped styles
+        // into the document if `prepareTemplateStyles` has already been called
+        // for the given scope name.
+        const template = part.value instanceof _template_instance_js__WEBPACK_IMPORTED_MODULE_4__.TemplateInstance ?
+            part.value.template :
+            undefined;
+        prepareTemplateStyles(scopeName, renderContainer, template);
+        (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.removeNodes)(container, container.firstChild);
+        container.appendChild(renderContainer);
+        _render_js__WEBPACK_IMPORTED_MODULE_2__.parts.set(container, part);
+    }
+    // After elements have hit the DOM, update styling if this is the
+    // initial render to this container.
+    // This is needed whenever dynamic changes are made so it would be
+    // safest to do every render; however, this would regress performance
+    // so we leave it up to the user to call `ShadyCSS.styleElement`
+    // for dynamic changes.
+    if (!hasRendered && needsScoping) {
+        window.ShadyCSS.styleElement(container.host);
+    }
+};
+//# sourceMappingURL=shady-render.js.map
+
+/***/ }),
+/* 19 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isCEPolyfill: () => (/* binding */ isCEPolyfill),
+/* harmony export */   removeNodes: () => (/* binding */ removeNodes),
+/* harmony export */   reparentNodes: () => (/* binding */ reparentNodes)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * True if the custom elements polyfill is in use.
+ */
+const isCEPolyfill = typeof window !== 'undefined' &&
+    window.customElements != null &&
+    window.customElements.polyfillWrapFlushCallback !==
+        undefined;
+/**
+ * Reparents nodes, starting from `start` (inclusive) to `end` (exclusive),
+ * into another container (could be the same container), before `before`. If
+ * `before` is null, it appends the nodes to the container.
+ */
+const reparentNodes = (container, start, end = null, before = null) => {
+    while (start !== end) {
+        const n = start.nextSibling;
+        container.insertBefore(start, before);
+        start = n;
+    }
+};
+/**
+ * Removes nodes, starting from `start` (inclusive) to `end` (exclusive), from
+ * `container`.
+ */
+const removeNodes = (container, start, end = null) => {
+    while (start !== end) {
+        const n = start.nextSibling;
+        container.removeChild(start);
+        start = n;
+    }
+};
+//# sourceMappingURL=dom.js.map
+
+/***/ }),
+/* 20 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   insertNodeIntoTemplate: () => (/* binding */ insertNodeIntoTemplate),
+/* harmony export */   removeNodesFromTemplate: () => (/* binding */ removeNodesFromTemplate)
+/* harmony export */ });
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+const walkerNodeFilter = 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */;
+/**
+ * Removes the list of nodes from a Template safely. In addition to removing
+ * nodes from the Template, the Template part indices are updated to match
+ * the mutated Template DOM.
+ *
+ * As the template is walked the removal state is tracked and
+ * part indices are adjusted as needed.
+ *
+ * div
+ *   div#1 (remove) <-- start removing (removing node is div#1)
+ *     div
+ *       div#2 (remove)  <-- continue removing (removing node is still div#1)
+ *         div
+ * div <-- stop removing since previous sibling is the removing node (div#1,
+ * removed 4 nodes)
+ */
+function removeNodesFromTemplate(template, nodesToRemove) {
+    const { element: { content }, parts } = template;
+    const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
+    let partIndex = nextActiveIndexInTemplateParts(parts);
+    let part = parts[partIndex];
+    let nodeIndex = -1;
+    let removeCount = 0;
+    const nodesToRemoveInTemplate = [];
+    let currentRemovingNode = null;
+    while (walker.nextNode()) {
+        nodeIndex++;
+        const node = walker.currentNode;
+        // End removal if stepped past the removing node
+        if (node.previousSibling === currentRemovingNode) {
+            currentRemovingNode = null;
+        }
+        // A node to remove was found in the template
+        if (nodesToRemove.has(node)) {
+            nodesToRemoveInTemplate.push(node);
+            // Track node we're removing
+            if (currentRemovingNode === null) {
+                currentRemovingNode = node;
+            }
+        }
+        // When removing, increment count by which to adjust subsequent part indices
+        if (currentRemovingNode !== null) {
+            removeCount++;
+        }
+        while (part !== undefined && part.index === nodeIndex) {
+            // If part is in a removed node deactivate it by setting index to -1 or
+            // adjust the index as needed.
+            part.index = currentRemovingNode !== null ? -1 : part.index - removeCount;
+            // go to the next active part.
+            partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+            part = parts[partIndex];
+        }
+    }
+    nodesToRemoveInTemplate.forEach((n) => n.parentNode.removeChild(n));
+}
+const countNodes = (node) => {
+    let count = (node.nodeType === 11 /* Node.DOCUMENT_FRAGMENT_NODE */) ? 0 : 1;
+    const walker = document.createTreeWalker(node, walkerNodeFilter, null, false);
+    while (walker.nextNode()) {
+        count++;
+    }
+    return count;
+};
+const nextActiveIndexInTemplateParts = (parts, startIndex = -1) => {
+    for (let i = startIndex + 1; i < parts.length; i++) {
+        const part = parts[i];
+        if ((0,_template_js__WEBPACK_IMPORTED_MODULE_0__.isTemplatePartActive)(part)) {
+            return i;
+        }
+    }
+    return -1;
+};
+/**
+ * Inserts the given node into the Template, optionally before the given
+ * refNode. In addition to inserting the node into the Template, the Template
+ * part indices are updated to match the mutated Template DOM.
+ */
+function insertNodeIntoTemplate(template, node, refNode = null) {
+    const { element: { content }, parts } = template;
+    // If there's no refNode, then put node at end of template.
+    // No part indices need to be shifted in this case.
+    if (refNode === null || refNode === undefined) {
+        content.appendChild(node);
+        return;
+    }
+    const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
+    let partIndex = nextActiveIndexInTemplateParts(parts);
+    let insertCount = 0;
+    let walkerIndex = -1;
+    while (walker.nextNode()) {
+        walkerIndex++;
+        const walkerNode = walker.currentNode;
+        if (walkerNode === refNode) {
+            insertCount = countNodes(node);
+            refNode.parentNode.insertBefore(node, refNode);
+        }
+        while (partIndex !== -1 && parts[partIndex].index === walkerIndex) {
+            // If we've inserted the node, simply adjust all subsequent parts
+            if (insertCount > 0) {
+                while (partIndex !== -1) {
+                    parts[partIndex].index += insertCount;
+                    partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+                }
+                return;
+            }
+            partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+        }
+    }
+}
+//# sourceMappingURL=modify-template.js.map
+
+/***/ }),
+/* 21 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Template: () => (/* binding */ Template),
+/* harmony export */   boundAttributeSuffix: () => (/* binding */ boundAttributeSuffix),
+/* harmony export */   createMarker: () => (/* binding */ createMarker),
+/* harmony export */   isTemplatePartActive: () => (/* binding */ isTemplatePartActive),
+/* harmony export */   lastAttributeNameRegex: () => (/* binding */ lastAttributeNameRegex),
+/* harmony export */   marker: () => (/* binding */ marker),
+/* harmony export */   markerRegex: () => (/* binding */ markerRegex),
+/* harmony export */   nodeMarker: () => (/* binding */ nodeMarker)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * An expression marker with embedded unique key to avoid collision with
+ * possible text in templates.
+ */
+const marker = `{{lit-${String(Math.random()).slice(2)}}}`;
+/**
+ * An expression marker used text-positions, multi-binding attributes, and
+ * attributes with markup-like text values.
+ */
+const nodeMarker = `<!--${marker}-->`;
+const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
+/**
+ * Suffix appended to all bound attribute names.
+ */
+const boundAttributeSuffix = '$lit$';
+/**
+ * An updatable Template that tracks the location of dynamic parts.
+ */
+class Template {
+    constructor(result, element) {
+        this.parts = [];
+        this.element = element;
+        const nodesToRemove = [];
+        const stack = [];
+        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
+        const walker = document.createTreeWalker(element.content, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
+        // Keeps track of the last index associated with a part. We try to delete
+        // unnecessary nodes, but we never want to associate two different parts
+        // to the same index. They must have a constant node between.
+        let lastPartIndex = 0;
+        let index = -1;
+        let partIndex = 0;
+        const { strings, values: { length } } = result;
+        while (partIndex < length) {
+            const node = walker.nextNode();
+            if (node === null) {
+                // We've exhausted the content inside a nested template element.
+                // Because we still have parts (the outer for-loop), we know:
+                // - There is a template in the stack
+                // - The walker will find a nextNode outside the template
+                walker.currentNode = stack.pop();
+                continue;
+            }
+            index++;
+            if (node.nodeType === 1 /* Node.ELEMENT_NODE */) {
+                if (node.hasAttributes()) {
+                    const attributes = node.attributes;
+                    const { length } = attributes;
+                    // Per
+                    // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap,
+                    // attributes are not guaranteed to be returned in document order.
+                    // In particular, Edge/IE can return them out of order, so we cannot
+                    // assume a correspondence between part index and attribute index.
+                    let count = 0;
+                    for (let i = 0; i < length; i++) {
+                        if (endsWith(attributes[i].name, boundAttributeSuffix)) {
+                            count++;
+                        }
+                    }
+                    while (count-- > 0) {
+                        // Get the template literal section leading up to the first
+                        // expression in this attribute
+                        const stringForPart = strings[partIndex];
+                        // Find the attribute name
+                        const name = lastAttributeNameRegex.exec(stringForPart)[2];
+                        // Find the corresponding attribute
+                        // All bound attributes have had a suffix added in
+                        // TemplateResult#getHTML to opt out of special attribute
+                        // handling. To look up the attribute value we also need to add
+                        // the suffix.
+                        const attributeLookupName = name.toLowerCase() + boundAttributeSuffix;
+                        const attributeValue = node.getAttribute(attributeLookupName);
+                        node.removeAttribute(attributeLookupName);
+                        const statics = attributeValue.split(markerRegex);
+                        this.parts.push({ type: 'attribute', index, name, strings: statics });
+                        partIndex += statics.length - 1;
+                    }
+                }
+                if (node.tagName === 'TEMPLATE') {
+                    stack.push(node);
+                    walker.currentNode = node.content;
+                }
+            }
+            else if (node.nodeType === 3 /* Node.TEXT_NODE */) {
+                const data = node.data;
+                if (data.indexOf(marker) >= 0) {
+                    const parent = node.parentNode;
+                    const strings = data.split(markerRegex);
+                    const lastIndex = strings.length - 1;
+                    // Generate a new text node for each literal section
+                    // These nodes are also used as the markers for node parts
+                    for (let i = 0; i < lastIndex; i++) {
+                        let insert;
+                        let s = strings[i];
+                        if (s === '') {
+                            insert = createMarker();
+                        }
+                        else {
+                            const match = lastAttributeNameRegex.exec(s);
+                            if (match !== null && endsWith(match[2], boundAttributeSuffix)) {
+                                s = s.slice(0, match.index) + match[1] +
+                                    match[2].slice(0, -boundAttributeSuffix.length) + match[3];
+                            }
+                            insert = document.createTextNode(s);
+                        }
+                        parent.insertBefore(insert, node);
+                        this.parts.push({ type: 'node', index: ++index });
+                    }
+                    // If there's no text, we must insert a comment to mark our place.
+                    // Else, we can trust it will stick around after cloning.
+                    if (strings[lastIndex] === '') {
+                        parent.insertBefore(createMarker(), node);
+                        nodesToRemove.push(node);
+                    }
+                    else {
+                        node.data = strings[lastIndex];
+                    }
+                    // We have a part for each match found
+                    partIndex += lastIndex;
+                }
+            }
+            else if (node.nodeType === 8 /* Node.COMMENT_NODE */) {
+                if (node.data === marker) {
+                    const parent = node.parentNode;
+                    // Add a new marker node to be the startNode of the Part if any of
+                    // the following are true:
+                    //  * We don't have a previousSibling
+                    //  * The previousSibling is already the start of a previous part
+                    if (node.previousSibling === null || index === lastPartIndex) {
+                        index++;
+                        parent.insertBefore(createMarker(), node);
+                    }
+                    lastPartIndex = index;
+                    this.parts.push({ type: 'node', index });
+                    // If we don't have a nextSibling, keep this node so we have an end.
+                    // Else, we can remove it to save future costs.
+                    if (node.nextSibling === null) {
+                        node.data = '';
+                    }
+                    else {
+                        nodesToRemove.push(node);
+                        index--;
+                    }
+                    partIndex++;
+                }
+                else {
+                    let i = -1;
+                    while ((i = node.data.indexOf(marker, i + 1)) !== -1) {
+                        // Comment node has a binding marker inside, make an inactive part
+                        // The binding won't work, but subsequent bindings will
+                        // TODO (justinfagnani): consider whether it's even worth it to
+                        // make bindings in comments work
+                        this.parts.push({ type: 'node', index: -1 });
+                        partIndex++;
+                    }
+                }
+            }
+        }
+        // Remove text binding nodes after the walk to not disturb the TreeWalker
+        for (const n of nodesToRemove) {
+            n.parentNode.removeChild(n);
+        }
+    }
+}
+const endsWith = (str, suffix) => {
+    const index = str.length - suffix.length;
+    return index >= 0 && str.slice(index) === suffix;
+};
+const isTemplatePartActive = (part) => part.index !== -1;
+// Allows `document.createComment('')` to be renamed for a
+// small manual size-savings.
+const createMarker = () => document.createComment('');
+/**
+ * This regex extracts the attribute name preceding an attribute-position
+ * expression. It does this by matching the syntax allowed for attributes
+ * against the string literal directly preceding the expression, assuming that
+ * the expression is in an attribute-value position.
+ *
+ * See attributes in the HTML spec:
+ * https://www.w3.org/TR/html5/syntax.html#elements-attributes
+ *
+ * " \x09\x0a\x0c\x0d" are HTML space characters:
+ * https://www.w3.org/TR/html5/infrastructure.html#space-characters
+ *
+ * "\0-\x1F\x7F-\x9F" are Unicode control characters, which includes every
+ * space character except " ".
+ *
+ * So an attribute is:
+ *  * The name: any character except a control character, space character, ('),
+ *    ("), ">", "=", or "/"
+ *  * Followed by zero or more space characters
+ *  * Followed by "="
+ *  * Followed by zero or more space characters
+ *  * Followed by:
+ *    * Any character except space, ('), ("), "<", ">", "=", (`), or
+ *    * (") then any non-("), or
+ *    * (') then any non-(')
+ */
+const lastAttributeNameRegex = 
+// eslint-disable-next-line no-control-regex
+/([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+//# sourceMappingURL=template.js.map
+
+/***/ }),
+/* 22 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   parts: () => (/* binding */ parts),
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+
+
+const parts = new WeakMap();
+/**
+ * Renders a template result or other value to a container.
+ *
+ * To update a container with new values, reevaluate the template literal and
+ * call `render` with the new result.
+ *
+ * @param result Any value renderable by NodePart - typically a TemplateResult
+ *     created by evaluating a template tag like `html` or `svg`.
+ * @param container A DOM parent to render to. The entire contents are either
+ *     replaced, or efficiently updated if the same result type was previous
+ *     rendered there.
+ * @param options RenderOptions for the entire render tree rendered to this
+ *     container. Render options must *not* change between renders to the same
+ *     container, as those changes will not effect previously rendered DOM.
+ */
+const render = (result, container, options) => {
+    let part = parts.get(container);
+    if (part === undefined) {
+        (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.removeNodes)(container, container.firstChild);
+        parts.set(container, part = new _parts_js__WEBPACK_IMPORTED_MODULE_1__.NodePart(Object.assign({ templateFactory: _template_factory_js__WEBPACK_IMPORTED_MODULE_2__.templateFactory }, options)));
+        part.appendInto(container);
+    }
+    part.setValue(result);
+    part.commit();
+};
+//# sourceMappingURL=render.js.map
+
+/***/ }),
+/* 23 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AttributeCommitter: () => (/* binding */ AttributeCommitter),
+/* harmony export */   AttributePart: () => (/* binding */ AttributePart),
+/* harmony export */   BooleanAttributePart: () => (/* binding */ BooleanAttributePart),
+/* harmony export */   EventPart: () => (/* binding */ EventPart),
+/* harmony export */   NodePart: () => (/* binding */ NodePart),
+/* harmony export */   PropertyCommitter: () => (/* binding */ PropertyCommitter),
+/* harmony export */   PropertyPart: () => (/* binding */ PropertyPart),
+/* harmony export */   isIterable: () => (/* binding */ isIterable),
+/* harmony export */   isPrimitive: () => (/* binding */ isPrimitive)
+/* harmony export */ });
+/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(26);
+/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(27);
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+
+
+
+
+
+const isPrimitive = (value) => {
+    return (value === null ||
+        !(typeof value === 'object' || typeof value === 'function'));
+};
+const isIterable = (value) => {
+    return Array.isArray(value) ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        !!(value && value[Symbol.iterator]);
+};
+/**
+ * Writes attribute values to the DOM for a group of AttributeParts bound to a
+ * single attribute. The value is only set once even if there are multiple parts
+ * for an attribute.
+ */
+class AttributeCommitter {
+    constructor(element, name, strings) {
+        this.dirty = true;
+        this.element = element;
+        this.name = name;
+        this.strings = strings;
+        this.parts = [];
+        for (let i = 0; i < strings.length - 1; i++) {
+            this.parts[i] = this._createPart();
+        }
+    }
+    /**
+     * Creates a single part. Override this to create a differnt type of part.
+     */
+    _createPart() {
+        return new AttributePart(this);
+    }
+    _getValue() {
+        const strings = this.strings;
+        const l = strings.length - 1;
+        const parts = this.parts;
+        // If we're assigning an attribute via syntax like:
+        //    attr="${foo}"  or  attr=${foo}
+        // but not
+        //    attr="${foo} ${bar}" or attr="${foo} baz"
+        // then we don't want to coerce the attribute value into one long
+        // string. Instead we want to just return the value itself directly,
+        // so that sanitizeDOMValue can get the actual value rather than
+        // String(value)
+        // The exception is if v is an array, in which case we do want to smash
+        // it together into a string without calling String() on the array.
+        //
+        // This also allows trusted values (when using TrustedTypes) being
+        // assigned to DOM sinks without being stringified in the process.
+        if (l === 1 && strings[0] === '' && strings[1] === '') {
+            const v = parts[0].value;
+            if (typeof v === 'symbol') {
+                return String(v);
+            }
+            if (typeof v === 'string' || !isIterable(v)) {
+                return v;
+            }
+        }
+        let text = '';
+        for (let i = 0; i < l; i++) {
+            text += strings[i];
+            const part = parts[i];
+            if (part !== undefined) {
+                const v = part.value;
+                if (isPrimitive(v) || !isIterable(v)) {
+                    text += typeof v === 'string' ? v : String(v);
+                }
+                else {
+                    for (const t of v) {
+                        text += typeof t === 'string' ? t : String(t);
+                    }
+                }
+            }
+        }
+        text += strings[l];
+        return text;
+    }
+    commit() {
+        if (this.dirty) {
+            this.dirty = false;
+            this.element.setAttribute(this.name, this._getValue());
+        }
+    }
+}
+/**
+ * A Part that controls all or part of an attribute value.
+ */
+class AttributePart {
+    constructor(committer) {
+        this.value = undefined;
+        this.committer = committer;
+    }
+    setValue(value) {
+        if (value !== _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange && (!isPrimitive(value) || value !== this.value)) {
+            this.value = value;
+            // If the value is a not a directive, dirty the committer so that it'll
+            // call setAttribute. If the value is a directive, it'll dirty the
+            // committer if it calls setValue().
+            if (!(0,_directive_js__WEBPACK_IMPORTED_MODULE_0__.isDirective)(value)) {
+                this.committer.dirty = true;
+            }
+        }
+    }
+    commit() {
+        while ((0,_directive_js__WEBPACK_IMPORTED_MODULE_0__.isDirective)(this.value)) {
+            const directive = this.value;
+            this.value = _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange;
+            directive(this);
+        }
+        if (this.value === _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange) {
+            return;
+        }
+        this.committer.commit();
+    }
+}
+/**
+ * A Part that controls a location within a Node tree. Like a Range, NodePart
+ * has start and end locations and can set and update the Nodes between those
+ * locations.
+ *
+ * NodeParts support several value types: primitives, Nodes, TemplateResults,
+ * as well as arrays and iterables of those types.
+ */
+class NodePart {
+    constructor(options) {
+        this.value = undefined;
+        this.__pendingValue = undefined;
+        this.options = options;
+    }
+    /**
+     * Appends this part into a container.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    appendInto(container) {
+        this.startNode = container.appendChild((0,_template_js__WEBPACK_IMPORTED_MODULE_5__.createMarker)());
+        this.endNode = container.appendChild((0,_template_js__WEBPACK_IMPORTED_MODULE_5__.createMarker)());
+    }
+    /**
+     * Inserts this part after the `ref` node (between `ref` and `ref`'s next
+     * sibling). Both `ref` and its next sibling must be static, unchanging nodes
+     * such as those that appear in a literal section of a template.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    insertAfterNode(ref) {
+        this.startNode = ref;
+        this.endNode = ref.nextSibling;
+    }
+    /**
+     * Appends this part into a parent part.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    appendIntoPart(part) {
+        part.__insert(this.startNode = (0,_template_js__WEBPACK_IMPORTED_MODULE_5__.createMarker)());
+        part.__insert(this.endNode = (0,_template_js__WEBPACK_IMPORTED_MODULE_5__.createMarker)());
+    }
+    /**
+     * Inserts this part after the `ref` part.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    insertAfterPart(ref) {
+        ref.__insert(this.startNode = (0,_template_js__WEBPACK_IMPORTED_MODULE_5__.createMarker)());
+        this.endNode = ref.endNode;
+        ref.endNode = this.startNode;
+    }
+    setValue(value) {
+        this.__pendingValue = value;
+    }
+    commit() {
+        if (this.startNode.parentNode === null) {
+            return;
+        }
+        while ((0,_directive_js__WEBPACK_IMPORTED_MODULE_0__.isDirective)(this.__pendingValue)) {
+            const directive = this.__pendingValue;
+            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange;
+            directive(this);
+        }
+        const value = this.__pendingValue;
+        if (value === _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange) {
+            return;
+        }
+        if (isPrimitive(value)) {
+            if (value !== this.value) {
+                this.__commitText(value);
+            }
+        }
+        else if (value instanceof _template_result_js__WEBPACK_IMPORTED_MODULE_4__.TemplateResult) {
+            this.__commitTemplateResult(value);
+        }
+        else if (value instanceof Node) {
+            this.__commitNode(value);
+        }
+        else if (isIterable(value)) {
+            this.__commitIterable(value);
+        }
+        else if (value === _part_js__WEBPACK_IMPORTED_MODULE_2__.nothing) {
+            this.value = _part_js__WEBPACK_IMPORTED_MODULE_2__.nothing;
+            this.clear();
+        }
+        else {
+            // Fallback, will render the string representation
+            this.__commitText(value);
+        }
+    }
+    __insert(node) {
+        this.endNode.parentNode.insertBefore(node, this.endNode);
+    }
+    __commitNode(value) {
+        if (this.value === value) {
+            return;
+        }
+        this.clear();
+        this.__insert(value);
+        this.value = value;
+    }
+    __commitText(value) {
+        const node = this.startNode.nextSibling;
+        value = value == null ? '' : value;
+        // If `value` isn't already a string, we explicitly convert it here in case
+        // it can't be implicitly converted - i.e. it's a symbol.
+        const valueAsString = typeof value === 'string' ? value : String(value);
+        if (node === this.endNode.previousSibling &&
+            node.nodeType === 3 /* Node.TEXT_NODE */) {
+            // If we only have a single text node between the markers, we can just
+            // set its value, rather than replacing it.
+            // TODO(justinfagnani): Can we just check if this.value is primitive?
+            node.data = valueAsString;
+        }
+        else {
+            this.__commitNode(document.createTextNode(valueAsString));
+        }
+        this.value = value;
+    }
+    __commitTemplateResult(value) {
+        const template = this.options.templateFactory(value);
+        if (this.value instanceof _template_instance_js__WEBPACK_IMPORTED_MODULE_3__.TemplateInstance &&
+            this.value.template === template) {
+            this.value.update(value.values);
+        }
+        else {
+            // Make sure we propagate the template processor from the TemplateResult
+            // so that we use its syntax extension, etc. The template factory comes
+            // from the render function options so that it can control template
+            // caching and preprocessing.
+            const instance = new _template_instance_js__WEBPACK_IMPORTED_MODULE_3__.TemplateInstance(template, value.processor, this.options);
+            const fragment = instance._clone();
+            instance.update(value.values);
+            this.__commitNode(fragment);
+            this.value = instance;
+        }
+    }
+    __commitIterable(value) {
+        // For an Iterable, we create a new InstancePart per item, then set its
+        // value to the item. This is a little bit of overhead for every item in
+        // an Iterable, but it lets us recurse easily and efficiently update Arrays
+        // of TemplateResults that will be commonly returned from expressions like:
+        // array.map((i) => html`${i}`), by reusing existing TemplateInstances.
+        // If _value is an array, then the previous render was of an
+        // iterable and _value will contain the NodeParts from the previous
+        // render. If _value is not an array, clear this part and make a new
+        // array for NodeParts.
+        if (!Array.isArray(this.value)) {
+            this.value = [];
+            this.clear();
+        }
+        // Lets us keep track of how many items we stamped so we can clear leftover
+        // items from a previous render
+        const itemParts = this.value;
+        let partIndex = 0;
+        let itemPart;
+        for (const item of value) {
+            // Try to reuse an existing part
+            itemPart = itemParts[partIndex];
+            // If no existing part, create a new one
+            if (itemPart === undefined) {
+                itemPart = new NodePart(this.options);
+                itemParts.push(itemPart);
+                if (partIndex === 0) {
+                    itemPart.appendIntoPart(this);
+                }
+                else {
+                    itemPart.insertAfterPart(itemParts[partIndex - 1]);
+                }
+            }
+            itemPart.setValue(item);
+            itemPart.commit();
+            partIndex++;
+        }
+        if (partIndex < itemParts.length) {
+            // Truncate the parts array so _value reflects the current state
+            itemParts.length = partIndex;
+            this.clear(itemPart && itemPart.endNode);
+        }
+    }
+    clear(startNode = this.startNode) {
+        (0,_dom_js__WEBPACK_IMPORTED_MODULE_1__.removeNodes)(this.startNode.parentNode, startNode.nextSibling, this.endNode);
+    }
+}
+/**
+ * Implements a boolean attribute, roughly as defined in the HTML
+ * specification.
+ *
+ * If the value is truthy, then the attribute is present with a value of
+ * ''. If the value is falsey, the attribute is removed.
+ */
+class BooleanAttributePart {
+    constructor(element, name, strings) {
+        this.value = undefined;
+        this.__pendingValue = undefined;
+        if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
+            throw new Error('Boolean attributes can only contain a single expression');
+        }
+        this.element = element;
+        this.name = name;
+        this.strings = strings;
+    }
+    setValue(value) {
+        this.__pendingValue = value;
+    }
+    commit() {
+        while ((0,_directive_js__WEBPACK_IMPORTED_MODULE_0__.isDirective)(this.__pendingValue)) {
+            const directive = this.__pendingValue;
+            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange;
+            directive(this);
+        }
+        if (this.__pendingValue === _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange) {
+            return;
+        }
+        const value = !!this.__pendingValue;
+        if (this.value !== value) {
+            if (value) {
+                this.element.setAttribute(this.name, '');
+            }
+            else {
+                this.element.removeAttribute(this.name);
+            }
+            this.value = value;
+        }
+        this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange;
+    }
+}
+/**
+ * Sets attribute values for PropertyParts, so that the value is only set once
+ * even if there are multiple parts for a property.
+ *
+ * If an expression controls the whole property value, then the value is simply
+ * assigned to the property under control. If there are string literals or
+ * multiple expressions, then the strings are expressions are interpolated into
+ * a string first.
+ */
+class PropertyCommitter extends AttributeCommitter {
+    constructor(element, name, strings) {
+        super(element, name, strings);
+        this.single =
+            (strings.length === 2 && strings[0] === '' && strings[1] === '');
+    }
+    _createPart() {
+        return new PropertyPart(this);
+    }
+    _getValue() {
+        if (this.single) {
+            return this.parts[0].value;
+        }
+        return super._getValue();
+    }
+    commit() {
+        if (this.dirty) {
+            this.dirty = false;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            this.element[this.name] = this._getValue();
+        }
+    }
+}
+class PropertyPart extends AttributePart {
+}
+// Detect event listener options support. If the `capture` property is read
+// from the options object, then options are supported. If not, then the third
+// argument to add/removeEventListener is interpreted as the boolean capture
+// value so we should only pass the `capture` property.
+let eventOptionsSupported = false;
+// Wrap into an IIFE because MS Edge <= v41 does not support having try/catch
+// blocks right into the body of a module
+(() => {
+    try {
+        const options = {
+            get capture() {
+                eventOptionsSupported = true;
+                return false;
+            }
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.addEventListener('test', options, options);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.removeEventListener('test', options, options);
+    }
+    catch (_e) {
+        // event options not supported
+    }
+})();
+class EventPart {
+    constructor(element, eventName, eventContext) {
+        this.value = undefined;
+        this.__pendingValue = undefined;
+        this.element = element;
+        this.eventName = eventName;
+        this.eventContext = eventContext;
+        this.__boundHandleEvent = (e) => this.handleEvent(e);
+    }
+    setValue(value) {
+        this.__pendingValue = value;
+    }
+    commit() {
+        while ((0,_directive_js__WEBPACK_IMPORTED_MODULE_0__.isDirective)(this.__pendingValue)) {
+            const directive = this.__pendingValue;
+            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange;
+            directive(this);
+        }
+        if (this.__pendingValue === _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange) {
+            return;
+        }
+        const newListener = this.__pendingValue;
+        const oldListener = this.value;
+        const shouldRemoveListener = newListener == null ||
+            oldListener != null &&
+                (newListener.capture !== oldListener.capture ||
+                    newListener.once !== oldListener.once ||
+                    newListener.passive !== oldListener.passive);
+        const shouldAddListener = newListener != null && (oldListener == null || shouldRemoveListener);
+        if (shouldRemoveListener) {
+            this.element.removeEventListener(this.eventName, this.__boundHandleEvent, this.__options);
+        }
+        if (shouldAddListener) {
+            this.__options = getOptions(newListener);
+            this.element.addEventListener(this.eventName, this.__boundHandleEvent, this.__options);
+        }
+        this.value = newListener;
+        this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__.noChange;
+    }
+    handleEvent(event) {
+        if (typeof this.value === 'function') {
+            this.value.call(this.eventContext || this.element, event);
+        }
+        else {
+            this.value.handleEvent(event);
+        }
+    }
+}
+// We copy options because of the inconsistent behavior of browsers when reading
+// the third argument of add/removeEventListener. IE11 doesn't support options
+// at all. Chrome 41 only reads `capture` if the argument is an object.
+const getOptions = (o) => o &&
+    (eventOptionsSupported ?
+        { capture: o.capture, passive: o.passive, once: o.once } :
+        o.capture);
+//# sourceMappingURL=parts.js.map
+
+/***/ }),
+/* 24 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   directive: () => (/* binding */ directive),
+/* harmony export */   isDirective: () => (/* binding */ isDirective)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+const directives = new WeakMap();
+/**
+ * Brands a function as a directive factory function so that lit-html will call
+ * the function during template rendering, rather than passing as a value.
+ *
+ * A _directive_ is a function that takes a Part as an argument. It has the
+ * signature: `(part: Part) => void`.
+ *
+ * A directive _factory_ is a function that takes arguments for data and
+ * configuration and returns a directive. Users of directive usually refer to
+ * the directive factory as the directive. For example, "The repeat directive".
+ *
+ * Usually a template author will invoke a directive factory in their template
+ * with relevant arguments, which will then return a directive function.
+ *
+ * Here's an example of using the `repeat()` directive factory that takes an
+ * array and a function to render an item:
+ *
+ * ```js
+ * html`<ul><${repeat(items, (item) => html`<li>${item}</li>`)}</ul>`
+ * ```
+ *
+ * When `repeat` is invoked, it returns a directive function that closes over
+ * `items` and the template function. When the outer template is rendered, the
+ * return directive function is called with the Part for the expression.
+ * `repeat` then performs it's custom logic to render multiple items.
+ *
+ * @param f The directive factory function. Must be a function that returns a
+ * function of the signature `(part: Part) => void`. The returned function will
+ * be called with the part object.
+ *
+ * @example
+ *
+ * import {directive, html} from 'lit-html';
+ *
+ * const immutable = directive((v) => (part) => {
+ *   if (part.value !== v) {
+ *     part.setValue(v)
+ *   }
+ * });
+ */
+const directive = (f) => ((...args) => {
+    const d = f(...args);
+    directives.set(d, true);
+    return d;
+});
+const isDirective = (o) => {
+    return typeof o === 'function' && directives.has(o);
+};
+//# sourceMappingURL=directive.js.map
+
+/***/ }),
+/* 25 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   noChange: () => (/* binding */ noChange),
+/* harmony export */   nothing: () => (/* binding */ nothing)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * A sentinel value that signals that a value was handled by a directive and
+ * should not be written to the DOM.
+ */
+const noChange = {};
+/**
+ * A sentinel value that signals a NodePart to fully clear its content.
+ */
+const nothing = {};
+//# sourceMappingURL=part.js.map
+
+/***/ }),
+/* 26 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TemplateInstance: () => (/* binding */ TemplateInstance)
+/* harmony export */ });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+
+/**
+ * An instance of a `Template` that can be attached to the DOM and updated
+ * with new values.
+ */
+class TemplateInstance {
+    constructor(template, processor, options) {
+        this.__parts = [];
+        this.template = template;
+        this.processor = processor;
+        this.options = options;
+    }
+    update(values) {
+        let i = 0;
+        for (const part of this.__parts) {
+            if (part !== undefined) {
+                part.setValue(values[i]);
+            }
+            i++;
+        }
+        for (const part of this.__parts) {
+            if (part !== undefined) {
+                part.commit();
+            }
+        }
+    }
+    _clone() {
+        // There are a number of steps in the lifecycle of a template instance's
+        // DOM fragment:
+        //  1. Clone - create the instance fragment
+        //  2. Adopt - adopt into the main document
+        //  3. Process - find part markers and create parts
+        //  4. Upgrade - upgrade custom elements
+        //  5. Update - set node, attribute, property, etc., values
+        //  6. Connect - connect to the document. Optional and outside of this
+        //     method.
+        //
+        // We have a few constraints on the ordering of these steps:
+        //  * We need to upgrade before updating, so that property values will pass
+        //    through any property setters.
+        //  * We would like to process before upgrading so that we're sure that the
+        //    cloned fragment is inert and not disturbed by self-modifying DOM.
+        //  * We want custom elements to upgrade even in disconnected fragments.
+        //
+        // Given these constraints, with full custom elements support we would
+        // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
+        //
+        // But Safari does not implement CustomElementRegistry#upgrade, so we
+        // can not implement that order and still have upgrade-before-update and
+        // upgrade disconnected fragments. So we instead sacrifice the
+        // process-before-upgrade constraint, since in Custom Elements v1 elements
+        // must not modify their light DOM in the constructor. We still have issues
+        // when co-existing with CEv0 elements like Polymer 1, and with polyfills
+        // that don't strictly adhere to the no-modification rule because shadow
+        // DOM, which may be created in the constructor, is emulated by being placed
+        // in the light DOM.
+        //
+        // The resulting order is on native is: Clone, Adopt, Upgrade, Process,
+        // Update, Connect. document.importNode() performs Clone, Adopt, and Upgrade
+        // in one step.
+        //
+        // The Custom Elements v1 polyfill supports upgrade(), so the order when
+        // polyfilled is the more ideal: Clone, Process, Adopt, Upgrade, Update,
+        // Connect.
+        const fragment = _dom_js__WEBPACK_IMPORTED_MODULE_0__.isCEPolyfill ?
+            this.template.element.content.cloneNode(true) :
+            document.importNode(this.template.element.content, true);
+        const stack = [];
+        const parts = this.template.parts;
+        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
+        const walker = document.createTreeWalker(fragment, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
+        let partIndex = 0;
+        let nodeIndex = 0;
+        let part;
+        let node = walker.nextNode();
+        // Loop through all the nodes and parts of a template
+        while (partIndex < parts.length) {
+            part = parts[partIndex];
+            if (!(0,_template_js__WEBPACK_IMPORTED_MODULE_1__.isTemplatePartActive)(part)) {
+                this.__parts.push(undefined);
+                partIndex++;
+                continue;
+            }
+            // Progress the tree walker until we find our next part's node.
+            // Note that multiple parts may share the same node (attribute parts
+            // on a single element), so this loop may not run at all.
+            while (nodeIndex < part.index) {
+                nodeIndex++;
+                if (node.nodeName === 'TEMPLATE') {
+                    stack.push(node);
+                    walker.currentNode = node.content;
+                }
+                if ((node = walker.nextNode()) === null) {
+                    // We've exhausted the content inside a nested template element.
+                    // Because we still have parts (the outer for-loop), we know:
+                    // - There is a template in the stack
+                    // - The walker will find a nextNode outside the template
+                    walker.currentNode = stack.pop();
+                    node = walker.nextNode();
+                }
+            }
+            // We've arrived at our part's node.
+            if (part.type === 'node') {
+                const part = this.processor.handleTextExpression(this.options);
+                part.insertAfterNode(node.previousSibling);
+                this.__parts.push(part);
+            }
+            else {
+                this.__parts.push(...this.processor.handleAttributeExpressions(node, part.name, part.strings, this.options));
+            }
+            partIndex++;
+        }
+        if (_dom_js__WEBPACK_IMPORTED_MODULE_0__.isCEPolyfill) {
+            document.adoptNode(fragment);
+            customElements.upgrade(fragment);
+        }
+        return fragment;
+    }
+}
+//# sourceMappingURL=template-instance.js.map
+
+/***/ }),
+/* 27 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SVGTemplateResult: () => (/* binding */ SVGTemplateResult),
+/* harmony export */   TemplateResult: () => (/* binding */ TemplateResult)
+/* harmony export */ });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @module lit-html
+ */
+
+
+/**
+ * Our TrustedTypePolicy for HTML which is declared using the html template
+ * tag function.
+ *
+ * That HTML is a developer-authored constant, and is parsed with innerHTML
+ * before any untrusted expressions have been mixed in. Therefor it is
+ * considered safe by construction.
+ */
+const policy = window.trustedTypes &&
+    trustedTypes.createPolicy('lit-html', { createHTML: (s) => s });
+const commentMarker = ` ${_template_js__WEBPACK_IMPORTED_MODULE_1__.marker} `;
+/**
+ * The return type of `html`, which holds a Template and the values from
+ * interpolated expressions.
+ */
+class TemplateResult {
+    constructor(strings, values, type, processor) {
+        this.strings = strings;
+        this.values = values;
+        this.type = type;
+        this.processor = processor;
+    }
+    /**
+     * Returns a string of HTML used to create a `<template>` element.
+     */
+    getHTML() {
+        const l = this.strings.length - 1;
+        let html = '';
+        let isCommentBinding = false;
+        for (let i = 0; i < l; i++) {
+            const s = this.strings[i];
+            // For each binding we want to determine the kind of marker to insert
+            // into the template source before it's parsed by the browser's HTML
+            // parser. The marker type is based on whether the expression is in an
+            // attribute, text, or comment position.
+            //   * For node-position bindings we insert a comment with the marker
+            //     sentinel as its text content, like <!--{{lit-guid}}-->.
+            //   * For attribute bindings we insert just the marker sentinel for the
+            //     first binding, so that we support unquoted attribute bindings.
+            //     Subsequent bindings can use a comment marker because multi-binding
+            //     attributes must be quoted.
+            //   * For comment bindings we insert just the marker sentinel so we don't
+            //     close the comment.
+            //
+            // The following code scans the template source, but is *not* an HTML
+            // parser. We don't need to track the tree structure of the HTML, only
+            // whether a binding is inside a comment, and if not, if it appears to be
+            // the first binding in an attribute.
+            const commentOpen = s.lastIndexOf('<!--');
+            // We're in comment position if we have a comment open with no following
+            // comment close. Because <-- can appear in an attribute value there can
+            // be false positives.
+            isCommentBinding = (commentOpen > -1 || isCommentBinding) &&
+                s.indexOf('-->', commentOpen + 1) === -1;
+            // Check to see if we have an attribute-like sequence preceding the
+            // expression. This can match "name=value" like structures in text,
+            // comments, and attribute values, so there can be false-positives.
+            const attributeMatch = _template_js__WEBPACK_IMPORTED_MODULE_1__.lastAttributeNameRegex.exec(s);
+            if (attributeMatch === null) {
+                // We're only in this branch if we don't have a attribute-like
+                // preceding sequence. For comments, this guards against unusual
+                // attribute values like <div foo="<!--${'bar'}">. Cases like
+                // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
+                // below.
+                html += s + (isCommentBinding ? commentMarker : _template_js__WEBPACK_IMPORTED_MODULE_1__.nodeMarker);
+            }
+            else {
+                // For attributes we use just a marker sentinel, and also append a
+                // $lit$ suffix to the name to opt-out of attribute-specific parsing
+                // that IE and Edge do for style and certain SVG attributes.
+                html += s.substr(0, attributeMatch.index) + attributeMatch[1] +
+                    attributeMatch[2] + _template_js__WEBPACK_IMPORTED_MODULE_1__.boundAttributeSuffix + attributeMatch[3] +
+                    _template_js__WEBPACK_IMPORTED_MODULE_1__.marker;
+            }
+        }
+        html += this.strings[l];
+        return html;
+    }
+    getTemplateElement() {
+        const template = document.createElement('template');
+        let value = this.getHTML();
+        if (policy !== undefined) {
+            // this is secure because `this.strings` is a TemplateStringsArray.
+            // TODO: validate this when
+            // https://github.com/tc39/proposal-array-is-template-object is
+            // implemented.
+            value = policy.createHTML(value);
+        }
+        template.innerHTML = value;
+        return template;
+    }
+}
+/**
+ * A TemplateResult for SVG fragments.
+ *
+ * This class wraps HTML in an `<svg>` tag in order to parse its contents in the
+ * SVG namespace, then modifies the template to remove the `<svg>` tag so that
+ * clones only container the original fragment.
+ */
+class SVGTemplateResult extends TemplateResult {
+    getHTML() {
+        return `<svg>${super.getHTML()}</svg>`;
+    }
+    getTemplateElement() {
+        const template = super.getTemplateElement();
+        const content = template.content;
+        const svgElement = content.firstChild;
+        content.removeChild(svgElement);
+        (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.reparentNodes)(content, svgElement.firstChild);
+        return template;
+    }
+}
+//# sourceMappingURL=template-result.js.map
+
+/***/ }),
+/* 28 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   templateCaches: () => (/* binding */ templateCaches),
+/* harmony export */   templateFactory: () => (/* binding */ templateFactory)
+/* harmony export */ });
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * The default TemplateFactory which caches Templates keyed on
+ * result.type and result.strings.
+ */
+function templateFactory(result) {
+    let templateCache = templateCaches.get(result.type);
+    if (templateCache === undefined) {
+        templateCache = {
+            stringsArray: new WeakMap(),
+            keyString: new Map()
+        };
+        templateCaches.set(result.type, templateCache);
+    }
+    let template = templateCache.stringsArray.get(result.strings);
+    if (template !== undefined) {
+        return template;
+    }
+    // If the TemplateStringsArray is new, generate a key from the strings
+    // This key is shared between all templates with identical content
+    const key = result.strings.join(_template_js__WEBPACK_IMPORTED_MODULE_0__.marker);
+    // Check if we already have a Template for this key
+    template = templateCache.keyString.get(key);
+    if (template === undefined) {
+        // If we have not seen this key before, create a new Template
+        template = new _template_js__WEBPACK_IMPORTED_MODULE_0__.Template(result, result.getTemplateElement());
+        // Cache the Template for this key
+        templateCache.keyString.set(key, template);
+    }
+    // Cache all future queries for this TemplateStringsArray
+    templateCache.stringsArray.set(result.strings, template);
+    return template;
+}
+const templateCaches = new Map();
+//# sourceMappingURL=template-factory.js.map
+
+/***/ }),
+/* 29 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AttributeCommitter: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.AttributeCommitter),
+/* harmony export */   AttributePart: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.AttributePart),
+/* harmony export */   BooleanAttributePart: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.BooleanAttributePart),
+/* harmony export */   DefaultTemplateProcessor: () => (/* reexport safe */ _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__.DefaultTemplateProcessor),
+/* harmony export */   EventPart: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.EventPart),
+/* harmony export */   NodePart: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.NodePart),
+/* harmony export */   PropertyCommitter: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.PropertyCommitter),
+/* harmony export */   PropertyPart: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.PropertyPart),
+/* harmony export */   SVGTemplateResult: () => (/* reexport safe */ _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__.SVGTemplateResult),
+/* harmony export */   Template: () => (/* reexport safe */ _lib_template_js__WEBPACK_IMPORTED_MODULE_9__.Template),
+/* harmony export */   TemplateInstance: () => (/* reexport safe */ _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__.TemplateInstance),
+/* harmony export */   TemplateResult: () => (/* reexport safe */ _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__.TemplateResult),
+/* harmony export */   createMarker: () => (/* reexport safe */ _lib_template_js__WEBPACK_IMPORTED_MODULE_9__.createMarker),
+/* harmony export */   defaultTemplateProcessor: () => (/* reexport safe */ _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__.defaultTemplateProcessor),
+/* harmony export */   directive: () => (/* reexport safe */ _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__.directive),
+/* harmony export */   html: () => (/* binding */ html),
+/* harmony export */   isDirective: () => (/* reexport safe */ _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__.isDirective),
+/* harmony export */   isIterable: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.isIterable),
+/* harmony export */   isPrimitive: () => (/* reexport safe */ _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__.isPrimitive),
+/* harmony export */   isTemplatePartActive: () => (/* reexport safe */ _lib_template_js__WEBPACK_IMPORTED_MODULE_9__.isTemplatePartActive),
+/* harmony export */   noChange: () => (/* reexport safe */ _lib_part_js__WEBPACK_IMPORTED_MODULE_4__.noChange),
+/* harmony export */   nothing: () => (/* reexport safe */ _lib_part_js__WEBPACK_IMPORTED_MODULE_4__.nothing),
+/* harmony export */   parts: () => (/* reexport safe */ _lib_render_js__WEBPACK_IMPORTED_MODULE_6__.parts),
+/* harmony export */   removeNodes: () => (/* reexport safe */ _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__.removeNodes),
+/* harmony export */   render: () => (/* reexport safe */ _lib_render_js__WEBPACK_IMPORTED_MODULE_6__.render),
+/* harmony export */   reparentNodes: () => (/* reexport safe */ _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__.reparentNodes),
+/* harmony export */   svg: () => (/* binding */ svg),
+/* harmony export */   templateCaches: () => (/* reexport safe */ _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__.templateCaches),
+/* harmony export */   templateFactory: () => (/* reexport safe */ _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__.templateFactory)
+/* harmony export */ });
+/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(25);
+/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(23);
+/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
+/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(28);
+/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(26);
+/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(21);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ *
+ * Main lit-html module.
+ *
+ * Main exports:
+ *
+ * -  [[html]]
+ * -  [[svg]]
+ * -  [[render]]
+ *
+ * @packageDocumentation
+ */
+/**
+ * Do not remove this comment; it keeps typedoc from misplacing the module
+ * docs.
+ */
+
+
+
+
+// TODO(justinfagnani): remove line when we get NodePart moving methods
+
+
+
+
+
+
+
+
+// IMPORTANT: do not change the property name or the assignment expression.
+// This line will be used in regexes to search for lit-html usage.
+// TODO(justinfagnani): inject version number at build time
+if (typeof window !== 'undefined') {
+    (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.4.1');
+}
+/**
+ * Interprets a template literal as an HTML template that can efficiently
+ * render to and update a container.
+ */
+const html = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__.TemplateResult(strings, values, 'html', _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__.defaultTemplateProcessor);
+/**
+ * Interprets a template literal as an SVG template that can efficiently
+ * render to and update a container.
+ */
+const svg = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__.SVGTemplateResult(strings, values, 'svg', _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__.defaultTemplateProcessor);
+//# sourceMappingURL=lit-html.js.map
+
+/***/ }),
+/* 30 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DefaultTemplateProcessor: () => (/* binding */ DefaultTemplateProcessor),
+/* harmony export */   defaultTemplateProcessor: () => (/* binding */ defaultTemplateProcessor)
+/* harmony export */ });
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * Creates Parts when a template is instantiated.
+ */
+class DefaultTemplateProcessor {
+    /**
+     * Create parts for an attribute-position binding, given the event, attribute
+     * name, and string literals.
+     *
+     * @param element The element containing the binding
+     * @param name  The attribute name
+     * @param strings The string literals. There are always at least two strings,
+     *   event for fully-controlled bindings with a single expression.
+     */
+    handleAttributeExpressions(element, name, strings, options) {
+        const prefix = name[0];
+        if (prefix === '.') {
+            const committer = new _parts_js__WEBPACK_IMPORTED_MODULE_0__.PropertyCommitter(element, name.slice(1), strings);
+            return committer.parts;
+        }
+        if (prefix === '@') {
+            return [new _parts_js__WEBPACK_IMPORTED_MODULE_0__.EventPart(element, name.slice(1), options.eventContext)];
+        }
+        if (prefix === '?') {
+            return [new _parts_js__WEBPACK_IMPORTED_MODULE_0__.BooleanAttributePart(element, name.slice(1), strings)];
+        }
+        const committer = new _parts_js__WEBPACK_IMPORTED_MODULE_0__.AttributeCommitter(element, name, strings);
+        return committer.parts;
+    }
+    /**
+     * Create parts for a text-position binding.
+     * @param templateFactory
+     */
+    handleTextExpression(options) {
+        return new _parts_js__WEBPACK_IMPORTED_MODULE_0__.NodePart(options);
+    }
+}
+const defaultTemplateProcessor = new DefaultTemplateProcessor();
+//# sourceMappingURL=default-template-processor.js.map
+
+/***/ }),
+/* 31 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   UpdatingElement: () => (/* binding */ UpdatingElement),
+/* harmony export */   defaultConverter: () => (/* binding */ defaultConverter),
+/* harmony export */   notEqual: () => (/* binding */ notEqual)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+var _a;
+/**
+ * When using Closure Compiler, JSCompiler_renameProperty(property, object) is
+ * replaced at compile time by the munged name for object[property]. We cannot
+ * alias this function, so we have to use a small shim that has the same
+ * behavior when not compiling.
+ */
+window.JSCompiler_renameProperty =
+    (prop, _obj) => prop;
+const defaultConverter = {
+    toAttribute(value, type) {
+        switch (type) {
+            case Boolean:
+                return value ? '' : null;
+            case Object:
+            case Array:
+                // if the value is `null` or `undefined` pass this through
+                // to allow removing/no change behavior.
+                return value == null ? value : JSON.stringify(value);
+        }
+        return value;
+    },
+    fromAttribute(value, type) {
+        switch (type) {
+            case Boolean:
+                return value !== null;
+            case Number:
+                return value === null ? null : Number(value);
+            case Object:
+            case Array:
+                return JSON.parse(value);
+        }
+        return value;
+    }
+};
+/**
+ * Change function that returns true if `value` is different from `oldValue`.
+ * This method is used as the default for a property's `hasChanged` function.
+ */
+const notEqual = (value, old) => {
+    // This ensures (old==NaN, value==NaN) always returns false
+    return old !== value && (old === old || value === value);
+};
+const defaultPropertyDeclaration = {
+    attribute: true,
+    type: String,
+    converter: defaultConverter,
+    reflect: false,
+    hasChanged: notEqual
+};
+const STATE_HAS_UPDATED = 1;
+const STATE_UPDATE_REQUESTED = 1 << 2;
+const STATE_IS_REFLECTING_TO_ATTRIBUTE = 1 << 3;
+const STATE_IS_REFLECTING_TO_PROPERTY = 1 << 4;
+/**
+ * The Closure JS Compiler doesn't currently have good support for static
+ * property semantics where "this" is dynamic (e.g.
+ * https://github.com/google/closure-compiler/issues/3177 and others) so we use
+ * this hack to bypass any rewriting by the compiler.
+ */
+const finalized = 'finalized';
+/**
+ * Base element class which manages element properties and attributes. When
+ * properties change, the `update` method is asynchronously called. This method
+ * should be supplied by subclassers to render updates as desired.
+ */
+class UpdatingElement extends HTMLElement {
+    constructor() {
+        super();
+        this._updateState = 0;
+        this._instanceProperties = undefined;
+        // Initialize to an unresolved Promise so we can make sure the element has
+        // connected before first update.
+        this._updatePromise = new Promise((res) => this._enableUpdatingResolver = res);
+        /**
+         * Map with keys for any properties that have changed since the last
+         * update cycle with previous values.
+         */
+        this._changedProperties = new Map();
+        /**
+         * Map with keys of properties that should be reflected when updated.
+         */
+        this._reflectingProperties = undefined;
+        this.initialize();
+    }
+    /**
+     * Returns a list of attributes corresponding to the registered properties.
+     * @nocollapse
+     */
+    static get observedAttributes() {
+        // note: piggy backing on this to ensure we're finalized.
+        this.finalize();
+        const attributes = [];
+        // Use forEach so this works even if for/of loops are compiled to for loops
+        // expecting arrays
+        this._classProperties.forEach((v, p) => {
+            const attr = this._attributeNameForProperty(p, v);
+            if (attr !== undefined) {
+                this._attributeToPropertyMap.set(attr, p);
+                attributes.push(attr);
+            }
+        });
+        return attributes;
+    }
+    /**
+     * Ensures the private `_classProperties` property metadata is created.
+     * In addition to `finalize` this is also called in `createProperty` to
+     * ensure the `@property` decorator can add property metadata.
+     */
+    /** @nocollapse */
+    static _ensureClassProperties() {
+        // ensure private storage for property declarations.
+        if (!this.hasOwnProperty(JSCompiler_renameProperty('_classProperties', this))) {
+            this._classProperties = new Map();
+            // NOTE: Workaround IE11 not supporting Map constructor argument.
+            const superProperties = Object.getPrototypeOf(this)._classProperties;
+            if (superProperties !== undefined) {
+                superProperties.forEach((v, k) => this._classProperties.set(k, v));
+            }
+        }
+    }
+    /**
+     * Creates a property accessor on the element prototype if one does not exist
+     * and stores a PropertyDeclaration for the property with the given options.
+     * The property setter calls the property's `hasChanged` property option
+     * or uses a strict identity check to determine whether or not to request
+     * an update.
+     *
+     * This method may be overridden to customize properties; however,
+     * when doing so, it's important to call `super.createProperty` to ensure
+     * the property is setup correctly. This method calls
+     * `getPropertyDescriptor` internally to get a descriptor to install.
+     * To customize what properties do when they are get or set, override
+     * `getPropertyDescriptor`. To customize the options for a property,
+     * implement `createProperty` like this:
+     *
+     * static createProperty(name, options) {
+     *   options = Object.assign(options, {myOption: true});
+     *   super.createProperty(name, options);
+     * }
+     *
+     * @nocollapse
+     */
+    static createProperty(name, options = defaultPropertyDeclaration) {
+        // Note, since this can be called by the `@property` decorator which
+        // is called before `finalize`, we ensure storage exists for property
+        // metadata.
+        this._ensureClassProperties();
+        this._classProperties.set(name, options);
+        // Do not generate an accessor if the prototype already has one, since
+        // it would be lost otherwise and that would never be the user's intention;
+        // Instead, we expect users to call `requestUpdate` themselves from
+        // user-defined accessors. Note that if the super has an accessor we will
+        // still overwrite it
+        if (options.noAccessor || this.prototype.hasOwnProperty(name)) {
+            return;
+        }
+        const key = typeof name === 'symbol' ? Symbol() : `__${name}`;
+        const descriptor = this.getPropertyDescriptor(name, key, options);
+        if (descriptor !== undefined) {
+            Object.defineProperty(this.prototype, name, descriptor);
+        }
+    }
+    /**
+     * Returns a property descriptor to be defined on the given named property.
+     * If no descriptor is returned, the property will not become an accessor.
+     * For example,
+     *
+     *   class MyElement extends LitElement {
+     *     static getPropertyDescriptor(name, key, options) {
+     *       const defaultDescriptor =
+     *           super.getPropertyDescriptor(name, key, options);
+     *       const setter = defaultDescriptor.set;
+     *       return {
+     *         get: defaultDescriptor.get,
+     *         set(value) {
+     *           setter.call(this, value);
+     *           // custom action.
+     *         },
+     *         configurable: true,
+     *         enumerable: true
+     *       }
+     *     }
+     *   }
+     *
+     * @nocollapse
+     */
+    static getPropertyDescriptor(name, key, _options) {
+        return {
+            // tslint:disable-next-line:no-any no symbol in index
+            get() {
+                return this[key];
+            },
+            set(value) {
+                const oldValue = this[name];
+                this[key] = value;
+                this._requestUpdate(name, oldValue);
+            },
+            configurable: true,
+            enumerable: true
+        };
+    }
+    /**
+     * Returns the property options associated with the given property.
+     * These options are defined with a PropertyDeclaration via the `properties`
+     * object or the `@property` decorator and are registered in
+     * `createProperty(...)`.
+     *
+     * Note, this method should be considered "final" and not overridden. To
+     * customize the options for a given property, override `createProperty`.
+     *
+     * @nocollapse
+     * @final
+     */
+    static getPropertyOptions(name) {
+        return this._classProperties && this._classProperties.get(name) ||
+            defaultPropertyDeclaration;
+    }
+    /**
+     * Creates property accessors for registered properties and ensures
+     * any superclasses are also finalized.
+     * @nocollapse
+     */
+    static finalize() {
+        // finalize any superclasses
+        const superCtor = Object.getPrototypeOf(this);
+        if (!superCtor.hasOwnProperty(finalized)) {
+            superCtor.finalize();
+        }
+        this[finalized] = true;
+        this._ensureClassProperties();
+        // initialize Map populated in observedAttributes
+        this._attributeToPropertyMap = new Map();
+        // make any properties
+        // Note, only process "own" properties since this element will inherit
+        // any properties defined on the superClass, and finalization ensures
+        // the entire prototype chain is finalized.
+        if (this.hasOwnProperty(JSCompiler_renameProperty('properties', this))) {
+            const props = this.properties;
+            // support symbols in properties (IE11 does not support this)
+            const propKeys = [
+                ...Object.getOwnPropertyNames(props),
+                ...(typeof Object.getOwnPropertySymbols === 'function') ?
+                    Object.getOwnPropertySymbols(props) :
+                    []
+            ];
+            // This for/of is ok because propKeys is an array
+            for (const p of propKeys) {
+                // note, use of `any` is due to TypeSript lack of support for symbol in
+                // index types
+                // tslint:disable-next-line:no-any no symbol in index
+                this.createProperty(p, props[p]);
+            }
+        }
+    }
+    /**
+     * Returns the property name for the given attribute `name`.
+     * @nocollapse
+     */
+    static _attributeNameForProperty(name, options) {
+        const attribute = options.attribute;
+        return attribute === false ?
+            undefined :
+            (typeof attribute === 'string' ?
+                attribute :
+                (typeof name === 'string' ? name.toLowerCase() : undefined));
+    }
+    /**
+     * Returns true if a property should request an update.
+     * Called when a property value is set and uses the `hasChanged`
+     * option for the property if present or a strict identity check.
+     * @nocollapse
+     */
+    static _valueHasChanged(value, old, hasChanged = notEqual) {
+        return hasChanged(value, old);
+    }
+    /**
+     * Returns the property value for the given attribute value.
+     * Called via the `attributeChangedCallback` and uses the property's
+     * `converter` or `converter.fromAttribute` property option.
+     * @nocollapse
+     */
+    static _propertyValueFromAttribute(value, options) {
+        const type = options.type;
+        const converter = options.converter || defaultConverter;
+        const fromAttribute = (typeof converter === 'function' ? converter : converter.fromAttribute);
+        return fromAttribute ? fromAttribute(value, type) : value;
+    }
+    /**
+     * Returns the attribute value for the given property value. If this
+     * returns undefined, the property will *not* be reflected to an attribute.
+     * If this returns null, the attribute will be removed, otherwise the
+     * attribute will be set to the value.
+     * This uses the property's `reflect` and `type.toAttribute` property options.
+     * @nocollapse
+     */
+    static _propertyValueToAttribute(value, options) {
+        if (options.reflect === undefined) {
+            return;
+        }
+        const type = options.type;
+        const converter = options.converter;
+        const toAttribute = converter && converter.toAttribute ||
+            defaultConverter.toAttribute;
+        return toAttribute(value, type);
+    }
+    /**
+     * Performs element initialization. By default captures any pre-set values for
+     * registered properties.
+     */
+    initialize() {
+        this._saveInstanceProperties();
+        // ensures first update will be caught by an early access of
+        // `updateComplete`
+        this._requestUpdate();
+    }
+    /**
+     * Fixes any properties set on the instance before upgrade time.
+     * Otherwise these would shadow the accessor and break these properties.
+     * The properties are stored in a Map which is played back after the
+     * constructor runs. Note, on very old versions of Safari (<=9) or Chrome
+     * (<=41), properties created for native platform properties like (`id` or
+     * `name`) may not have default values set in the element constructor. On
+     * these browsers native properties appear on instances and therefore their
+     * default value will overwrite any element default (e.g. if the element sets
+     * this.id = 'id' in the constructor, the 'id' will become '' since this is
+     * the native platform default).
+     */
+    _saveInstanceProperties() {
+        // Use forEach so this works even if for/of loops are compiled to for loops
+        // expecting arrays
+        this.constructor
+            ._classProperties.forEach((_v, p) => {
+            if (this.hasOwnProperty(p)) {
+                const value = this[p];
+                delete this[p];
+                if (!this._instanceProperties) {
+                    this._instanceProperties = new Map();
+                }
+                this._instanceProperties.set(p, value);
+            }
+        });
+    }
+    /**
+     * Applies previously saved instance properties.
+     */
+    _applyInstanceProperties() {
+        // Use forEach so this works even if for/of loops are compiled to for loops
+        // expecting arrays
+        // tslint:disable-next-line:no-any
+        this._instanceProperties.forEach((v, p) => this[p] = v);
+        this._instanceProperties = undefined;
+    }
+    connectedCallback() {
+        // Ensure first connection completes an update. Updates cannot complete
+        // before connection.
+        this.enableUpdating();
+    }
+    enableUpdating() {
+        if (this._enableUpdatingResolver !== undefined) {
+            this._enableUpdatingResolver();
+            this._enableUpdatingResolver = undefined;
+        }
+    }
+    /**
+     * Allows for `super.disconnectedCallback()` in extensions while
+     * reserving the possibility of making non-breaking feature additions
+     * when disconnecting at some point in the future.
+     */
+    disconnectedCallback() {
+    }
+    /**
+     * Synchronizes property values when attributes change.
+     */
+    attributeChangedCallback(name, old, value) {
+        if (old !== value) {
+            this._attributeToProperty(name, value);
+        }
+    }
+    _propertyToAttribute(name, value, options = defaultPropertyDeclaration) {
+        const ctor = this.constructor;
+        const attr = ctor._attributeNameForProperty(name, options);
+        if (attr !== undefined) {
+            const attrValue = ctor._propertyValueToAttribute(value, options);
+            // an undefined value does not change the attribute.
+            if (attrValue === undefined) {
+                return;
+            }
+            // Track if the property is being reflected to avoid
+            // setting the property again via `attributeChangedCallback`. Note:
+            // 1. this takes advantage of the fact that the callback is synchronous.
+            // 2. will behave incorrectly if multiple attributes are in the reaction
+            // stack at time of calling. However, since we process attributes
+            // in `update` this should not be possible (or an extreme corner case
+            // that we'd like to discover).
+            // mark state reflecting
+            this._updateState = this._updateState | STATE_IS_REFLECTING_TO_ATTRIBUTE;
+            if (attrValue == null) {
+                this.removeAttribute(attr);
+            }
+            else {
+                this.setAttribute(attr, attrValue);
+            }
+            // mark state not reflecting
+            this._updateState = this._updateState & ~STATE_IS_REFLECTING_TO_ATTRIBUTE;
+        }
+    }
+    _attributeToProperty(name, value) {
+        // Use tracking info to avoid deserializing attribute value if it was
+        // just set from a property setter.
+        if (this._updateState & STATE_IS_REFLECTING_TO_ATTRIBUTE) {
+            return;
+        }
+        const ctor = this.constructor;
+        // Note, hint this as an `AttributeMap` so closure clearly understands
+        // the type; it has issues with tracking types through statics
+        // tslint:disable-next-line:no-unnecessary-type-assertion
+        const propName = ctor._attributeToPropertyMap.get(name);
+        if (propName !== undefined) {
+            const options = ctor.getPropertyOptions(propName);
+            // mark state reflecting
+            this._updateState = this._updateState | STATE_IS_REFLECTING_TO_PROPERTY;
+            this[propName] =
+                // tslint:disable-next-line:no-any
+                ctor._propertyValueFromAttribute(value, options);
+            // mark state not reflecting
+            this._updateState = this._updateState & ~STATE_IS_REFLECTING_TO_PROPERTY;
+        }
+    }
+    /**
+     * This private version of `requestUpdate` does not access or return the
+     * `updateComplete` promise. This promise can be overridden and is therefore
+     * not free to access.
+     */
+    _requestUpdate(name, oldValue) {
+        let shouldRequestUpdate = true;
+        // If we have a property key, perform property update steps.
+        if (name !== undefined) {
+            const ctor = this.constructor;
+            const options = ctor.getPropertyOptions(name);
+            if (ctor._valueHasChanged(this[name], oldValue, options.hasChanged)) {
+                if (!this._changedProperties.has(name)) {
+                    this._changedProperties.set(name, oldValue);
+                }
+                // Add to reflecting properties set.
+                // Note, it's important that every change has a chance to add the
+                // property to `_reflectingProperties`. This ensures setting
+                // attribute + property reflects correctly.
+                if (options.reflect === true &&
+                    !(this._updateState & STATE_IS_REFLECTING_TO_PROPERTY)) {
+                    if (this._reflectingProperties === undefined) {
+                        this._reflectingProperties = new Map();
+                    }
+                    this._reflectingProperties.set(name, options);
+                }
+            }
+            else {
+                // Abort the request if the property should not be considered changed.
+                shouldRequestUpdate = false;
+            }
+        }
+        if (!this._hasRequestedUpdate && shouldRequestUpdate) {
+            this._updatePromise = this._enqueueUpdate();
+        }
+    }
+    /**
+     * Requests an update which is processed asynchronously. This should
+     * be called when an element should update based on some state not triggered
+     * by setting a property. In this case, pass no arguments. It should also be
+     * called when manually implementing a property setter. In this case, pass the
+     * property `name` and `oldValue` to ensure that any configured property
+     * options are honored. Returns the `updateComplete` Promise which is resolved
+     * when the update completes.
+     *
+     * @param name {PropertyKey} (optional) name of requesting property
+     * @param oldValue {any} (optional) old value of requesting property
+     * @returns {Promise} A Promise that is resolved when the update completes.
+     */
+    requestUpdate(name, oldValue) {
+        this._requestUpdate(name, oldValue);
+        return this.updateComplete;
+    }
+    /**
+     * Sets up the element to asynchronously update.
+     */
+    async _enqueueUpdate() {
+        this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
+        try {
+            // Ensure any previous update has resolved before updating.
+            // This `await` also ensures that property changes are batched.
+            await this._updatePromise;
+        }
+        catch (e) {
+            // Ignore any previous errors. We only care that the previous cycle is
+            // done. Any error should have been handled in the previous update.
+        }
+        const result = this.performUpdate();
+        // If `performUpdate` returns a Promise, we await it. This is done to
+        // enable coordinating updates with a scheduler. Note, the result is
+        // checked to avoid delaying an additional microtask unless we need to.
+        if (result != null) {
+            await result;
+        }
+        return !this._hasRequestedUpdate;
+    }
+    get _hasRequestedUpdate() {
+        return (this._updateState & STATE_UPDATE_REQUESTED);
+    }
+    get hasUpdated() {
+        return (this._updateState & STATE_HAS_UPDATED);
+    }
+    /**
+     * Performs an element update. Note, if an exception is thrown during the
+     * update, `firstUpdated` and `updated` will not be called.
+     *
+     * You can override this method to change the timing of updates. If this
+     * method is overridden, `super.performUpdate()` must be called.
+     *
+     * For instance, to schedule updates to occur just before the next frame:
+     *
+     * ```
+     * protected async performUpdate(): Promise<unknown> {
+     *   await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+     *   super.performUpdate();
+     * }
+     * ```
+     */
+    performUpdate() {
+        // Mixin instance properties once, if they exist.
+        if (this._instanceProperties) {
+            this._applyInstanceProperties();
+        }
+        let shouldUpdate = false;
+        const changedProperties = this._changedProperties;
+        try {
+            shouldUpdate = this.shouldUpdate(changedProperties);
+            if (shouldUpdate) {
+                this.update(changedProperties);
+            }
+            else {
+                this._markUpdated();
+            }
+        }
+        catch (e) {
+            // Prevent `firstUpdated` and `updated` from running when there's an
+            // update exception.
+            shouldUpdate = false;
+            // Ensure element can accept additional updates after an exception.
+            this._markUpdated();
+            throw e;
+        }
+        if (shouldUpdate) {
+            if (!(this._updateState & STATE_HAS_UPDATED)) {
+                this._updateState = this._updateState | STATE_HAS_UPDATED;
+                this.firstUpdated(changedProperties);
+            }
+            this.updated(changedProperties);
+        }
+    }
+    _markUpdated() {
+        this._changedProperties = new Map();
+        this._updateState = this._updateState & ~STATE_UPDATE_REQUESTED;
+    }
+    /**
+     * Returns a Promise that resolves when the element has completed updating.
+     * The Promise value is a boolean that is `true` if the element completed the
+     * update without triggering another update. The Promise result is `false` if
+     * a property was set inside `updated()`. If the Promise is rejected, an
+     * exception was thrown during the update.
+     *
+     * To await additional asynchronous work, override the `_getUpdateComplete`
+     * method. For example, it is sometimes useful to await a rendered element
+     * before fulfilling this Promise. To do this, first await
+     * `super._getUpdateComplete()`, then any subsequent state.
+     *
+     * @returns {Promise} The Promise returns a boolean that indicates if the
+     * update resolved without triggering another update.
+     */
+    get updateComplete() {
+        return this._getUpdateComplete();
+    }
+    /**
+     * Override point for the `updateComplete` promise.
+     *
+     * It is not safe to override the `updateComplete` getter directly due to a
+     * limitation in TypeScript which means it is not possible to call a
+     * superclass getter (e.g. `super.updateComplete.then(...)`) when the target
+     * language is ES5 (https://github.com/microsoft/TypeScript/issues/338).
+     * This method should be overridden instead. For example:
+     *
+     *   class MyElement extends LitElement {
+     *     async _getUpdateComplete() {
+     *       await super._getUpdateComplete();
+     *       await this._myChild.updateComplete;
+     *     }
+     *   }
+     */
+    _getUpdateComplete() {
+        return this._updatePromise;
+    }
+    /**
+     * Controls whether or not `update` should be called when the element requests
+     * an update. By default, this method always returns `true`, but this can be
+     * customized to control when to update.
+     *
+     * @param _changedProperties Map of changed properties with old values
+     */
+    shouldUpdate(_changedProperties) {
+        return true;
+    }
+    /**
+     * Updates the element. This method reflects property values to attributes.
+     * It can be overridden to render and keep updated element DOM.
+     * Setting properties inside this method will *not* trigger
+     * another update.
+     *
+     * @param _changedProperties Map of changed properties with old values
+     */
+    update(_changedProperties) {
+        if (this._reflectingProperties !== undefined &&
+            this._reflectingProperties.size > 0) {
+            // Use forEach so this works even if for/of loops are compiled to for
+            // loops expecting arrays
+            this._reflectingProperties.forEach((v, k) => this._propertyToAttribute(k, this[k], v));
+            this._reflectingProperties = undefined;
+        }
+        this._markUpdated();
+    }
+    /**
+     * Invoked whenever the element is updated. Implement to perform
+     * post-updating tasks via DOM APIs, for example, focusing an element.
+     *
+     * Setting properties inside this method will trigger the element to update
+     * again after this update cycle completes.
+     *
+     * @param _changedProperties Map of changed properties with old values
+     */
+    updated(_changedProperties) {
+    }
+    /**
+     * Invoked when the element is first updated. Implement to perform one time
+     * work on the element after update.
+     *
+     * Setting properties inside this method will trigger the element to update
+     * again after this update cycle completes.
+     *
+     * @param _changedProperties Map of changed properties with old values
+     */
+    firstUpdated(_changedProperties) {
+    }
+}
+_a = finalized;
+/**
+ * Marks class as having finished creating properties.
+ */
+UpdatingElement[_a] = true;
+//# sourceMappingURL=updating-element.js.map
+
+/***/ }),
+/* 32 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   customElement: () => (/* binding */ customElement),
+/* harmony export */   eventOptions: () => (/* binding */ eventOptions),
+/* harmony export */   internalProperty: () => (/* binding */ internalProperty),
+/* harmony export */   property: () => (/* binding */ property),
+/* harmony export */   query: () => (/* binding */ query),
+/* harmony export */   queryAll: () => (/* binding */ queryAll),
+/* harmony export */   queryAssignedNodes: () => (/* binding */ queryAssignedNodes),
+/* harmony export */   queryAsync: () => (/* binding */ queryAsync)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+const legacyCustomElement = (tagName, clazz) => {
+    window.customElements.define(tagName, clazz);
+    // Cast as any because TS doesn't recognize the return type as being a
+    // subtype of the decorated class when clazz is typed as
+    // `Constructor<HTMLElement>` for some reason.
+    // `Constructor<HTMLElement>` is helpful to make sure the decorator is
+    // applied to elements however.
+    // tslint:disable-next-line:no-any
+    return clazz;
+};
+const standardCustomElement = (tagName, descriptor) => {
+    const { kind, elements } = descriptor;
+    return {
+        kind,
+        elements,
+        // This callback is called once the class is otherwise fully defined
+        finisher(clazz) {
+            window.customElements.define(tagName, clazz);
+        }
+    };
+};
+/**
+ * Class decorator factory that defines the decorated class as a custom element.
+ *
+ * ```
+ * @customElement('my-element')
+ * class MyElement {
+ *   render() {
+ *     return html``;
+ *   }
+ * }
+ * ```
+ *
+ * @param tagName The name of the custom element to define.
+ */
+const customElement = (tagName) => (classOrDescriptor) => (typeof classOrDescriptor === 'function') ?
+    legacyCustomElement(tagName, classOrDescriptor) :
+    standardCustomElement(tagName, classOrDescriptor);
+const standardProperty = (options, element) => {
+    // When decorating an accessor, pass it through and add property metadata.
+    // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
+    // stomp over the user's accessor.
+    if (element.kind === 'method' && element.descriptor &&
+        !('value' in element.descriptor)) {
+        return Object.assign(Object.assign({}, element), { finisher(clazz) {
+                clazz.createProperty(element.key, options);
+            } });
+    }
+    else {
+        // createProperty() takes care of defining the property, but we still
+        // must return some kind of descriptor, so return a descriptor for an
+        // unused prototype field. The finisher calls createProperty().
+        return {
+            kind: 'field',
+            key: Symbol(),
+            placement: 'own',
+            descriptor: {},
+            // When @babel/plugin-proposal-decorators implements initializers,
+            // do this instead of the initializer below. See:
+            // https://github.com/babel/babel/issues/9260 extras: [
+            //   {
+            //     kind: 'initializer',
+            //     placement: 'own',
+            //     initializer: descriptor.initializer,
+            //   }
+            // ],
+            initializer() {
+                if (typeof element.initializer === 'function') {
+                    this[element.key] = element.initializer.call(this);
+                }
+            },
+            finisher(clazz) {
+                clazz.createProperty(element.key, options);
+            }
+        };
+    }
+};
+const legacyProperty = (options, proto, name) => {
+    proto.constructor
+        .createProperty(name, options);
+};
+/**
+ * A property decorator which creates a LitElement property which reflects a
+ * corresponding attribute value. A `PropertyDeclaration` may optionally be
+ * supplied to configure property features.
+ *
+ * This decorator should only be used for public fields. Private or protected
+ * fields should use the internalProperty decorator.
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @property({ type: Boolean })
+ *       clicked = false;
+ *     }
+ *
+ * @ExportDecoratedItems
+ */
+function property(options) {
+    // tslint:disable-next-line:no-any decorator
+    return (protoOrDescriptor, name) => (name !== undefined) ?
+        legacyProperty(options, protoOrDescriptor, name) :
+        standardProperty(options, protoOrDescriptor);
+}
+/**
+ * Declares a private or protected property that still triggers updates to the
+ * element when it changes.
+ *
+ * Properties declared this way must not be used from HTML or HTML templating
+ * systems, they're solely for properties internal to the element. These
+ * properties may be renamed by optimization tools like closure compiler.
+ */
+function internalProperty(options) {
+    return property({ attribute: false, hasChanged: options === null || options === void 0 ? void 0 : options.hasChanged });
+}
+/**
+ * A property decorator that converts a class property into a getter that
+ * executes a querySelector on the element's renderRoot.
+ *
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @query('#first')
+ *       first;
+ *
+ *       render() {
+ *         return html`
+ *           <div id="first"></div>
+ *           <div id="second"></div>
+ *         `;
+ *       }
+ *     }
+ *
+ */
+function query(selector) {
+    return (protoOrDescriptor, 
+    // tslint:disable-next-line:no-any decorator
+    name) => {
+        const descriptor = {
+            get() {
+                return this.renderRoot.querySelector(selector);
+            },
+            enumerable: true,
+            configurable: true,
+        };
+        return (name !== undefined) ?
+            legacyQuery(descriptor, protoOrDescriptor, name) :
+            standardQuery(descriptor, protoOrDescriptor);
+    };
+}
+// Note, in the future, we may extend this decorator to support the use case
+// where the queried element may need to do work to become ready to interact
+// with (e.g. load some implementation code). If so, we might elect to
+// add a second argument defining a function that can be run to make the
+// queried element loaded/updated/ready.
+/**
+ * A property decorator that converts a class property into a getter that
+ * returns a promise that resolves to the result of a querySelector on the
+ * element's renderRoot done after the element's `updateComplete` promise
+ * resolves. When the queried property may change with element state, this
+ * decorator can be used instead of requiring users to await the
+ * `updateComplete` before accessing the property.
+ *
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @queryAsync('#first')
+ *       first;
+ *
+ *       render() {
+ *         return html`
+ *           <div id="first"></div>
+ *           <div id="second"></div>
+ *         `;
+ *       }
+ *     }
+ *
+ *     // external usage
+ *     async doSomethingWithFirst() {
+ *      (await aMyElement.first).doSomething();
+ *     }
+ */
+function queryAsync(selector) {
+    return (protoOrDescriptor, 
+    // tslint:disable-next-line:no-any decorator
+    name) => {
+        const descriptor = {
+            async get() {
+                await this.updateComplete;
+                return this.renderRoot.querySelector(selector);
+            },
+            enumerable: true,
+            configurable: true,
+        };
+        return (name !== undefined) ?
+            legacyQuery(descriptor, protoOrDescriptor, name) :
+            standardQuery(descriptor, protoOrDescriptor);
+    };
+}
+/**
+ * A property decorator that converts a class property into a getter
+ * that executes a querySelectorAll on the element's renderRoot.
+ *
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @queryAll('div')
+ *       divs;
+ *
+ *       render() {
+ *         return html`
+ *           <div id="first"></div>
+ *           <div id="second"></div>
+ *         `;
+ *       }
+ *     }
+ */
+function queryAll(selector) {
+    return (protoOrDescriptor, 
+    // tslint:disable-next-line:no-any decorator
+    name) => {
+        const descriptor = {
+            get() {
+                return this.renderRoot.querySelectorAll(selector);
+            },
+            enumerable: true,
+            configurable: true,
+        };
+        return (name !== undefined) ?
+            legacyQuery(descriptor, protoOrDescriptor, name) :
+            standardQuery(descriptor, protoOrDescriptor);
+    };
+}
+const legacyQuery = (descriptor, proto, name) => {
+    Object.defineProperty(proto, name, descriptor);
+};
+const standardQuery = (descriptor, element) => ({
+    kind: 'method',
+    placement: 'prototype',
+    key: element.key,
+    descriptor,
+});
+const standardEventOptions = (options, element) => {
+    return Object.assign(Object.assign({}, element), { finisher(clazz) {
+            Object.assign(clazz.prototype[element.key], options);
+        } });
+};
+const legacyEventOptions = 
+// tslint:disable-next-line:no-any legacy decorator
+(options, proto, name) => {
+    Object.assign(proto[name], options);
+};
+/**
+ * Adds event listener options to a method used as an event listener in a
+ * lit-html template.
+ *
+ * @param options An object that specifies event listener options as accepted by
+ * `EventTarget#addEventListener` and `EventTarget#removeEventListener`.
+ *
+ * Current browsers support the `capture`, `passive`, and `once` options. See:
+ * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Parameters
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       clicked = false;
+ *
+ *       render() {
+ *         return html`
+ *           <div @click=${this._onClick}`>
+ *             <button></button>
+ *           </div>
+ *         `;
+ *       }
+ *
+ *       @eventOptions({capture: true})
+ *       _onClick(e) {
+ *         this.clicked = true;
+ *       }
+ *     }
+ */
+function eventOptions(options) {
+    // Return value typed as any to prevent TypeScript from complaining that
+    // standard decorator function signature does not match TypeScript decorator
+    // signature
+    // TODO(kschaaf): unclear why it was only failing on this decorator and not
+    // the others
+    return ((protoOrDescriptor, name) => (name !== undefined) ?
+        legacyEventOptions(options, protoOrDescriptor, name) :
+        standardEventOptions(options, protoOrDescriptor));
+}
+/**
+ * A property decorator that converts a class property into a getter that
+ * returns the `assignedNodes` of the given named `slot`. Note, the type of
+ * this property should be annotated as `NodeListOf<HTMLElement>`.
+ *
+ */
+function queryAssignedNodes(slotName = '', flatten = false) {
+    return (protoOrDescriptor, 
+    // tslint:disable-next-line:no-any decorator
+    name) => {
+        const descriptor = {
+            get() {
+                const selector = `slot${slotName ? `[name=${slotName}]` : ''}`;
+                const slot = this.renderRoot.querySelector(selector);
+                return slot && slot.assignedNodes({ flatten });
+            },
+            enumerable: true,
+            configurable: true,
+        };
+        return (name !== undefined) ?
+            legacyQuery(descriptor, protoOrDescriptor, name) :
+            standardQuery(descriptor, protoOrDescriptor);
+    };
+}
+//# sourceMappingURL=decorators.js.map
+
+/***/ }),
+/* 33 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CSSResult: () => (/* binding */ CSSResult),
+/* harmony export */   css: () => (/* binding */ css),
+/* harmony export */   supportsAdoptingStyleSheets: () => (/* binding */ supportsAdoptingStyleSheets),
+/* harmony export */   unsafeCSS: () => (/* binding */ unsafeCSS)
+/* harmony export */ });
+/**
+@license
+Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at
+http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+part of the polymer project is also subject to an additional IP rights grant
+found at http://polymer.github.io/PATENTS.txt
+*/
+const supportsAdoptingStyleSheets = ('adoptedStyleSheets' in Document.prototype) &&
+    ('replace' in CSSStyleSheet.prototype);
+const constructionToken = Symbol();
+class CSSResult {
+    constructor(cssText, safeToken) {
+        if (safeToken !== constructionToken) {
+            throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
+        }
+        this.cssText = cssText;
+    }
+    // Note, this is a getter so that it's lazy. In practice, this means
+    // stylesheets are not created until the first element instance is made.
+    get styleSheet() {
+        if (this._styleSheet === undefined) {
+            // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
+            // is constructable.
+            if (supportsAdoptingStyleSheets) {
+                this._styleSheet = new CSSStyleSheet();
+                this._styleSheet.replaceSync(this.cssText);
+            }
+            else {
+                this._styleSheet = null;
+            }
+        }
+        return this._styleSheet;
+    }
+    toString() {
+        return this.cssText;
+    }
+}
+/**
+ * Wrap a value for interpolation in a css tagged template literal.
+ *
+ * This is unsafe because untrusted CSS text can be used to phone home
+ * or exfiltrate data to an attacker controlled site. Take care to only use
+ * this with trusted input.
+ */
+const unsafeCSS = (value) => {
+    return new CSSResult(String(value), constructionToken);
+};
+const textFromCSSResult = (value) => {
+    if (value instanceof CSSResult) {
+        return value.cssText;
+    }
+    else if (typeof value === 'number') {
+        return value;
+    }
+    else {
+        throw new Error(`Value passed to 'css' function must be a 'css' function result: ${value}. Use 'unsafeCSS' to pass non-literal values, but
+            take care to ensure page security.`);
+    }
+};
+/**
+ * Template tag which which can be used with LitElement's `style` property to
+ * set element styles. For security reasons, only literal string values may be
+ * used. To incorporate non-literal values `unsafeCSS` may be used inside a
+ * template string part.
+ */
+const css = (strings, ...values) => {
+    const cssText = values.reduce((acc, v, idx) => acc + textFromCSSResult(v) + strings[idx + 1], strings[0]);
+    return new CSSResult(cssText, constructionToken);
+};
+//# sourceMappingURL=css-tag.js.map
+
+/***/ }),
+/* 34 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   classMap: () => (/* binding */ classMap)
+/* harmony export */ });
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+/**
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+// IE11 doesn't support classList on SVG elements, so we emulate it with a Set
+class ClassList {
+    constructor(element) {
+        this.classes = new Set();
+        this.changed = false;
+        this.element = element;
+        const classList = (element.getAttribute('class') || '').split(/\s+/);
+        for (const cls of classList) {
+            this.classes.add(cls);
+        }
+    }
+    add(cls) {
+        this.classes.add(cls);
+        this.changed = true;
+    }
+    remove(cls) {
+        this.classes.delete(cls);
+        this.changed = true;
+    }
+    commit() {
+        if (this.changed) {
+            let classString = '';
+            this.classes.forEach((cls) => classString += cls + ' ');
+            this.element.setAttribute('class', classString);
+        }
+    }
+}
+/**
+ * Stores the ClassInfo object applied to a given AttributePart.
+ * Used to unset existing values when a new ClassInfo object is applied.
+ */
+const previousClassesCache = new WeakMap();
+/**
+ * A directive that applies CSS classes. This must be used in the `class`
+ * attribute and must be the only part used in the attribute. It takes each
+ * property in the `classInfo` argument and adds the property name to the
+ * element's `class` if the property value is truthy; if the property value is
+ * falsey, the property name is removed from the element's `class`. For example
+ * `{foo: bar}` applies the class `foo` if the value of `bar` is truthy.
+ * @param classInfo {ClassInfo}
+ */
+const classMap = (0,_lit_html_js__WEBPACK_IMPORTED_MODULE_0__.directive)((classInfo) => (part) => {
+    if (!(part instanceof _lit_html_js__WEBPACK_IMPORTED_MODULE_0__.AttributePart) || (part instanceof _lit_html_js__WEBPACK_IMPORTED_MODULE_0__.PropertyPart) ||
+        part.committer.name !== 'class' || part.committer.parts.length > 1) {
+        throw new Error('The `classMap` directive must be used in the `class` attribute ' +
+            'and must be the only part in the attribute.');
+    }
+    const { committer } = part;
+    const { element } = committer;
+    let previousClasses = previousClassesCache.get(part);
+    if (previousClasses === undefined) {
+        // Write static classes once
+        // Use setAttribute() because className isn't a string on SVG elements
+        element.setAttribute('class', committer.strings.join(' '));
+        previousClassesCache.set(part, previousClasses = new Set());
+    }
+    const classList = (element.classList || new ClassList(element));
+    // Remove old classes that no longer apply
+    // We use forEach() instead of for-of so that re don't require down-level
+    // iteration.
+    previousClasses.forEach((name) => {
+        if (!(name in classInfo)) {
+            classList.remove(name);
+            previousClasses.delete(name);
+        }
+    });
+    // Add or remove classes based on their classMap value
+    for (const name in classInfo) {
+        const value = classInfo[name];
+        if (value != previousClasses.has(name)) {
+            // We explicitly want a loose truthy check of `value` because it seems
+            // more convenient that '' and 0 are skipped.
+            if (value) {
+                classList.add(name);
+                previousClasses.add(name);
+            }
+            else {
+                classList.remove(name);
+                previousClasses.delete(name);
+            }
+        }
+    }
+    if (typeof classList.commit === 'function') {
+        classList.commit();
+    }
+});
+//# sourceMappingURL=class-map.js.map
+
+/***/ }),
+/* 35 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ifDefined: () => (/* binding */ ifDefined)
+/* harmony export */ });
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+/**
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+const previousValues = new WeakMap();
+/**
+ * For AttributeParts, sets the attribute if the value is defined and removes
+ * the attribute if the value is undefined.
+ *
+ * For other part types, this directive is a no-op.
+ */
+const ifDefined = (0,_lit_html_js__WEBPACK_IMPORTED_MODULE_0__.directive)((value) => (part) => {
+    const previousValue = previousValues.get(part);
+    if (value === undefined && part instanceof _lit_html_js__WEBPACK_IMPORTED_MODULE_0__.AttributePart) {
+        // If the value is undefined, remove the attribute, but only if the value
+        // was previously defined.
+        if (previousValue !== undefined || !previousValues.has(part)) {
+            const name = part.committer.name;
+            part.committer.element.removeAttribute(name);
+        }
+    }
+    else if (value !== previousValue) {
+        part.setValue(value);
+    }
+    previousValues.set(part, value);
+});
+//# sourceMappingURL=if-defined.js.map
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -97,16 +3681,18 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _momentum_ui_web_components_dist_comp_md_toggle_switch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _momentum_ui_web_components_dist_comp_md_toggle_switch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_momentum_ui_web_components_dist_comp_md_toggle_switch__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
+// Define the template
 const moment = document.createElement('template');
-
 moment.innerHTML = `
-  <style>   
+  <style>
   </style>
-  <mdc-toggle name="toggleName" value="toggleValue" size="default" toggletip-placement="" toggletip-text="xxx" info-icon-aria-label="" label="Toggle label" help-text="" checked="true">
-  </mdc-toggle>
-  `;
+  <mdc-toggle label="Toggle label" checked="true"></mdc-toggle>
+`;
 
 const logger = _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__.Desktop.logger.createLogger('try-moment-logger');
 
@@ -127,7 +3713,12 @@ class TryMomentWidget extends HTMLElement {
   }
 
   async init() {
-    _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__.Desktop.config.init();
+    try {
+      await _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__.Desktop.config.init();
+      logger.info('Desktop config initialized');
+    } catch (error) {
+      logger.error('Error initializing Desktop config:', error);
+    }
   }
 
   subscribeAgentContactDataEvents() {
@@ -138,7 +3729,6 @@ class TryMomentWidget extends HTMLElement {
 }
 
 customElements.define('try-mom', TryMomentWidget);
-
 })();
 
 /******/ })()
