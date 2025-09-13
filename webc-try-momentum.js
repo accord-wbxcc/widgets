@@ -3914,7 +3914,9 @@ __webpack_require__.r(__webpack_exports__);
 const moment = document.createElement('template');
 moment.innerHTML = `
   <md-toggle-switch label="Toggle label" checked="true" small="true"></md-toggle-switch>
-  <md-button data-testid="END_BUTTON_BUTTON" arialabel="Mute" size="28" maxwidth="197px" variant="red"></md-button>
+  <md-button data-testid="END_BUTTON_BUTTON" ariaLabel="Mute" color="mint" size="28" maxwidth="197px" variant="red">
+    <md-icon name="icon" name="cancel_16"></md-icon>
+  </md-button>
 `;
 
 const logger = _wxcc_desktop_sdk__WEBPACK_IMPORTED_MODULE_0__.Desktop.logger.createLogger('try-moment-logger');
