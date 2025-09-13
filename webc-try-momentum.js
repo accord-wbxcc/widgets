@@ -12158,7 +12158,7 @@ const moment = document.createElement('template');
 moment.innerHTML = `
   <md-toggle-switch label="Toggle label" checked="true" small="true"></md-toggle-switch>
   <md-button data-testid="END_BUTTON_BUTTON" ariaLabel="Mute" color="mint" size="28" maxwidth="197px" variant="red">
-    <md-icon name="alert-bold"></md-icon>
+    <md-icon name="alert-muted"></md-icon>
   </md-button>
 `;
 
